@@ -1,0 +1,145 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="_Default" %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head runat="server">
+    <meta charset="utf-8" />
+    <title>DND Trading & General Supplies</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #000;
+            color: #FFD700;
+        }
+
+        header {
+            background-color: #FFD700;
+            color: #000;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        nav a {
+            color: #000;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 0 12px;
+            padding-bottom: 3px;
+        }
+
+            nav a:hover {
+                border-bottom: 2px solid #000;
+            }
+
+        .btn-contact {
+            background-color: #FFD700;
+            color: #000;
+            font-weight: bold;
+            padding: 8px 14px;
+            border: 1px solid #000;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+            .btn-contact:hover {
+                background-color: #fff;
+                color: #000;
+            }
+
+        main {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .contact-form {
+            background-color: #111;
+            padding: 20px;
+            border-radius: 6px;
+            max-width: 400px;
+            margin: 30px auto;
+            text-align: left;
+        }
+
+            .contact-form label {
+                display: block;
+                margin-bottom: 5px;
+                font-weight: bold;
+            }
+
+            .contact-form input, .contact-form textarea {
+                width: 100%;
+                padding: 8px;
+                margin-bottom: 12px;
+                border: 1px solid #FFD700;
+                border-radius: 4px;
+                background-color: #000;
+                color: #FFD700;
+            }
+
+                .contact-form input[type=submit] {
+                    background-color: #FFD700;
+                    color: #000;
+                    font-weight: bold;
+                    cursor: pointer;
+                }
+
+                    .contact-form input[type=submit]:hover {
+                        background-color: #fff;
+                    }
+
+        footer {
+            background-color: #111;
+            text-align: center;
+            padding: 15px;
+            color: #FFD700;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <header>
+            <div>
+                <h1 style="margin:0;">DND Trading & General Supplies</h1>
+                <nav>
+                    <a href="Default.aspx">Home</a>
+                    <a href="About.aspx">About</a>
+                    <a href="Products.aspx">Products</a>
+                    <a href="#contact">Contact</a>
+                </nav>
+            </div>
+            <asp:Button ID="btnContact" runat="server" CssClass="btn-contact" Text="Contact Us" OnClick="btnContact_Click" />
+        </header>
+
+        <main>
+            <h2>Your Trusted Dropshipping Partner</h2>
+            <p>We source, manage, and deliver high-quality products to your customers — fast and reliably.</p>
+
+            <asp:Label ID="lblMessage" runat="server" Text=""></asp:Label>
+
+            <!-- Simple contact section -->
+            <div id="contact" class="contact-form">
+                <h3>Get in Touch</h3>
+                <asp:Label runat="server" AssociatedControlID="txtName" Text="Name"></asp:Label>
+                <asp:TextBox ID="txtName" runat="server"></asp:TextBox>
+
+                <asp:Label runat="server" AssociatedControlID="txtEmail" Text="Email"></asp:Label>
+                <asp:TextBox ID="txtEmail" runat="server"></asp:TextBox>
+
+                <asp:Label runat="server" AssociatedControlID="txtMessage" Text="Message"></asp:Label>
+                <asp:TextBox ID="txtMessage" runat="server" TextMode="MultiLine" Rows="4"></asp:TextBox>
+
+                <asp:Button ID="btnSend" runat="server" Text="Send Message" OnClick="btnSend_Click" />
+            </div>
+        </main>
+
+        <footer>
+            &copy; <%: DateTime.Now.Year %> DND Trading & General Supplies
+        </footer>
+    </form>
+</body>
+</html>
