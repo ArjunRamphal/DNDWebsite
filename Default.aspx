@@ -168,9 +168,10 @@
             <div>
                 <h1 style="margin:0;">DND Trading & General Supplies</h1>
                 <nav>
-                    <a href="Products.aspx">Products</a>
-                    <a href="#reviews-section">Reviews</a>
+                    <a href="Default.aspx">Home</a>
                     <a href="About.aspx">About</a>
+                    <a href="#reviews-section">Reviews</a>
+                    <a href="Products.aspx">Products</a>
                 </nav>
             </div>
             <div>
@@ -256,7 +257,7 @@
                 });
             }
 
-            window.addEventListener('scroll', revealReviews);
+            window.addEventListener('scroll', revealReviews); 
             window.addEventListener('resize', revealReviews);
             revealReviews(); // Trigger on page load
         });
