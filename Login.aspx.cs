@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace DNDWebsite
 {
@@ -15,26 +11,34 @@ namespace DNDWebsite
 
         protected void btnLogin_Click(object sender, EventArgs e)
         {
-            string email = txtLoginEmail.Text;
-            string password = txtLoginPassword.Text;
+            string email = txtLoginEmail.Text.Trim();
+            string password = txtLoginPassword.Text.Trim();
 
             if (email == "test@example.com" && password == "password123")
             {
                 lblMessage.Text = "✅ Login successful! Welcome back.";
+                // Response.Redirect("Default.aspx"); // uncomment to redirect after login
             }
             else
             {
-                lblMessage.Text = "❌ Invalid login. Try again.";
+                lblMessage.Text = "❌ Invalid email or password.";
             }
         }
 
         protected void btnSignup_Click(object sender, EventArgs e)
         {
-            string name = txtSignupName.Text;
-            string email = txtSignupEmail.Text;
-            string password = txtSignupPassword.Text;
+            string name = txtSignupName.Text.Trim();
+            string email = txtSignupEmail.Text.Trim();
+            string password = txtSignupPassword.Text.Trim();
 
-            lblMessage.Text = $"✅ Signup successful! Welcome, {name}.";
+            if (name.Length == 0 || email.Length == 0 || password.Length == 0)
+            {
+                lblMessage.Text = "❌ Please fill in all fields.";
+                return;
+            }
+
+            // TODO: save user to database
+            lblMessage.Text = $"✅ Sign up successful! Welcome, {name}.";
         }
     }
 }
