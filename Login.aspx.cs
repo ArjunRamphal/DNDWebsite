@@ -40,5 +40,10 @@ namespace DNDWebsite
             // TODO: save user to database
             lblMessage.Text = $"✅ Sign up successful! Welcome, {name}.";
         }
+
+        protected void btnBackToHome_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Default.aspx");
+        }
     }
 }
