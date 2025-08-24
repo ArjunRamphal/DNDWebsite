@@ -22,6 +22,10 @@ namespace DNDWebsite
             else
             {
                 lblMessage.Text = "❌ Invalid email or password.";
+
+                // Keep login section visible and hide signup section
+                loginSection.Style["display"] = "block";
+                signupSection.Style["display"] = "none";
             }
         }
 
@@ -34,11 +38,19 @@ namespace DNDWebsite
             if (name.Length == 0 || email.Length == 0 || password.Length == 0)
             {
                 lblMessage.Text = "❌ Please fill in all fields.";
+
+                // Keep signup section visible
+                signupSection.Style["display"] = "block";
+                loginSection.Style["display"] = "none";
                 return;
             }
 
             // TODO: save user to database
             lblMessage.Text = $"✅ Sign up successful! Welcome, {name}.";
+
+            // Switch back to login section after successful signup
+            signupSection.Style["display"] = "none";
+            loginSection.Style["display"] = "block";
         }
 
         protected void btnBackToHome_Click(object sender, EventArgs e)

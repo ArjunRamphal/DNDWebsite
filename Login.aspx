@@ -25,7 +25,7 @@
         <div class="wrap">
 
             <!-- Login Section -->
-            <div id="loginSection">
+            <div id="loginSection" runat="server">
                 <h2>Login</h2>
                 <asp:TextBox ID="txtLoginEmail" runat="server" placeholder="Email"></asp:TextBox><br />
                 <asp:TextBox ID="txtLoginPassword" runat="server" TextMode="Password" placeholder="Password"></asp:TextBox><br />
@@ -36,7 +36,7 @@
             </div>
 
             <!-- Signup Section (hidden by default) -->
-            <div id="signupSection">
+            <div id="signupSection" runat="server">
                 <h2>Sign Up</h2>
                 <asp:TextBox ID="txtSignupName" runat="server" placeholder="Full Name"></asp:TextBox><br />
                 <asp:TextBox ID="txtSignupEmail" runat="server" placeholder="Email"></asp:TextBox><br />

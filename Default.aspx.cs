@@ -11,7 +11,7 @@ namespace DNDWebsite
 
         protected void btnContact_Click(object sender, EventArgs e)
         {
-            lblMessage.Text = "📞 You can reach us at info@dndtrading.com or call 012-345-6789.";
+            Response.Redirect("Contact.aspx");
         }
 
         protected void btnLogin_Click(object sender, EventArgs e)
