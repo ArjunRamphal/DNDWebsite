@@ -17,7 +17,7 @@
         <section class="our-story slide-left">
             <img src="images/worker.jpg" alt="Stationery supplies" />
             <div>
-                <h3>📖 Our Story</h3>
+                <h3>Our Story</h3>
                 <p>
                     What started as a small trading operation has grown into a trusted name in procurement and supply.
                     We specialise in handling high-volume transactions, from comparing supplier catalogues to managing
@@ -33,14 +33,14 @@
         <!-- Mission and Vision -->
         <section class="mission-vision slide-right">
             <div>
-                <h3>🎯 Our Mission</h3>
+                <h3>Our Mission</h3>
                 <p>
                     To streamline procurement through technology and expertise, providing our clients with
                     reliable, cost-effective solutions for all their stationery and office needs.
                 </p>
             </div>
             <div>
-                <h3>🌍 Our Vision</h3>
+                <h3>Our Vision</h3>
                 <p>
                     To become South Africa’s leading procurement partner - recognised for efficiency,
                     transparency, and unwavering commitment to customer satisfaction.
@@ -50,7 +50,7 @@
 
         <!-- How We Work -->
         <section class="how-we-work slide-left">
-            <h3>⚙️ How We Work</h3>
+            <h3>How We Work</h3>
             <p>
                 Our process is simple, but powerful:
             </p>
@@ -66,12 +66,12 @@
 
         <!-- Values -->
         <section class="values slide-right">
-            <h3>💡 What Sets Us Apart</h3>
+            <h3>What Sets Us Apart</h3>
             <div class="value-grid">
-                <div class="value-card">✔ Reliability - We deliver what we promise, on time.</div>
-                <div class="value-card">✔ Efficiency - Minimising delays and reducing errors.</div>
-                <div class="value-card">✔ Transparency - Honest processes, competitive pricing.</div>
-                <div class="value-card">✔ Customer-first - Your needs drive every decision we make.</div>
+                <div class="value-card">Reliability - We deliver what we promise, on time.</div>
+                <div class="value-card">Efficiency - Minimising delays and reducing errors.</div>
+                <div class="value-card">Transparency - Honest processes, competitive pricing.</div>
+                <div class="value-card">Customer-first - Your needs drive every decision we make.</div>
             </div>
         </section>
 
