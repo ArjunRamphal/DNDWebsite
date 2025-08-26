@@ -15,31 +15,31 @@ namespace DNDWebsite
                 string.IsNullOrWhiteSpace(txtEmail.Text) ||
                 string.IsNullOrWhiteSpace(txtMessage.Text))
             {
-                lblStatus.Text = "⚠ Please fill in all fields.";
+                lblStatus.Text = "Please fill in all fields.";
                 lblStatus.ForeColor = System.Drawing.Color.OrangeRed;
                 return;
             }
 
             try
             {
-                // Configure your email
+                // Configure the email
                 MailMessage mail = new MailMessage();
-                mail.To.Add("dndtrading2@gmail.com"); // Your company inbox
+                mail.To.Add("dndtrading2@gmail.com"); // Company inbox
                 mail.From = new MailAddress(txtEmail.Text.Trim());
                 mail.Subject = "Website Contact Form: " + txtName.Text.Trim();
                 mail.Body = txtMessage.Text.Trim();
 
                 SmtpClient smtp = new SmtpClient
                 {
-                    Host = "smtp.yourmailserver.com", // e.g., smtp.gmail.com
-                    Port = 587,                      // Or 25 / 465 depending on your provider
+                    Host = "smtp.yourmailserver.com", // placeholder for e.g., smtp.gmail.com
+                    Port = 587,                      // Or 25 / 465 depending on provider
                     Credentials = new System.Net.NetworkCredential("your-email", "your-password"),
                     EnableSsl = true
                 };
 
                 smtp.Send(mail);
 
-                lblStatus.Text = "✅ Thank you! Your message has been sent.";
+                lblStatus.Text = "Thank you! Your message has been sent.";
                 lblStatus.ForeColor = System.Drawing.Color.LightGreen;
 
                 // Clear fields
@@ -49,10 +49,10 @@ namespace DNDWebsite
             }
             catch (Exception ex)
             {
-                lblStatus.Text = "❌ Sorry, there was an error sending your message. Try again later.";
+                lblStatus.Text = "Sorry, there was an error sending your message. Try again later.";
                 lblStatus.ForeColor = System.Drawing.Color.OrangeRed;
 
-                // For debugging (remove in production)
+                // For debugging
                 // lblStatus.Text += "<br/>" + ex.Message;
             }
         }
