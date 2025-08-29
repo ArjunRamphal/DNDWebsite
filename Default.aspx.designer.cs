@@ -15,5 +15,9 @@ namespace DNDWebsite
         protected global::System.Web.UI.WebControls.Button btnContact;
         protected global::System.Web.UI.WebControls.Label lblMessage;
         protected global::System.Web.UI.WebControls.Panel pnlProductsLink;
+        protected global::System.Web.UI.WebControls.Panel pnlOrdersLink;
+        protected global::System.Web.UI.WebControls.Panel pnlClientOrdersLink;
+        protected global::System.Web.UI.WebControls.Panel pnlSuppliersLink;
+        protected global::System.Web.UI.WebControls.Panel pnlSupplierProductsLink;
     }
 }

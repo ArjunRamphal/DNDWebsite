@@ -36,9 +36,20 @@
             <div>
                 <h1 style="margin:0;">DND Trading & General Supplies</h1>
                 <nav>
-                    <!-- Products link first, inline -->
                     <asp:Panel ID="pnlProductsLink" runat="server" Visible="false" style="display:inline;">
                         <a href="Products.aspx">Products</a>
+                    </asp:Panel>
+                    <asp:Panel ID="pnlOrdersLink" runat="server" Visible="false" style="display:inline;">
+                        <a href="Order.aspx">Orders</a>
+                    </asp:Panel>
+                    <asp:Panel ID="pnlClientOrdersLink" runat="server" Visible="false" style="display:inline;">
+                        <a href="ClientOrders.aspx">Client Orders</a>
+                    </asp:Panel>
+                    <asp:Panel ID="pnlSuppliersLink" runat="server" Visible="false" style="display:inline;">
+                        <a href="Supplier.aspx">Suppliers</a>
+                    </asp:Panel>
+                    <asp:Panel ID="pnlSupplierProductsLink" runat="server" Visible="false" style="display:inline;">
+                        <a href="SupplierProducts.aspx">Supplier Products</a>
                     </asp:Panel>
                     <a href="#reviews-section">Reviews</a>
                     <a href="About.aspx">About</a>
@@ -91,15 +102,15 @@
             <div class="reviews">
                 <div class="review-panel">
                     <h4>Sarah M.</h4>
-                    <p>“Fast shipping and excellent product quality. Highly recommend!”</p>
+                    <p>Fast shipping and excellent product quality. Highly recommend!</p>
                 </div>
                 <div class="review-panel">
                     <h4>John D.</h4>
-                    <p>“Great customer service and amazing prices. My go-to supplier!”</p>
+                    <p>Great customer service and amazing prices. My go-to supplier!</p>
                 </div>
                 <div class="review-panel">
                     <h4>Lina P.</h4>
-                    <p>“Super reliable and trustworthy. Never had a single issue.”</p>
+                    <p>Super reliable and trustworthy. Never had a single issue.</p>
                 </div>
             </div>
         </main>

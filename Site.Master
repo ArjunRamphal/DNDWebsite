@@ -73,6 +73,9 @@
                 <a ID="HomeNav" runat="server" href="~/Default.aspx">Home</a>
                 <a ID="AboutNav" runat="server" href="~/About.aspx">About</a>
                 <a ID="ProductNav" runat="server" href="~/Products.aspx">Products</a>
+                <asp:Panel ID="pnlClientOrdersLink" runat="server" Visible="false" style="display:inline;">
+                    <a href="ClientOrders.aspx">Client Orders</a>
+                </asp:Panel>
                 <a ID="ContactNav" runat="server" href="~/Contact.aspx">Contact</a>
             </nav>
         </header>

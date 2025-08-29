@@ -12,44 +12,65 @@ namespace DNDWebsite
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
-            {
                 UpdateHeader();
-            }
         }
 
         private void UpdateHeader()
         {
-            bool isLoggedIn = Session["UserEmail"] != null;
+            lblWelcome.Visible = false;
+            btnLogout.Visible = false;
+            btnLogin.Visible = true;
 
-            if (isLoggedIn)
+            pnlProductsLink.Visible = false;
+            pnlOrdersLink.Visible = false;
+            pnlClientOrdersLink.Visible = false;
+            pnlSuppliersLink.Visible = false;
+            pnlSupplierProductsLink.Visible = false;
+
+            if (Session["UserType"] != null)
             {
-                string email = Session["UserEmail"].ToString();
+                string userType = Session["UserType"].ToString();
 
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                if (userType == "Client" && Session["UserEmail"] != null)
                 {
-                    string query = "SELECT ClientName FROM Client WHERE ClientEmail=@Email";
-                    SqlCommand cmd = new SqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@Email", email);
+                    string clientName = Session["UserName"].ToString();
+                    lblWelcome.Text = $"Welcome, {clientName}";
+                    lblWelcome.Visible = true;
+                    btnLogout.Visible = true;
+                    btnLogin.Visible = false;
 
-                    conn.Open();
-                    object result = cmd.ExecuteScalar();
-
-                    if (result != null)
+                    pnlProductsLink.Visible = true;
+                    pnlOrdersLink.Visible = true;
+                }
+                else
+                {
+                    string usernameKey = Session["UsernameKey"]?.ToString();
+                    if (!string.IsNullOrEmpty(usernameKey))
                     {
-                        lblWelcome.Text = "Welcome, " + result.ToString();
-                        lblWelcome.Visible = true;
-                        btnLogout.Visible = true;
-                        btnLogin.Visible = false;
-                        pnlProductsLink.Visible = true; // Show Products link
+                        using (SqlConnection conn = new SqlConnection(connectionString))
+                        {
+                            string query = "SELECT UserFirstName, UserLastName FROM [User] WHERE UserName=@UserName";
+                            SqlCommand cmd = new SqlCommand(query, conn);
+                            cmd.Parameters.AddWithValue("@UserName", usernameKey);
+
+                            conn.Open();
+                            SqlDataReader reader = cmd.ExecuteReader();
+                            if (reader.Read())
+                            {
+                                string fullName = $"{reader["UserFirstName"]} {reader["UserLastName"]}";
+                                lblWelcome.Text = $"Welcome, {fullName}";
+                                lblWelcome.Visible = true;
+                                btnLogout.Visible = true;
+                                btnLogin.Visible = false;
+
+                                pnlClientOrdersLink.Visible = true;
+                                pnlSuppliersLink.Visible = true;
+                                pnlSupplierProductsLink.Visible = true;
+                            }
+                            reader.Close();
+                        }
                     }
                 }
-            }
-            else
-            {
-                lblWelcome.Visible = false;
-                btnLogout.Visible = false;
-                btnLogin.Visible = true;
-                pnlProductsLink.Visible = false; // Hide Products link
             }
         }
 

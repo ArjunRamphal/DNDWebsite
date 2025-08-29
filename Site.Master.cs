@@ -17,6 +17,17 @@ namespace DNDWebsite
             {
                 ContactNav.Visible = true;
             }
+
+            /*
+            if (Session["UserRole"] != null)
+            {
+                string role = Session["UserRole"].ToString();
+
+                if (role == "SalesRep")
+                {
+                    pnlClientOrdersLink.Visible = true; // Show Client Orders
+                }
+            }*/
         }
     }
 }

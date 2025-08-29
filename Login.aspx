@@ -27,7 +27,7 @@
             <!-- Login Section -->
             <div id="loginSection" runat="server">
                 <h2>Login</h2>
-                <asp:TextBox ID="txtLoginEmail" runat="server" placeholder="Email"></asp:TextBox><br />
+                <asp:TextBox ID="txtLoginEmail" runat="server" placeholder="Email/Username"></asp:TextBox><br />
                 <asp:TextBox ID="txtLoginPassword" runat="server" TextMode="Password" placeholder="Password"></asp:TextBox><br />
                 <asp:Button ID="btnLogin" runat="server" Text="Login" CssClass="btn" OnClick="btnLogin_Click" /><br />
 
