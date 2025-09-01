@@ -42,6 +42,12 @@
                     <asp:Panel ID="pnlOrdersLink" runat="server" Visible="false" style="display:inline;">
                         <a href="Order.aspx">Orders</a>
                     </asp:Panel>
+                    <asp:Panel ID="pnlCheckoutLink" runat="server" Visible="false" style="display:inline;">
+                        <a href="Checkout.aspx">Checkout</a>
+                    </asp:Panel>
+                    <asp:Panel ID="pnlClientsLink" runat="server" Visible="false" style="display:inline;">
+                        <a href="Clients.aspx">Clients</a>
+                    </asp:Panel>
                     <asp:Panel ID="pnlClientOrdersLink" runat="server" Visible="false" style="display:inline;">
                         <a href="ClientOrders.aspx">Client Orders</a>
                     </asp:Panel>

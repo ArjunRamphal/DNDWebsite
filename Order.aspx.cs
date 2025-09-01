@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Data;
-using System.Data.SqlClient;
-using System.Configuration;
 
 namespace DNDWebsite
 {
@@ -9,51 +7,31 @@ namespace DNDWebsite
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["UserEmail"] == null)
+            if (Session["UserType"] == null || Session["UserType"].ToString() != "Client")
             {
-                Response.Redirect("~/Login.aspx"); // Not logged in → redirect
+                Response.Redirect("Default.aspx"); // Not authorized
                 return;
             }
 
             if (!IsPostBack)
             {
-                LoadOrders();
+                LoadDummyOrders();
             }
         }
 
-        private void LoadOrders()
+        private void LoadDummyOrders()
         {
-            /*
-            string connStr = ConfigurationManager.ConnectionStrings["DNDConnectionString"].ConnectionString;
+            DataTable dt = new DataTable();
+            dt.Columns.Add("OrderID", typeof(int));
+            dt.Columns.Add("OrderDate", typeof(DateTime));
+            dt.Columns.Add("TotalPrice", typeof(decimal));
 
-            using (SqlConnection conn = new SqlConnection(connStr))
-            {
-                string query = @"
-                    SELECT 
-                        o.OrderID,
-                        o.OrderDate,
-                        p.ProductName,
-                        oi.Quantity,
-                        (oi.Quantity * oi.Price) AS TotalPrice
-                    FROM [Order] o
-                    INNER JOIN OrderItem oi ON o.OrderID = oi.OrderID
-                    INNER JOIN Product p ON oi.ProductID = p.ProductID
-                    INNER JOIN Client c ON o.ClientID = c.ClientID
-                    WHERE c.ClientEmail = @Email
-                    ORDER BY o.OrderDate DESC";
+            dt.Rows.Add(101, DateTime.Now.AddDays(-5), 200.00m);
+            dt.Rows.Add(102, DateTime.Now.AddDays(-3), 50.00m);
+            dt.Rows.Add(103, DateTime.Now.AddDays(-1), 300.00m);
 
-                using (SqlCommand cmd = new SqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@Email", Session["UserEmail"]);
-
-                    SqlDataAdapter da = new SqlDataAdapter(cmd);
-                    DataTable dt = new DataTable();
-                    da.Fill(dt);
-
-                    gvOrders.DataSource = dt;
-                    gvOrders.DataBind();
-                }
-            }*/
+            gvOrders.DataSource = dt;
+            gvOrders.DataBind();
         }
     }
 }

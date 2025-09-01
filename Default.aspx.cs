@@ -11,9 +11,54 @@ namespace DNDWebsite
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
-                UpdateHeader();
+            if (Session["UserType"] != null)
+            {
+                string userType = Session["UserType"].ToString();
+
+                // Show Products link only to Clients
+                pnlProductsLink.Visible = (userType == "Client");
+
+                // Show Orders link only to Clients
+                pnlOrdersLink.Visible = (userType == "Client");
+
+                // Show Checkout link only to Clients
+                pnlCheckoutLink.Visible = (userType == "Client");
+
+                // Show Clients link only to Managers / Sales Representatives
+                pnlClientsLink.Visible = (userType == "Manager" || userType == "Sales Representative");
+
+                // Show Client Orders only to Managers / Sales Representatives
+                pnlClientOrdersLink.Visible = (userType == "Manager" || userType == "Sales Representative");
+
+                // Show Suppliers only to Managers / Sales Representatives
+                pnlSuppliersLink.Visible = (userType == "Manager" || userType == "Sales Representative");
+
+                // Show Supplier Products only to Managers / Sales Representatives
+                pnlSupplierProductsLink.Visible = (userType == "Manager" || userType == "Sales Representative");
+
+                // Welcome label
+                lblWelcome.Text = "Welcome, " + Session["UserName"];
+                lblWelcome.Visible = true;
+                btnLogin.Visible = false;
+                btnLogout.Visible = true;
+            }
+            else
+            {
+                // Not logged in
+                pnlProductsLink.Visible = false;
+                pnlOrdersLink.Visible = false;
+                pnlCheckoutLink.Visible = false;
+                pnlClientsLink.Visible = false;
+                pnlClientOrdersLink.Visible = false;
+                pnlSuppliersLink.Visible = false;
+                pnlSupplierProductsLink.Visible = false;
+                pnlClientsLink.Visible = false;
+                lblWelcome.Visible = false;
+                btnLogin.Visible = true;
+                btnLogout.Visible = false;
+            }
         }
+
 
         private void UpdateHeader()
         {
@@ -23,6 +68,8 @@ namespace DNDWebsite
 
             pnlProductsLink.Visible = false;
             pnlOrdersLink.Visible = false;
+            pnlCheckoutLink.Visible = false;
+            pnlClientsLink.Visible = false;
             pnlClientOrdersLink.Visible = false;
             pnlSuppliersLink.Visible = false;
             pnlSupplierProductsLink.Visible = false;

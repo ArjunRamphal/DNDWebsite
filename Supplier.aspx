@@ -7,7 +7,6 @@
         <Columns>
             <asp:BoundField DataField="SupplierID" HeaderText="Supplier ID" />
             <asp:BoundField DataField="SupplierName" HeaderText="Supplier Name" />
-            <asp:BoundField DataField="ContactPerson" HeaderText="Contact Person" />
             <asp:BoundField DataField="PhoneNumber" HeaderText="Phone" />
             <asp:BoundField DataField="Email" HeaderText="Email" />
         </Columns>

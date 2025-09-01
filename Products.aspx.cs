@@ -10,6 +10,12 @@ namespace DNDWebsite
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["UserType"] == null || Session["UserType"].ToString() != "Client")
+            {
+                Response.Redirect("Default.aspx"); // Not authorized
+                return;
+            }
+
             if (!IsPostBack)
             {
                 LoadProducts();

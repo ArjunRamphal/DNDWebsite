@@ -5,11 +5,9 @@
 
     <asp:GridView ID="gvSupplierProducts" runat="server" AutoGenerateColumns="False" CssClass="grid" GridLines="None">
         <Columns>
-            <asp:BoundField DataField="ProductID" HeaderText="Product ID" />
-            <asp:BoundField DataField="ProductName" HeaderText="Product Name" />
+            <asp:BoundField DataField="ProductName" HeaderText="Product" />
             <asp:BoundField DataField="SupplierName" HeaderText="Supplier" />
-            <asp:BoundField DataField="Price" HeaderText="Price" DataFormatString="{0:C2}" />
-            <asp:BoundField DataField="StockQuantity" HeaderText="Stock Quantity" />
+            <asp:BoundField DataField="FinalPrice" HeaderText="Price" DataFormatString="{0:C2}" />
         </Columns>
     </asp:GridView>
 

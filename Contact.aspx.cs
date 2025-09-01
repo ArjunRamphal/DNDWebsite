@@ -22,17 +22,16 @@ namespace DNDWebsite
 
             try
             {
-                // Configure the email
                 MailMessage mail = new MailMessage();
-                mail.To.Add("dndtrading2@gmail.com"); // Company inbox
+                mail.To.Add("dndtrading2@gmail.com");
                 mail.From = new MailAddress(txtEmail.Text.Trim());
                 mail.Subject = "Website Contact Form: " + txtName.Text.Trim();
                 mail.Body = txtMessage.Text.Trim();
 
                 SmtpClient smtp = new SmtpClient
                 {
-                    Host = "smtp.yourmailserver.com", // placeholder for e.g., smtp.gmail.com
-                    Port = 587,                      // Or 25 / 465 depending on provider
+                    Host = "smtp.yourmailserver.com", // placeholder
+                    Port = 587,                      // or 25 or 465
                     Credentials = new System.Net.NetworkCredential("your-email", "your-password"),
                     EnableSsl = true
                 };

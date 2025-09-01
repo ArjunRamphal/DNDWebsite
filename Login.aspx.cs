@@ -60,7 +60,18 @@ namespace DNDWebsite
                 if (reader.Read())
                 {
                     string fullName = $"{reader["UserFirstName"]} {reader["UserLastName"]}";
-                    Session["UserType"] = reader["UserType"].ToString();
+
+                    // Check if UserType is true/false and assign role
+                    bool isManager = Convert.ToBoolean(reader["UserType"]);
+                    if (isManager)
+                    {
+                        Session["UserType"] = "Manager";
+                    }
+                    else
+                    {
+                        Session["UserType"] = "Sales Representative";
+                    }
+
                     Session["UserName"] = fullName;
                     Session["UsernameKey"] = input;
                     reader.Close();

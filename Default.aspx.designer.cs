@@ -19,5 +19,7 @@ namespace DNDWebsite
         protected global::System.Web.UI.WebControls.Panel pnlClientOrdersLink;
         protected global::System.Web.UI.WebControls.Panel pnlSuppliersLink;
         protected global::System.Web.UI.WebControls.Panel pnlSupplierProductsLink;
+        protected global::System.Web.UI.WebControls.Panel pnlClientsLink;
+        protected global::System.Web.UI.WebControls.Panel pnlCheckoutLink;
     }
 }

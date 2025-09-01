@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
 using System.Web.UI;
 
 namespace DNDWebsite
@@ -11,8 +9,13 @@ namespace DNDWebsite
         protected void Page_Load(object sender, EventArgs e)
         {
             /*
-            // Check if logged in and role = SalesRep
-            if (Session["UserRole"] == null || Session["UserRole"].ToString() != "SalesRep")
+            if (!IsPostBack)
+            {
+                LoadClientOrders();
+            }
+            */
+
+            if (Session["UserType"] == null || Session["UserType"].ToString() != "Sales Representative")
             {
                 Response.Redirect("Default.aspx"); // Not authorized
                 return;
@@ -20,8 +23,8 @@ namespace DNDWebsite
 
             if (!IsPostBack)
             {
-                LoadClientOrders();
-            }*/
+                LoadDummyOrders();
+            }
         }
 
         private void LoadClientOrders()
@@ -50,7 +53,25 @@ namespace DNDWebsite
                     gvClientOrders.DataSource = dt;
                     gvClientOrders.DataBind();
                 }
-            }*/
+            }
+            */
+        }
+
+        private void LoadDummyOrders()
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("OrderID", typeof(int));
+            dt.Columns.Add("ClientName", typeof(string));
+            dt.Columns.Add("OrderDate", typeof(DateTime));
+            dt.Columns.Add("TotalAmount", typeof(decimal));
+
+            // Dummy orders
+            dt.Rows.Add(1001, "Alice Johnson", DateTime.Now.AddDays(-5), 249.99m);
+            dt.Rows.Add(1002, "Bob Smith", DateTime.Now.AddDays(-3), 129.50m);
+            dt.Rows.Add(1003, "Charlie Brown", DateTime.Now.AddDays(-1), 349.00m);
+
+            gvClientOrders.DataSource = dt;
+            gvClientOrders.DataBind();
         }
     }
 }
