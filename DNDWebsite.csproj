@@ -101,6 +101,7 @@
   <ItemGroup>
     <Content Include="About.aspx" />
     <Content Include="Checkout.aspx" />
+    <Content Include="EditClient.aspx" />
     <Content Include="ClientOrders.aspx" />
     <Content Include="Clients.aspx" />
     <Content Include="Contact.aspx" />
@@ -207,6 +208,13 @@
     </Compile>
     <Compile Include="Checkout.aspx.designer.cs">
       <DependentUpon>Checkout.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="EditClient.aspx.cs">
+      <DependentUpon>EditClient.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EditClient.aspx.designer.cs">
+      <DependentUpon>EditClient.aspx</DependentUpon>
     </Compile>
     <Compile Include="ClientOrders.aspx.cs">
       <DependentUpon>ClientOrders.aspx</DependentUpon>

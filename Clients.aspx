@@ -3,8 +3,6 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <h2 style="text-align:center;">Clients</h2>
 
-    <!-- <p style="text-align:center;">Below is a list of all clients:</p> -->
-
     <asp:GridView ID="gvClients" runat="server" AutoGenerateColumns="False" CssClass="grid" GridLines="None">
         <Columns>
             <asp:BoundField DataField="ClientID" HeaderText="Client ID" />
@@ -15,25 +13,38 @@
     </asp:GridView>
 
     <style>
+        body {
+            background-color: #fff; /* white page background */
+            color: #333;            /* dark text color */
+            font-family: Arial, sans-serif;
+        }
+
+        h2 {
+            margin-top: 20px;
+            color: #2F4F4F;
+        }
+
         .grid {
             margin: 20px auto;
             max-width: 900px;
             border-collapse: collapse;
-            background-color: #111;
+            background-color: #F5F5F5; /* light grid background */
         }
+
         .grid th, .grid td {
-            border: 1px solid #FFD700;
+            border: 1px solid #4682B4; /* consistent blue border */
             padding: 10px;
             text-align: center;
-            color: #FFD700;
         }
+
         .grid th {
-            background-color: #FFD700;
-            color: #000;
+            background-color: #4682B4; /* consistent blue header */
+            color: #fff;               /* white text */
+            font-weight: bold;
         }
+
         .grid tr:hover {
-            background-color: #222;
+            background-color: #d0e4ff; /* light blue hover */
         }
     </style>
 </asp:Content>
- 

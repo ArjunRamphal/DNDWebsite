@@ -7,17 +7,72 @@
 <head runat="server">
     <title>Login / Signup</title>
     <style>
-        body { font-family: Arial, sans-serif; background:#111; color:#FFD700; text-align:center; margin:0; padding:40px; }
-        input, .aspNetDisabled, .aspNetInput { padding:10px; margin:5px; border-radius:6px; border:1px solid #444; width:260px; background:#000; color:#FFD700; }
-        .btn { background:#FFD700; color:#000; font-weight:bold; padding:10px 18px; border:none; border-radius:6px; cursor:pointer; margin-top:8px; }
-        .btn:hover { background:#fff; color:#000; }
-        .link-btn { background:none; border:none; color:#FFD700; cursor:pointer; text-decoration:underline; font-size:0.95rem; margin:5px 0; }
-        .link-btn:hover { color:#fff; }
+        body { 
+            font-family: Arial, sans-serif; 
+            background:#ffffff; 
+            color:#2F4F4F; 
+            text-align:center; 
+            margin:0; 
+            padding:40px; 
+        }
+        input, .aspNetDisabled, .aspNetInput { 
+            padding:10px; 
+            margin:5px; 
+            border-radius:6px; 
+            border:1px solid #ccc; 
+            width:260px; 
+            background:#f5f5f5; 
+            color:#2F4F4F; 
+        }
+        .btn { 
+            background:#4682B4; 
+            color:#fff; 
+            font-weight:bold; 
+            padding:10px 18px; 
+            border:none; 
+            border-radius:6px; 
+            cursor:pointer; 
+            margin-top:8px; 
+        }
+        .btn:hover { 
+            background:#5a9bd4; 
+        }
+        .link-btn { 
+            background:none; 
+            border:none; 
+            color:#2F4F4F; 
+            cursor:pointer; 
+            text-decoration:underline; 
+            font-size:0.95rem; 
+            margin:5px 0; 
+        }
+        .link-btn:hover { 
+            color:#2F4F4F; 
+        }
         h2 { margin:28px 0 10px; }
-        .wrap { max-width:420px; margin:0 auto; background:#1a1a1a; padding:24px; border:1px solid #333; border-radius:10px; }
-        hr { border:0; border-top:1px solid #333; margin:24px 0; }
-        .msg { display:block; margin-top:12px; min-height:24px; color:#FFD700; }
-        #signupSection { display:none; margin-top:20px; }
+        .wrap { 
+            max-width:420px; 
+            margin:0 auto; 
+            background:#f9f9f9; 
+            padding:24px; 
+            border:1px solid #ddd; 
+            border-radius:10px; 
+        }
+        hr { 
+            border:0; 
+            border-top:1px solid #ddd; 
+            margin:24px 0; 
+        }
+        .msg { 
+            display:block; 
+            margin-top:12px; 
+            min-height:24px; 
+            color:#2F4F4F; 
+        }
+        #signupSection { 
+            display:none; 
+            margin-top:20px; 
+        }
     </style>
 </head>
 <body>

@@ -6,28 +6,167 @@
     <meta charset="utf-8" />
     <title>DND Trading & General Supplies</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; background-color: #000; color: #FFD700; }
-        header { background-color: #FFD700; color: #000; padding: 20px; display: flex; align-items: center; justify-content: space-between; }
-        nav a { color: #000; text-decoration: none; font-weight: bold; margin-right: 15px; display: inline-block; }
-        nav a:hover { text-decoration: underline; }
-        .btn-contact, .btn-login, .btn-logout { background-color: #FFD700; color: #000; font-weight: bold; padding: 10px 18px; border: none; border-radius: 6px; cursor: pointer; font-size: 0.95rem; transition: all 0.3s ease; margin-left: 8px; }
-        .btn-contact:hover, .btn-login:hover, .btn-logout:hover { background-color: #fff; color: #000; box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4); }
-        #lblWelcome { font-weight: bold; font-size: 1rem; color: #000; margin-right: 10px; }
-        main { padding: 40px 20px; text-align: center; background: linear-gradient(to bottom, #000, #111); }
-        .company-description { color: #ffffff; font-size: 1.1rem; line-height: 1.8; margin: 20px 0 40px 0; text-align: center; }
-        #lblMessage { display: block; margin: 20px 0; font-size: 1.1rem; font-weight: bold; }
-        .best-sellers { background-color: #111; padding: 30px 20px; border-radius: 12px; margin: 30px auto; max-width: 1200px; }
-        .product-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-top: 20px; }
-        .product-item { background-color: #111; border: 1px solid #FFD700; border-radius: 8px; padding: 15px; width: 200px; color: #FFD700; text-align: center; transition: transform 0.3s ease, box-shadow 0.3s ease; }
-        .product-item img { width: 100%; height: auto; border-radius: 5px; }
-        .product-item h4 { margin: 10px 0 5px; }
-        .product-item p { font-size: 0.9rem; }
-        .product-item:hover { transform: scale(1.05); box-shadow: 0 10px 20px rgba(255, 215, 0, 0.3); }
-        .reviews { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; max-width: 1000px; margin: 0 auto 60px auto; }
-        .review-panel { background-color: #111; border: 1px solid #FFD700; padding: 15px; border-radius: 8px; width: 250px; color: #FFD700; opacity: 0; transform: translateY(20px); transition: all 0.6s ease-out; }
-        .review-panel.visible { opacity: 1; transform: translateY(0); }
-        .review-panel h4 { margin-top: 0; }
-        footer { background-color: #111; text-align: center; padding: 15px; color: #FFD700; margin-top: 40px; }
+        /* Body */
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 0; 
+            background-color: #FFFFFF; /* white background */ 
+            color: #2F4F4F; /* dark slate gray text */ 
+        }
+
+        /* Header */
+        header { 
+            background-color: #4682B4; /* steel gray */ 
+            color: #FFFFFF; 
+            padding: 20px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+
+        nav a { 
+            color: #FFFFFF; 
+            text-decoration: none; 
+            font-weight: bold; 
+            margin-right: 15px; 
+            display: inline-block; 
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        nav a:hover { 
+            background-color: #5A9BD4; 
+            color: #FFFFFF; 
+        }
+
+        /* Buttons */
+        .btn-contact, .btn-login, .btn-logout { 
+            background-color: #4682B4; 
+            color: #FFFFFF; 
+            font-weight: bold; 
+            padding: 10px 18px; 
+            border: none; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-size: 0.95rem; 
+            transition: all 0.3s ease; 
+            margin-left: 8px; 
+        }
+
+        .btn-contact:hover, .btn-login:hover, .btn-logout:hover { 
+            background-color: #5A9BD4; 
+            color: #FFFFFF; 
+            box-shadow: 0 5px 15px rgba(70,130,180,0.4); 
+        }
+
+        #lblWelcome { 
+            font-weight: bold; 
+            font-size: 1rem; 
+            color: #FFFFFF;
+            margin-right: 10px; 
+        }
+
+        /* Main content */
+        main { 
+            padding: 40px 20px; 
+            text-align: center; 
+            background-color: #F5F5F5; 
+            color: #2F4F4F;
+        }
+
+        .company-description { 
+            color: #2F4F4F; 
+            font-size: 1.1rem; 
+            line-height: 1.8; 
+            margin: 20px 0 40px 0; 
+            text-align: center; 
+        }
+
+        .best-sellers { 
+            background-color: #FFFFFF; 
+            padding: 30px 20px; 
+            border-radius: 12px; 
+            margin: 30px auto; 
+            max-width: 1200px; 
+            border: 1px solid #4682B4; 
+        }
+
+        .product-grid { 
+            display: flex; 
+            flex-wrap: wrap; 
+            justify-content: center; 
+            gap: 20px; 
+            margin-top: 20px; 
+        }
+
+        .product-item { 
+            background-color: #FFFFFF; 
+            border: 1px solid #4682B4; 
+            border-radius: 8px; 
+            padding: 15px; 
+            width: 200px; 
+            color: #2F4F4F; 
+            text-align: center; 
+            transition: transform 0.3s ease, box-shadow 0.3s ease; 
+        }
+
+        .product-item img { 
+            width: 100%; 
+            height: auto; 
+            border-radius: 5px; 
+        }
+
+        .product-item h4 { 
+            margin: 10px 0 5px; 
+        }
+
+        .product-item p { 
+            font-size: 0.9rem; 
+        }
+
+        .product-item:hover { 
+            transform: scale(1.05); 
+            box-shadow: 0 10px 20px rgba(70,130,180,0.3); 
+        }
+
+        .reviews { 
+            display: flex; 
+            gap: 20px; 
+            flex-wrap: wrap; 
+            justify-content: center; 
+            max-width: 1000px; 
+            margin: 0 auto 60px auto; 
+        }
+
+        .review-panel { 
+            background-color: #FFFFFF; 
+            border: 1px solid #4682B4; 
+            padding: 15px; 
+            border-radius: 8px; 
+            width: 250px; 
+            color: #2F4F4F; 
+            opacity: 0; 
+            transform: translateY(20px); 
+            transition: all 0.6s ease-out; 
+        }
+
+        .review-panel.visible { 
+            opacity: 1; 
+            transform: translateY(0); 
+        }
+
+        .review-panel h4 { 
+            margin-top: 0; 
+        }
+
+        footer { 
+            background-color: #D3D3D3; 
+            text-align: center; 
+            padding: 15px; 
+            color: #2F4F4F; 
+            margin-top: 40px; 
+        }
     </style>
 </head>
 <body>

@@ -12,24 +12,38 @@
     </asp:GridView>
 
     <style>
+        body {
+            background-color: #fff; 
+            color: #333; 
+            font-family: Arial, sans-serif; 
+        }
+
+        h2 {
+            margin-top: 20px;
+            color: #2F4F4F;
+        }
+
         .grid {
             margin: 20px auto;
             max-width: 900px;
             border-collapse: collapse;
-            background-color: #111;
+            background-color: #F5F5F5; /* light grid background */
         }
+
         .grid th, .grid td {
-            border: 1px solid #FFD700;
+            border: 1px solid #4682B4; /* consistent blue border */
             padding: 10px;
             text-align: center;
-            color: #FFD700;
         }
+
         .grid th {
-            background-color: #FFD700;
-            color: #000;
+            background-color: #4682B4; /* consistent blue header */
+            color: #fff;               /* white text */
+            font-weight: bold;
         }
+
         .grid tr:hover {
-            background-color: #222;
+            background-color: #d0e4ff; /* light blue hover */
         }
     </style>
 </asp:Content>

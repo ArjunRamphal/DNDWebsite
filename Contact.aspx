@@ -1,5 +1,4 @@
 ﻿<%@ Page Title="Contact" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Contact.aspx.cs" Inherits="DNDWebsite.Contact" %>
-
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <main class="contact-page">
         <section class="intro fade-in">
@@ -39,8 +38,8 @@
 
     <style>
         .contact-page {
-            color: #FFD700;
-            background: linear-gradient(to bottom, #000, #111);
+            color: #2F4F4F;
+            background: #ffffff;
             padding: 40px 20px;
             text-align: center;
         }
@@ -59,12 +58,13 @@
         }
 
         .info-card {
-            background: #111;
-            border: 1px solid #FFD700;
+            background: #f5f5f5;
+            border: 1px solid #4682B4;
             padding: 20px;
             border-radius: 10px;
             width: 250px;
-            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+            box-shadow: 0 5px 15px rgba(70, 130, 180, 0.3);
+            color: #2F4F4F;
         }
 
         .info-card h3 {
@@ -93,11 +93,11 @@
             box-sizing: border-box; 
             padding: 12px;
             border-radius: 6px;
-            border: 1px solid #FFD700;
-            background: #000;
-            color: #FFD700;
+            border: 1px solid #4682B4;
+            background: #f5f5f5;
+            color: #2F4F4F;
             font-size: 16px;
-            max-width: 800px; /* The maximum width of the text boxes has been updated */
+            max-width: 800px;
         }
 
         .message-box {
@@ -106,8 +106,8 @@
         }
 
         .btn-send {
-            background: #FFD700;
-            color: #000;
+            background: #4682B4;
+            color: #fff;
             padding: 12px;
             border: none;
             border-radius: 8px;
@@ -117,9 +117,7 @@
         }
 
         .btn-send:hover {
-            background: #fff;
-            color: #000;
-            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+            background: #5A9BD4;
         }
 
         .status-msg {
@@ -127,6 +125,7 @@
             margin-bottom: 15px;
             font-weight: bold;
             text-align: center;
+            color: #4682B4;
         }
 
         /* Animations */

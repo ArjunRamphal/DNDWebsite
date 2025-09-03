@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="Suppliers" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Supplier.aspx.cs" Inherits="DNDWebsite.Supplier" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    <h2 style="text-align:center;">Suppliers</h2>
+    <h2 style="text-align:center; color:#2F4F4F;">Suppliers</h2>
 
     <asp:GridView ID="gvSuppliers" runat="server" AutoGenerateColumns="False" CssClass="grid" GridLines="None">
         <Columns>
@@ -17,20 +17,20 @@
             margin: 20px auto;
             max-width: 900px;
             border-collapse: collapse;
-            background-color: #111;
+            background-color: #F5F5F5; /* light gray background */
+            color: #2F4F4F; /* dark slate text */
         }
         .grid th, .grid td {
-            border: 1px solid #FFD700;
+            border: 1px solid #4682B4; /* steel gray border */
             padding: 10px;
             text-align: center;
-            color: #FFD700;
         }
         .grid th {
-            background-color: #FFD700;
-            color: #000;
+            background-color: #4682B4; /* steel gray header */
+            color: #FFFFFF; /* white text */
         }
         .grid tr:hover {
-            background-color: #222;
+            background-color: #D0E4F5; /* subtle hover effect */
         }
     </style>
 </asp:Content>

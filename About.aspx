@@ -87,8 +87,8 @@
 
     <style>
         .about-page {
-            color: #FFD700;
-            background: linear-gradient(to bottom, #000, #111);
+            color: #2F4F4F;
+            background: #ffffff;
             padding: 40px 20px;
         }
 
@@ -114,15 +114,16 @@
         .our-story img, .how-we-work img {
             width: 400px;
             border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+            box-shadow: 0 5px 15px rgba(70, 130, 180, 0.3);
         }
 
         .mission-vision div {
             flex: 1;
-            background: #111;
+            background: #f5f5f5;
             padding: 20px;
-            border: 1px solid #FFD700;
+            border: 1px solid #4682B4;
             border-radius: 10px;
+            color: #2F4F4F;
         }
 
         .values .value-grid {
@@ -132,10 +133,11 @@
         }
 
         .values .value-card {
-            background: #111;
-            border: 1px solid #FFD700;
+            background: #f5f5f5;
+            border: 1px solid #4682B4;
             padding: 20px;
             border-radius: 10px;
+            color: #2F4F4F;
         }
 
         /* Animation styles */

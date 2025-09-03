@@ -1,0 +1,164 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\arjuu\\Downloads\\DNDWebsite-main (2)\\DNDWebsite-main (1)\\DNDWebsite-main\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{0AB49005-3811-4F8E-82FB-71B4A6064EE8}|DNDWebsite.csproj|c:\\users\\arjuu\\downloads\\dndwebsite-main (2)\\dndwebsite-main (1)\\dndwebsite-main\\default.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0AB49005-3811-4F8E-82FB-71B4A6064EE8}|DNDWebsite.csproj|solutionrelative:default.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0AB49005-3811-4F8E-82FB-71B4A6064EE8}|DNDWebsite.csproj|c:\\users\\arjuu\\downloads\\dndwebsite-main (2)\\dndwebsite-main (1)\\dndwebsite-main\\default.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{0AB49005-3811-4F8E-82FB-71B4A6064EE8}|DNDWebsite.csproj|solutionrelative:default.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0AB49005-3811-4F8E-82FB-71B4A6064EE8}|DNDWebsite.csproj|C:\\Users\\arjuu\\Downloads\\DNDWebsite-main (2)\\DNDWebsite-main (1)\\DNDWebsite-main\\editclient.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0AB49005-3811-4F8E-82FB-71B4A6064EE8}|DNDWebsite.csproj|solutionrelative:editclient.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0AB49005-3811-4F8E-82FB-71B4A6064EE8}|DNDWebsite.csproj|c:\\users\\arjuu\\downloads\\dndwebsite-main (2)\\dndwebsite-main (1)\\dndwebsite-main\\editclient.aspx.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0AB49005-3811-4F8E-82FB-71B4A6064EE8}|DNDWebsite.csproj|solutionrelative:editclient.aspx.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0AB49005-3811-4F8E-82FB-71B4A6064EE8}|DNDWebsite.csproj|c:\\users\\arjuu\\downloads\\dndwebsite-main (2)\\dndwebsite-main (1)\\dndwebsite-main\\clients.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{0AB49005-3811-4F8E-82FB-71B4A6064EE8}|DNDWebsite.csproj|solutionrelative:clients.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0AB49005-3811-4F8E-82FB-71B4A6064EE8}|DNDWebsite.csproj|c:\\users\\arjuu\\downloads\\dndwebsite-main (2)\\dndwebsite-main (1)\\dndwebsite-main\\clients.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0AB49005-3811-4F8E-82FB-71B4A6064EE8}|DNDWebsite.csproj|solutionrelative:clients.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0AB49005-3811-4F8E-82FB-71B4A6064EE8}|DNDWebsite.csproj|c:\\users\\arjuu\\downloads\\dndwebsite-main (2)\\dndwebsite-main (1)\\dndwebsite-main\\checkout.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0AB49005-3811-4F8E-82FB-71B4A6064EE8}|DNDWebsite.csproj|solutionrelative:checkout.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0AB49005-3811-4F8E-82FB-71B4A6064EE8}|DNDWebsite.csproj|C:\\Users\\arjuu\\Downloads\\DNDWebsite-main (2)\\DNDWebsite-main (1)\\DNDWebsite-main\\editclient.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{0AB49005-3811-4F8E-82FB-71B4A6064EE8}|DNDWebsite.csproj|solutionrelative:editclient.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Default.aspx.cs",
+              "DocumentMoniker": "C:\\Users\\arjuu\\Downloads\\DNDWebsite-main (2)\\DNDWebsite-main (1)\\DNDWebsite-main\\Default.aspx.cs",
+              "RelativeDocumentMoniker": "Default.aspx.cs",
+              "ToolTip": "C:\\Users\\arjuu\\Downloads\\DNDWebsite-main (2)\\DNDWebsite-main (1)\\DNDWebsite-main\\Default.aspx.cs",
+              "RelativeToolTip": "Default.aspx.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAACcAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-02T13:00:11.526Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Default.aspx",
+              "DocumentMoniker": "C:\\Users\\arjuu\\Downloads\\DNDWebsite-main (2)\\DNDWebsite-main (1)\\DNDWebsite-main\\Default.aspx",
+              "RelativeDocumentMoniker": "Default.aspx",
+              "ToolTip": "C:\\Users\\arjuu\\Downloads\\DNDWebsite-main (2)\\DNDWebsite-main (1)\\DNDWebsite-main\\Default.aspx",
+              "RelativeToolTip": "Default.aspx",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2025-09-02T13:00:09.373Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Checkout.aspx.cs",
+              "DocumentMoniker": "C:\\Users\\arjuu\\Downloads\\DNDWebsite-main (2)\\DNDWebsite-main (1)\\DNDWebsite-main\\Checkout.aspx.cs",
+              "RelativeDocumentMoniker": "Checkout.aspx.cs",
+              "ToolTip": "C:\\Users\\arjuu\\Downloads\\DNDWebsite-main (2)\\DNDWebsite-main (1)\\DNDWebsite-main\\Checkout.aspx.cs",
+              "RelativeToolTip": "Checkout.aspx.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-02T12:57:54.204Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Clients.aspx.cs",
+              "DocumentMoniker": "C:\\Users\\arjuu\\Downloads\\DNDWebsite-main (2)\\DNDWebsite-main (1)\\DNDWebsite-main\\Clients.aspx.cs",
+              "RelativeDocumentMoniker": "Clients.aspx.cs",
+              "ToolTip": "C:\\Users\\arjuu\\Downloads\\DNDWebsite-main (2)\\DNDWebsite-main (1)\\DNDWebsite-main\\Clients.aspx.cs",
+              "RelativeToolTip": "Clients.aspx.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-02T12:57:47.222Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Clients.aspx",
+              "DocumentMoniker": "C:\\Users\\arjuu\\Downloads\\DNDWebsite-main (2)\\DNDWebsite-main (1)\\DNDWebsite-main\\Clients.aspx",
+              "RelativeDocumentMoniker": "Clients.aspx",
+              "ToolTip": "C:\\Users\\arjuu\\Downloads\\DNDWebsite-main (2)\\DNDWebsite-main (1)\\DNDWebsite-main\\Clients.aspx",
+              "RelativeToolTip": "Clients.aspx",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2025-09-02T12:57:43.837Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "EditClient.aspx.designer.cs",
+              "DocumentMoniker": "C:\\Users\\arjuu\\Downloads\\DNDWebsite-main (2)\\DNDWebsite-main (1)\\DNDWebsite-main\\EditClient.aspx.designer.cs",
+              "RelativeDocumentMoniker": "EditClient.aspx.designer.cs",
+              "ToolTip": "C:\\Users\\arjuu\\Downloads\\DNDWebsite-main (2)\\DNDWebsite-main (1)\\DNDWebsite-main\\EditClient.aspx.designer.cs",
+              "RelativeToolTip": "EditClient.aspx.designer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-02T12:56:43.342Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "EditClient.aspx.cs",
+              "DocumentMoniker": "C:\\Users\\arjuu\\Downloads\\DNDWebsite-main (2)\\DNDWebsite-main (1)\\DNDWebsite-main\\EditClient.aspx.cs",
+              "RelativeDocumentMoniker": "EditClient.aspx.cs",
+              "ToolTip": "C:\\Users\\arjuu\\Downloads\\DNDWebsite-main (2)\\DNDWebsite-main (1)\\DNDWebsite-main\\EditClient.aspx.cs",
+              "RelativeToolTip": "EditClient.aspx.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAABDAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-02T11:46:21.001Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "EditClient.aspx",
+              "DocumentMoniker": "C:\\Users\\arjuu\\Downloads\\DNDWebsite-main (2)\\DNDWebsite-main (1)\\DNDWebsite-main\\EditClient.aspx",
+              "RelativeDocumentMoniker": "EditClient.aspx",
+              "ToolTip": "C:\\Users\\arjuu\\Downloads\\DNDWebsite-main (2)\\DNDWebsite-main (1)\\DNDWebsite-main\\EditClient.aspx",
+              "RelativeToolTip": "EditClient.aspx",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2025-09-02T11:43:00.347Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

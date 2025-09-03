@@ -1,9 +1,8 @@
 ﻿<%@ Page Title="Checkout" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Checkout.aspx.cs" Inherits="DNDWebsite.Checkout" %>
-
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    <h2 style="text-align:center;">Checkout</h2>
+    <h2 style="text-align:center; color:#2F4F4F;">Checkout</h2>
 
-    <p style="text-align:center;">Below are the products you’ve added to your order:</p>
+    <p style="text-align:center; color:#2F4F4F;">Below are the products you’ve added to your order:</p>
 
     <asp:GridView ID="gvCheckout" runat="server" AutoGenerateColumns="False" CssClass="grid" GridLines="None">
         <Columns>
@@ -19,20 +18,23 @@
             margin: 20px auto;
             max-width: 900px;
             border-collapse: collapse;
-            background-color: #111;
+            background-color: #f5f5f5; /* light gray background */
+            color: #2F4F4F; /* dark slate text */
         }
+
         .grid th, .grid td {
-            border: 1px solid #FFD700;
+            border: 1px solid #4682B4; /* steel gray border */
             padding: 10px;
             text-align: center;
-            color: #FFD700;
         }
+
         .grid th {
-            background-color: #FFD700;
-            color: #000;
+            background-color: #4682B4; /* steel gray header */
+            color: #ffffff; /* white text for headers */
         }
+
         .grid tr:hover {
-            background-color: #222;
+            background-color: #d0e4f5; /* subtle hover effect */
         }
     </style>
 </asp:Content>
