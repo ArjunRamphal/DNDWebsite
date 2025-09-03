@@ -2,35 +2,46 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2 style="text-align:center; color:#2F4F4F;">Our Products</h2>
-
-    <asp:GridView ID="gvProducts" runat="server" AutoGenerateColumns="False" CssClass="grid" GridLines="None">
-        <Columns>
-            <asp:BoundField DataField="ProductName" HeaderText="Product" />
-            <asp:BoundField DataField="SupplierName" HeaderText="Supplier" />
-            <asp:BoundField DataField="FinalPrice" HeaderText="Price" DataFormatString="{0:C2}" />
-        </Columns>
-    </asp:GridView>
+    <div class="search-box">
+        <asp:Label ID="lblInstruction" runat="server" Text="Enter general product description:" CssClass="instruction-label"></asp:Label><br />
+        <asp:TextBox ID="txtSearch" runat="server" CssClass="input-box" placeholder="e.g., 4 black pens, 5 erasers, etc." />
+        <asp:Button ID="btnSearch" runat="server" Text="Add to order" CssClass="btn-search" />
+    </div>
 
     <style>
-        .grid {
-            margin: 20px auto;
-            max-width: 900px;
-            border-collapse: collapse;
-            background-color: #F5F5F5; /* light gray background */
-            color: #2F4F4F; /* dark slate text */
-        }
-        .grid th, .grid td {
+        .search-box {
+            margin: 40px auto;
+            max-width: 500px;
+            padding: 20px;
+            background-color: #F5F5F5; /* light gray */
             border: 1px solid #4682B4; /* steel gray border */
-            padding: 10px;
+            border-radius: 10px;
             text-align: center;
         }
-        .grid th {
-            background-color: #4682B4; /* steel gray header */
-            color: #FFFFFF; /* white text */
+        .instruction-label {
+            font-size: 16px;
+            font-weight: bold;
+            color: #2F4F4F; /* dark slate */
         }
-        .grid tr:hover {
-            background-color: #D0E4F5; /* subtle hover effect */
+        .input-box {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #4682B4;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .btn-search {
+            padding: 8px 20px;
+            background-color: #4682B4;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .btn-search:hover {
+            background-color: #5a9bd3;
         }
     </style>
+
 </asp:Content>

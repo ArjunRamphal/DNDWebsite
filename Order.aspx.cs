@@ -33,5 +33,14 @@ namespace DNDWebsite
             gvOrders.DataSource = dt;
             gvOrders.DataBind();
         }
+
+        protected void gvOrders_RowCommand(object sender, System.Web.UI.WebControls.GridViewCommandEventArgs e)
+        {
+            if (e.CommandName == "GoToCheckout")
+            {
+                // Just go to Checkout page for now (no OrderID passing)
+                Response.Redirect("Checkout.aspx");
+            }
+        }
     }
 }

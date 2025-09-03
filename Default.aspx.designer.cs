@@ -21,5 +21,6 @@ namespace DNDWebsite
         protected global::System.Web.UI.WebControls.Panel pnlSupplierProductsLink;
         protected global::System.Web.UI.WebControls.Panel pnlClientsLink;
         protected global::System.Web.UI.WebControls.Panel pnlCheckoutLink;
+        protected global::System.Web.UI.WebControls.Panel pnlReportLink;
     }
 }

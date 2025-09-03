@@ -22,7 +22,7 @@ namespace DNDWebsite
                 pnlOrdersLink.Visible = (userType == "Client");
 
                 // Show Checkout link only to Clients
-                pnlCheckoutLink.Visible = (userType == "Client");
+                //pnlCheckoutLink.Visible = (userType == "Client");
 
                 // Show Clients link only to Managers / Sales Representatives
                 pnlClientsLink.Visible = (userType == "Manager" || userType == "Sales Representative");

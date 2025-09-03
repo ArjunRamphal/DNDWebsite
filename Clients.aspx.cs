@@ -7,11 +7,12 @@ namespace DNDWebsite
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["UserType"] == null || Session["UserType"].ToString() != "Sales Representative")
+            if (Session["UserType"] == null || (Session["UserType"].ToString() != "Sales Representative" && Session["UserType"].ToString() != "Manager"))
             {
                 Response.Redirect("Default.aspx"); // Not authorized
                 return;
             }
+
 
             if (!IsPostBack)
             {

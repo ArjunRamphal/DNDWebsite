@@ -4,8 +4,10 @@
     <h2 style="text-align:center; color:#2F4F4F;">My Orders</h2>
 
     <asp:GridView ID="gvOrders" runat="server" AutoGenerateColumns="False" 
-        CssClass="grid" GridLines="None" ShowHeader="True">
+        CssClass="grid" GridLines="None" ShowHeader="True" 
+        OnRowCommand="gvOrders_RowCommand">
         <Columns>
+            <asp:ButtonField Text="View" CommandName="GoToCheckout" ButtonType="Link" />
             <asp:BoundField DataField="OrderID" HeaderText="Order ID" />
             <asp:BoundField DataField="OrderDate" HeaderText="Date" DataFormatString="{0:dd MMM yyyy}" />
             <asp:BoundField DataField="TotalPrice" HeaderText="Total Price" DataFormatString="{0:C2}" />

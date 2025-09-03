@@ -196,6 +196,10 @@
                     <asp:Panel ID="pnlSupplierProductsLink" runat="server" Visible="false" style="display:inline;">
                         <a href="SupplierProducts.aspx">Supplier Products</a>
                     </asp:Panel>
+                    <asp:Panel ID="pnlReportLink" runat="server" Visible="false" style="display:inline;">
+                        <a href="Report.aspx">Reports</a>
+                    </asp:Panel>
+
                     <a href="#reviews-section">Reviews</a>
                     <a href="About.aspx">About</a>
                 </nav>
