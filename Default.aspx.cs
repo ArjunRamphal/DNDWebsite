@@ -15,14 +15,13 @@ namespace DNDWebsite
             {
                 string userType = Session["UserType"].ToString();
 
+                pnlAccountLink.Visible = (userType == "Client");
+
                 // Show Products link only to Clients
                 pnlProductsLink.Visible = (userType == "Client");
 
                 // Show Orders link only to Clients
                 pnlOrdersLink.Visible = (userType == "Client");
-
-                // Show Checkout link only to Clients
-                //pnlCheckoutLink.Visible = (userType == "Client");
 
                 // Show Clients link only to Managers / Sales Representatives
                 pnlClientsLink.Visible = (userType == "Manager" || userType == "Sales Representative");
@@ -36,6 +35,9 @@ namespace DNDWebsite
                 // Show Supplier Products only to Managers / Sales Representatives
                 pnlSupplierProductsLink.Visible = (userType == "Manager" || userType == "Sales Representative");
 
+                // Show Reports only to Managers
+                pnlReportLink.Visible = (userType == "Manager");
+
                 // Welcome label
                 lblWelcome.Text = "Welcome, " + Session["UserName"];
                 lblWelcome.Visible = true;
@@ -45,6 +47,7 @@ namespace DNDWebsite
             else
             {
                 // Not logged in
+                pnlAccountLink.Visible = false;
                 pnlProductsLink.Visible = false;
                 pnlOrdersLink.Visible = false;
                 pnlCheckoutLink.Visible = false;
@@ -52,13 +55,13 @@ namespace DNDWebsite
                 pnlClientOrdersLink.Visible = false;
                 pnlSuppliersLink.Visible = false;
                 pnlSupplierProductsLink.Visible = false;
-                pnlClientsLink.Visible = false;
+                pnlReportLink.Visible = false;
+
                 lblWelcome.Visible = false;
                 btnLogin.Visible = true;
                 btnLogout.Visible = false;
             }
         }
-
 
         private void UpdateHeader()
         {
@@ -73,6 +76,7 @@ namespace DNDWebsite
             pnlClientOrdersLink.Visible = false;
             pnlSuppliersLink.Visible = false;
             pnlSupplierProductsLink.Visible = false;
+            pnlReportLink.Visible = false;
 
             if (Session["UserType"] != null)
             {
@@ -110,9 +114,19 @@ namespace DNDWebsite
                                 btnLogout.Visible = true;
                                 btnLogin.Visible = false;
 
-                                pnlClientOrdersLink.Visible = true;
-                                pnlSuppliersLink.Visible = true;
-                                pnlSupplierProductsLink.Visible = true;
+                                if (userType == "Manager")
+                                {
+                                    pnlClientOrdersLink.Visible = true;
+                                    pnlSuppliersLink.Visible = true;
+                                    pnlSupplierProductsLink.Visible = true;
+                                    pnlReportLink.Visible = true;
+                                }
+                                else if (userType == "Sales Representative")
+                                {
+                                    pnlClientOrdersLink.Visible = true;
+                                    pnlSuppliersLink.Visible = true;
+                                    pnlSupplierProductsLink.Visible = true;
+                                }
                             }
                             reader.Close();
                         }

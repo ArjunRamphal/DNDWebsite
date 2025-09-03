@@ -175,6 +175,9 @@
             <div>
                 <h1 style="margin:0;">DND Trading & General Supplies</h1>
                 <nav>
+                    <asp:Panel ID="pnlAccountLink" runat="server" Visible="false" style="display:inline;">
+                        <a href="EditClient.aspx">Account</a>
+                    </asp:Panel>
                     <asp:Panel ID="pnlProductsLink" runat="server" Visible="false" style="display:inline;">
                         <a href="Products.aspx">Products</a>
                     </asp:Panel>
@@ -199,9 +202,8 @@
                     <asp:Panel ID="pnlReportLink" runat="server" Visible="false" style="display:inline;">
                         <a href="Report.aspx">Reports</a>
                     </asp:Panel>
-
                     <a href="#reviews-section">Reviews</a>
-                    <a href="About.aspx">About</a>
+                    <a href="About.aspx">About Us</a>
                 </nav>
             </div>
             <div>

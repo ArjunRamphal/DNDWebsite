@@ -118,7 +118,7 @@
                     <a href="ClientOrders.aspx">Client Orders</a>
                 </asp:Panel>
 
-                <a ID="ContactNav" runat="server" href="~/Contact.aspx">Contact</a>
+                <a ID="ContactNav" runat="server" href="~/Contact.aspx">Contact Us</a>
             </nav>
         </header>
 

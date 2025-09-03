@@ -4,7 +4,7 @@
 
     <div class="search-box">
         <asp:Label ID="lblInstruction" runat="server" Text="Enter general product description:" CssClass="instruction-label"></asp:Label><br />
-        <asp:TextBox ID="txtSearch" runat="server" CssClass="input-box" placeholder="e.g., 4 black pens, 5 erasers, etc." />
+        <asp:TextBox ID="txtSearch" runat="server" CssClass="input-box" placeholder="e.g., 4 black pens" />
         <asp:Button ID="btnSearch" runat="server" Text="Add to order" CssClass="btn-search" />
     </div>
 
