@@ -34,9 +34,7 @@
             cursor:pointer; 
             margin-top:8px; 
         }
-        .btn:hover { 
-            background:#5a9bd4; 
-        }
+        .btn:hover { background:#5a9bd4; }
         .link-btn { 
             background:none; 
             border:none; 
@@ -46,9 +44,7 @@
             font-size:0.95rem; 
             margin:5px 0; 
         }
-        .link-btn:hover { 
-            color:#2F4F4F; 
-        }
+        .link-btn:hover { color:#2F4F4F; }
         h2 { margin:28px 0 10px; }
         .wrap { 
             max-width:420px; 
@@ -69,14 +65,14 @@
             min-height:24px; 
             color:#2F4F4F; 
         }
-        #signupSection { 
-            display:none; 
-            margin-top:20px; 
-        }
+        #signupSection { display:none; margin-top:20px; }
     </style>
 </head>
 <body>
     <form id="form1" runat="server">
+        <!-- Hidden flag for detecting password setup mode -->
+        <asp:HiddenField ID="hfSetPasswordMode" runat="server" Value="false" />
+
         <div class="wrap">
 
             <!-- Login Section -->
@@ -86,21 +82,21 @@
                 <asp:TextBox ID="txtLoginPassword" runat="server" TextMode="Password" placeholder="Password"></asp:TextBox><br />
                 <asp:Button ID="btnLogin" runat="server" Text="Login" CssClass="btn" OnClick="btnLogin_Click" /><br />
 
-                <asp:Button ID="btnForgotPassword" runat="server" Text="Forgot Password?" CssClass="link-btn" OnClientClick="alert('Password recovery coming soon!'); return false;" /><br />
+                <asp:Button ID="btnForgotPassword" runat="server" Text="Forgot Password?" CssClass="link-btn" OnClientClick="alert('Placeholder'); return false;" /><br />
                 <asp:Button ID="btnShowSignup" runat="server" Text="Create Account" CssClass="link-btn" OnClientClick="showSignup(); return false;" /><br />
 
                 <!-- Login messages -->
                 <asp:Label ID="lblMessage" runat="server" CssClass="msg" /><br />
             </div>
 
-            <!-- Signup Section (hidden by default) -->
+            <!-- Signup / Set Password Section -->
             <div id="signupSection" runat="server">
-                <h2>Sign Up</h2>
+                <h2 id="signupTitle" runat="server">Sign Up</h2>
                 <asp:TextBox ID="txtSignupName" runat="server" placeholder="Full Name"></asp:TextBox><br />
                 <asp:TextBox ID="txtSignupPhone" runat="server" placeholder="Phone Number"></asp:TextBox><br />
                 <asp:TextBox ID="txtSignupEmail" runat="server" placeholder="Email"></asp:TextBox><br />
                 <asp:TextBox ID="txtSignupPassword" runat="server" TextMode="Password" placeholder="Password"></asp:TextBox><br />
-                <asp:Button ID="btnSignup" runat="server" Text="Sign Up" CssClass="btn" OnClick="btnSignup_Click" /><br />
+                <asp:Button ID="btnSignup" runat="server" Text="Submit" CssClass="btn" OnClick="btnSignup_Click" /><br />
 
                 <!-- Signup messages -->
                 <asp:Label ID="lblSignupMessage" runat="server" CssClass="msg" /><br />
@@ -108,7 +104,7 @@
                 <asp:Button ID="btnBackToLogin" runat="server" Text="Back to Login" CssClass="link-btn" OnClientClick="showLogin(); return false;" />
             </div>
 
-            <!-- Back to Home button (always visible) -->
+            <!-- Back to Home button -->
             <asp:Button ID="btnBackToHome" runat="server" Text="Back to Home" CssClass="btn" OnClick="btnBackToHome_Click" />
 
         </div>

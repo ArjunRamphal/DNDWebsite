@@ -12,10 +12,43 @@ namespace DNDWebsite
         {
             if (!IsPostBack)
             {
+                // After signup success message
                 if (Request.QueryString["signup"] == "success")
-                {
                     lblMessage.Text = "Signup successful! You can now log in.";
+
+                // Handle "set password" mode
+                if (Request.QueryString["setpassword"] == "1")
+                {
+                    string email = Request.QueryString["email"];
+                    txtSignupEmail.Text = email;
+                    txtSignupEmail.ReadOnly = true;
+
+                    // Hide name and phone fields in password setup
+                    txtSignupName.Visible = false;
+                    txtSignupPhone.Visible = false;
+
+                    signupTitle.InnerText = "Set Your Password";
+                    lblSignupMessage.Text = "We found your account. Please set a password to activate it.";
+
+                    loginSection.Style["display"] = "none";
+                    signupSection.Style["display"] = "block";
+                    hfSetPasswordMode.Value = "true";
+
+                    form1.DefaultButton = btnSignup.UniqueID;
                 }
+                else
+                {
+                    hfSetPasswordMode.Value = "false";
+                    form1.DefaultButton = btnLogin.UniqueID;
+                }
+            }
+            else
+            {
+                // Maintain correct Enter-key behavior
+                if (hfSetPasswordMode.Value == "true")
+                    form1.DefaultButton = btnSignup.UniqueID;
+                else
+                    form1.DefaultButton = btnLogin.UniqueID;
             }
         }
 
@@ -29,28 +62,48 @@ namespace DNDWebsite
             {
                 conn.Open();
 
-                // Check Client table
-                string clientQuery = "SELECT ClientName, ClientEmail FROM Client WHERE ClientEmail = @Input AND ClientPassword = @Password";
+                // --- CLIENT LOGIN ---
+                string clientQuery = "SELECT ClientName, ClientEmail, ClientPassword FROM Client WHERE ClientEmail = @Input";
                 SqlCommand clientCmd = new SqlCommand(clientQuery, conn);
                 clientCmd.Parameters.AddWithValue("@Input", input);
-                clientCmd.Parameters.AddWithValue("@Password", password);
 
                 SqlDataReader reader = clientCmd.ExecuteReader();
                 if (reader.Read())
                 {
-                    Session["UserType"] = "Client";
-                    Session["UserName"] = reader["ClientName"].ToString();
-                    Session["UserEmail"] = reader["ClientEmail"].ToString();
-                    reader.Close();
+                    object passObj = reader["ClientPassword"];
+                    string existingPassword = passObj == DBNull.Value ? null : passObj.ToString();
 
-                    lblMessage.Text = "Client login successful! Redirecting...";
-                    ClientScript.RegisterStartupScript(this.GetType(), "redirect",
-                        "setTimeout(function(){ window.location='Default.aspx'; }, 2000);", true);
-                    return;
+                    if (string.IsNullOrEmpty(existingPassword))
+                    {
+                        // Client exists but has no password → redirect to set password
+                        string email = reader["ClientEmail"].ToString();
+                        reader.Close();
+                        Response.Redirect($"Login.aspx?setpassword=1&email={email}");
+                        return;
+                    }
+
+                    if (existingPassword == password)
+                    {
+                        Session["UserType"] = "Client";
+                        Session["UserName"] = reader["ClientName"].ToString();
+                        Session["UserEmail"] = reader["ClientEmail"].ToString();
+                        reader.Close();
+
+                        lblMessage.Text = "Client login successful! Redirecting...";
+                        ClientScript.RegisterStartupScript(this.GetType(), "redirect",
+                            "setTimeout(function(){ window.location='Default.aspx'; }, 2000);", true);
+                        return;
+                    }
+                    else
+                    {
+                        lblMessage.Text = "Invalid password.";
+                        reader.Close();
+                        return;
+                    }
                 }
                 reader.Close();
 
-                // Check User table (employees)
+                // --- USER LOGIN (EMPLOYEES) ---
                 string userQuery = "SELECT UserFirstName, UserLastName, UserType FROM [User] WHERE UserName = @Input AND UserPassword = @Password";
                 SqlCommand userCmd = new SqlCommand(userQuery, conn);
                 userCmd.Parameters.AddWithValue("@Input", input);
@@ -61,17 +114,8 @@ namespace DNDWebsite
                 {
                     string fullName = $"{reader["UserFirstName"]} {reader["UserLastName"]}";
 
-                    // Check if UserType is true/false and assign role
                     bool isManager = Convert.ToBoolean(reader["UserType"]);
-                    if (isManager)
-                    {
-                        Session["UserType"] = "Manager";
-                    }
-                    else
-                    {
-                        Session["UserType"] = "Sales Representative";
-                    }
-
+                    Session["UserType"] = isManager ? "Manager" : "Sales Representative";
                     Session["UserName"] = fullName;
                     Session["UsernameKey"] = input;
                     reader.Close();
@@ -89,7 +133,7 @@ namespace DNDWebsite
             }
         }
 
-        // SIGNUP (clients only)
+        // SIGNUP / SET PASSWORD
         protected void btnSignup_Click(object sender, EventArgs e)
         {
             string name = txtSignupName.Text.Trim();
@@ -99,41 +143,48 @@ namespace DNDWebsite
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string checkQuery = "SELECT COUNT(*) FROM Client WHERE ClientEmail = @Email";
+                conn.Open();
+
+                // Check if client exists
+                string checkQuery = "SELECT ClientPassword FROM Client WHERE ClientEmail = @Email";
                 SqlCommand checkCmd = new SqlCommand(checkQuery, conn);
                 checkCmd.Parameters.AddWithValue("@Email", email);
 
-                conn.Open();
-                int exists = (int)checkCmd.ExecuteScalar();
+                object result = checkCmd.ExecuteScalar();
 
-                if (exists > 0)
+                if (result != null)
                 {
-                    lblSignupMessage.Text = "An account with this email already exists.";
-                    loginSection.Style["display"] = "none";
-                    signupSection.Style["display"] = "block";
-                }
-                else
-                {
-                    string insertQuery = @"INSERT INTO Client 
-                                           (ClientName, ClientPhoneNumber, ClientEmail, ClientPassword, ClientOptOut) 
-                                           VALUES (@Name, @Phone, @Email, @Password, @OptOut)";
-                    SqlCommand insertCmd = new SqlCommand(insertQuery, conn);
-                    insertCmd.Parameters.AddWithValue("@Name", name);
-                    insertCmd.Parameters.AddWithValue("@Phone", phone);
-                    insertCmd.Parameters.AddWithValue("@Email", email);
-                    insertCmd.Parameters.AddWithValue("@Password", password);
-                    insertCmd.Parameters.AddWithValue("@OptOut", 0);
+                    // Existing client record found
+                    if (result == DBNull.Value)
+                    {
+                        // Update record with new password
+                        string updateQuery = "UPDATE Client SET ClientPassword = @Password WHERE ClientEmail = @Email";
+                        SqlCommand updateCmd = new SqlCommand(updateQuery, conn);
+                        updateCmd.Parameters.AddWithValue("@Password", password);
+                        updateCmd.Parameters.AddWithValue("@Email", email);
+                        updateCmd.ExecuteNonQuery();
 
-                    int rows = insertCmd.ExecuteNonQuery();
-                    if (rows > 0)
                         Response.Redirect("Login.aspx?signup=success");
+                        return;
+                    }
                     else
                     {
-                        lblSignupMessage.Text = "Signup failed. Please try again.";
-                        loginSection.Style["display"] = "none";
-                        signupSection.Style["display"] = "block";
+                        lblSignupMessage.Text = "An account with this email already exists.";
+                        return;
                     }
                 }
+
+                // Otherwise create a new client record
+                string insertQuery = @"INSERT INTO Client (ClientName, ClientPhoneNumber, ClientEmail, ClientPassword, ClientOptOut) 
+                                       VALUES (@Name, @Phone, @Email, @Password, 0)";
+                SqlCommand insertCmd = new SqlCommand(insertQuery, conn);
+                insertCmd.Parameters.AddWithValue("@Name", name);
+                insertCmd.Parameters.AddWithValue("@Phone", phone);
+                insertCmd.Parameters.AddWithValue("@Email", email);
+                insertCmd.Parameters.AddWithValue("@Password", password);
+                insertCmd.ExecuteNonQuery();
+
+                Response.Redirect("Login.aspx?signup=success");
             }
         }
 
