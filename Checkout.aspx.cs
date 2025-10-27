@@ -1,39 +1,68 @@
 ﻿using System;
+using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
+using System.Web.UI;
 
 namespace DNDWebsite
 {
-    public partial class Checkout : System.Web.UI.Page
+    public partial class Checkout : Page
     {
+        private readonly string connectionString = ConfigurationManager.ConnectionStrings["DNDConnectionString"].ConnectionString;
+
         protected void Page_Load(object sender, EventArgs e)
         {
-
             if (Session["UserType"] == null || Session["UserType"].ToString() != "Client")
             {
-                Response.Redirect("Default.aspx"); // Not authorized
+                Response.Redirect("Default.aspx");
                 return;
             }
 
             if (!IsPostBack)
             {
-                LoadDummyCart();
+                if (Request.QueryString["orderId"] != null)
+                {
+                    int orderId = Convert.ToInt32(Request.QueryString["orderId"]);
+                    LoadOrderProducts(orderId);
+                }
             }
         }
 
-        private void LoadDummyCart()
+        private void LoadOrderProducts(int orderId)
         {
-            DataTable dt = new DataTable();
-            dt.Columns.Add("ProductName");
-            dt.Columns.Add("Quantity", typeof(int));
-            dt.Columns.Add("Price", typeof(decimal));
-            dt.Columns.Add("Total", typeof(decimal));
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = @"
+                    SELECT 
+                        p.ProductName,
+                        osp.OrderSupplierProductQuantity AS Quantity,
+                        osp.OrderSupplierProductPrice AS Price
+                    FROM OrderSupplierProduct osp
+                    INNER JOIN Product p ON osp.ProductID = p.ProductID
+                    WHERE osp.OrderID = @OrderID";
 
-            // Dummy products
-            dt.Rows.Add("Product A", 2, 100.00m, 200.00m);
-            dt.Rows.Add("Product B", 1, 50.00m, 50.00m);
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@OrderID", orderId);
 
-            gvCheckout.DataSource = dt;
-            gvCheckout.DataBind();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+
+                gvCheckout.DataSource = dt;
+                gvCheckout.DataBind();
+
+                // Display total order amount in a label
+                decimal totalAmount = 0;
+                foreach (DataRow row in dt.Rows)
+                    totalAmount += Convert.ToDecimal(row["Price"]);
+
+                lblMessage.Text = $"Total Order Amount: {totalAmount:C2}";
+            }
+        }
+
+        protected void btnBackToOrders_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Order.aspx");
         }
     }
 }

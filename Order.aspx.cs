@@ -1,10 +1,16 @@
 ﻿using System;
+using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 
 namespace DNDWebsite
 {
     public partial class Order : System.Web.UI.Page
     {
+        private readonly string connectionString = ConfigurationManager.ConnectionStrings["DNDConnectionString"].ConnectionString;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["UserType"] == null || Session["UserType"].ToString() != "Client")
@@ -15,31 +21,74 @@ namespace DNDWebsite
 
             if (!IsPostBack)
             {
-                LoadDummyOrders();
+                LoadOrders();
             }
         }
 
-        private void LoadDummyOrders()
+        private void LoadOrders()
         {
-            DataTable dt = new DataTable();
-            dt.Columns.Add("OrderID", typeof(int));
-            dt.Columns.Add("OrderDate", typeof(DateTime));
-            dt.Columns.Add("TotalPrice", typeof(decimal));
+            try
+            {
+                int clientId = Convert.ToInt32(Session["ClientID"]);
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    string query = @"
+                        SELECT 
+                            o.OrderID, 
+                            o.OrderDate, 
+                            o.OrderAmount, 
+                            o.OrderStatus,
+                            p.PaymentStatus
+                        FROM [Order] o
+                        LEFT JOIN Payment p ON o.OrderID = p.OrderID
+                        WHERE o.ClientID = @ClientID
+                        ORDER BY o.OrderDate DESC";
 
-            dt.Rows.Add(101, DateTime.Now.AddDays(-5), 200.00m);
-            dt.Rows.Add(102, DateTime.Now.AddDays(-3), 50.00m);
-            dt.Rows.Add(103, DateTime.Now.AddDays(-1), 300.00m);
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@ClientID", clientId);
 
-            gvOrders.DataSource = dt;
-            gvOrders.DataBind();
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+
+                    // Add readable text columns for display
+                    dt.Columns.Add("OrderStatusText", typeof(string));
+                    dt.Columns.Add("PaymentStatusText", typeof(string));
+
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        bool orderStatus = Convert.ToBoolean(row["OrderStatus"]);
+                        bool paymentStatus = row["PaymentStatus"] != DBNull.Value && Convert.ToBoolean(row["PaymentStatus"]);
+
+                        row["OrderStatusText"] = orderStatus ? "Completed" : "Pending";
+                        row["PaymentStatusText"] = paymentStatus ? "Paid" : "Unpaid";
+                    }
+
+                    gvOrders.DataSource = dt;
+                    gvOrders.DataBind();
+
+                    lblMessage.Text = dt.Rows.Count == 0
+                        ? "You have no orders at this time."
+                        : "";
+                }
+            }
+            catch (Exception ex)
+            {
+                lblMessage.Text = "Error loading orders: " + ex.Message;
+                lblMessage.ForeColor = System.Drawing.Color.Red;
+            }
         }
 
-        protected void gvOrders_RowCommand(object sender, System.Web.UI.WebControls.GridViewCommandEventArgs e)
+        protected void gvOrders_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             if (e.CommandName == "GoToCheckout")
             {
-                // Just go to Checkout page for now (no OrderID passing)
-                Response.Redirect("Checkout.aspx");
+                int index = Convert.ToInt32(e.CommandArgument);
+                GridViewRow row = gvOrders.Rows[index];
+                string orderId = row.Cells[1].Text;
+
+                // Redirect to checkout page with OrderID
+                Response.Redirect("Checkout.aspx?orderId=" + orderId);
             }
         }
     }
