@@ -135,6 +135,11 @@ namespace DNDWebsite
             }
         }
 
+        protected void btnHelp_Click(object sender, EventArgs e)
+        {
+
+        }
+
         protected void btnContact_Click(object sender, EventArgs e)
         {
             Response.Redirect("Contact.aspx");

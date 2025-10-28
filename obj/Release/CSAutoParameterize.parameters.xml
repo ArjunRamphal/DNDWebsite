@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="DNDConnectionString-Web.config Connection String" description="DNDConnectionString Connection String used in web.config by the application to access the database." defaultValue="Data Source=146.230.177.46;Initial Catalog=WstGrp22;User ID=WstGrp22;Password=bhcbq" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\arjuu\\source\\repos\\DNDWebsite\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DNDConnectionString']/@connectionString" />
+  </parameter>
+</parameters>

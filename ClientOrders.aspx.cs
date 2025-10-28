@@ -211,6 +211,7 @@ namespace DNDWebsite
         {
             pnlOrderProducts.Visible = false;
             gvClientOrders.Visible = true;
+            gvClientOrders.DataBind();
             chkPending.Visible = true;
             btnResetFilter.Visible = true;
             lblHeader.InnerText = "All Client Orders";
@@ -370,7 +371,7 @@ namespace DNDWebsite
             decimal total = 0m;
             using (SqlConnection conn = new SqlConnection(connectionString))
             using (SqlCommand cmd = new SqlCommand(
-                "SELECT ISNULL(SUM(OrderSupplierProductQuantity * OrderSupplierProductPrice),0) FROM OrderSupplierProduct WHERE OrderID=@OrderID", conn))
+                "SELECT ISNULL(SUM(OrderSupplierProductPrice),0) FROM OrderSupplierProduct WHERE OrderID=@OrderID", conn))
             {
                 cmd.Parameters.AddWithValue("@OrderID", orderId);
                 conn.Open();

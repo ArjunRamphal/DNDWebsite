@@ -1,0 +1,136 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="DNDWebsite.SiteMaster" %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%: Page.Title %> - DND Trading & General Supplies</title>
+
+    <asp:PlaceHolder runat="server">
+        <%: Scripts.Render("~/bundles/modernizr") %>
+    </asp:PlaceHolder>
+
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
+    <!-- UPDATED THEME STYLES -->
+    <style>
+        /* BODY */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #FFFFFF; /* white background */
+            color: #2F4F4F; /* dark slate gray text */
+        }
+
+        /* HEADER */
+        header.site-header {
+            background-color: #4682B4; /* steel gray */
+            color: #FFFFFF; /* white text */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+        }
+
+        header.site-header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        /* NAV LINKS */
+        nav a {
+            color: #FFFFFF; /* white links */
+            text-decoration: none;
+            font-weight: bold;
+            margin-left: 20px;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #5A9BD4; /* lighter steel gray */
+            color: #FFFFFF;
+        }
+
+        /* ASP.NET PANEL LINKS */
+        nav .aspNetPanel a {
+            color: #FFFFFF;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        nav .aspNetPanel a:hover {
+            background-color: #5A9BD4;
+        }
+
+        /* MAIN CONTENT */
+        main {
+            padding: 40px 20px;
+            min-height: 70vh;
+            background-color: #F5F5F5; /* light gray */
+            color: #2F4F4F;
+        }
+
+        /* FOOTER */
+        footer {
+            background-color: #D3D3D3; /* soft gray */
+            text-align: center;
+            padding: 15px;
+            color: #2F4F4F; /* dark slate gray */
+            margin-top: 40px;
+        }
+
+        /* BUTTONS */
+        .btn {
+            background-color: #4682B4; /* steel gray */
+            color: #FFFFFF;
+            border: none;
+            padding: 8px 16px;
+            margin-left: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #5A9BD4; /* lighter steel gray on hover */
+        }
+    </style>
+</head>
+<body>
+    <form runat="server">
+        <asp:ScriptManager runat="server"></asp:ScriptManager>
+
+        <!-- HEADER -->
+        <header class="site-header">
+            <h1>DND Trading & General Supplies</h1>
+            <nav>
+                <a ID="HomeNav" runat="server" href="~/Default.aspx">Home</a>
+                <a ID="AboutNav" runat="server" href="~/About.aspx">About</a>
+                <a ID="ProductNav" runat="server" href="~/Products.aspx">Products</a>
+                
+                <asp:Panel ID="pnlClientOrdersLink" runat="server" Visible="false" style="display:inline;">
+                    <a href="ClientOrders.aspx">Client Orders</a>
+                </asp:Panel>
+
+                <a ID="ContactNav" runat="server" href="~/Contact.aspx">Contact Us</a>
+            </nav>
+        </header>
+
+        <!-- MAIN CONTENT -->
+        <main>
+            <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+        </main>
+
+        <!-- FOOTER -->
+        <footer>
+            <p>&copy; <%: DateTime.Now.Year %> DND Trading & General Supplies</p>
+        </footer>
+    </form>
+</body>
+</html>
