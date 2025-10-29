@@ -221,63 +221,122 @@ namespace DNDWebsite
 {"keywords",
 "Here’s a list of keywords I understand and respond to:\n\n" +
 
-"🗨️ General:\n" +
+"General:\n" +
 "hello, hi, hey, help, bye, thanks, thank you, good morning, good afternoon, good evening, how are you, who are you, what is this, what can you do\n\n" +
 
-"👥 Client Management:\n" +
+"Client Management:\n" +
 "client, register client, new client, update client, delete client, client list, client search\n\n" +
 
-"🛒 Order Management:\n" +
+"Order Management:\n" +
 "order, new order, place order, edit order, cancel order, track order, order history, pending orders, order status, invoice, quotation\n\n" +
 
-"🚚 Supplier & Procurement:\n" +
+"Supplier & Procurement:\n" +
 "supplier, add supplier, update supplier, supplier list, supplier orders, best supplier, new supplier order\n\n" +
 
-"📦 Inventory & Stock:\n" +
+"Inventory & Stock:\n" +
 "inventory, stock, low stock, update stock, add product, remove product, reorder, inventory report, category, new product, product details, barcode, catalog, discontinued\n\n" +
 
-"💰 Payment & Finance:\n" +
+"Payment & Finance:\n" +
 "payment, record payment, payment history, refund, receipt, cash, card, credit, debtors\n\n" +
 
-"📈 Reports & Analytics:\n" +
+"Reports & Analytics:\n" +
 "report, sales report, revenue, profit, performance, manager report, summary, export report, forecast, trend, top products, low performance, demand, seasonal trend, comparison, kpi\n\n" +
 
-"⚙️ System & Technical Support:\n" +
+"System & Technical Support:\n" +
 "login, logout, password, user role, admin, settings, error, update, technical issue, bug, system error, restart, backup, restore, sync, connection\n\n" +
 
-"👨‍💼 Staff & HR Management:\n" +
+"Staff & HR Management:\n" +
 "employee, add employee, staff list, attendance, shift, performance review, role, access rights\n\n" +
 
-"📋 Audit & Security:\n" +
+"Audit & Security:\n" +
 "audit, activity log, modification, security, compliance, transaction history, data retention\n\n" +
 
-"🔒 Data Privacy & Accounts:\n" +
+"Data Privacy & Accounts:\n" +
 "privacy, confidential, delete data, personal data, user account, two factor, reset password\n\n" +
 
-"💬 Customer Service:\n" +
+"Customer Service:\n" +
 "customer service, complaint, feedback, follow up, satisfaction, return, exchange, thank customer\n\n" +
 
-"🕒 Scheduling & Tasks:\n" +
+"Scheduling & Tasks:\n" +
 "reminder, task, calendar, meeting, deadline\n\n" +
 
-"💸 Promotions & Pricing:\n" +
+"Promotions & Pricing:\n" +
 "discount, promotion, special offer, pricing, price update, bulk discount, markup, tax\n\n" +
 
-"🌐 Communication & Integration:\n" +
+"Communication & Integration:\n" +
 "email, sms, integration, export data, import data, api\n\n" +
 
-"🚛 Delivery & Logistics:\n" +
+"Delivery & Logistics:\n" +
 "delivery, shipping, delivery status, courier, pickup, delivery note, delivery schedule, track shipment\n\n" +
 
-"🏢 Company Info & Strategy:\n" +
+"Company Info & Strategy:\n" +
 "dnd, company, mission, goal, vision, strategy, clients, suppliers, about\n\n" +
 
-"💡 Miscellaneous:\n" +
+"Miscellaneous:\n" +
 "motivation, fun fact, tip, update check, system info\n\n" +
 
 "— You can type any of these keywords or phrases, and I’ll respond with the relevant business information or assistance!"
 },
 
+{"keyword",
+"Here’s a list of keywords I understand and respond to:\n\n" +
+
+"General:\n" +
+"hello, hi, hey, help, bye, thanks, thank you, good morning, good afternoon, good evening, how are you, who are you, what is this, what can you do\n\n" +
+
+"Client Management:\n" +
+"client, register client, new client, update client, delete client, client list, client search\n\n" +
+
+"Order Management:\n" +
+"order, new order, place order, edit order, cancel order, track order, order history, pending orders, order status, invoice, quotation\n\n" +
+
+"Supplier & Procurement:\n" +
+"supplier, add supplier, update supplier, supplier list, supplier orders, best supplier, new supplier order\n\n" +
+
+"Inventory & Stock:\n" +
+"inventory, stock, low stock, update stock, add product, remove product, reorder, inventory report, category, new product, product details, barcode, catalog, discontinued\n\n" +
+
+"Payment & Finance:\n" +
+"payment, record payment, payment history, refund, receipt, cash, card, credit, debtors\n\n" +
+
+"Reports & Analytics:\n" +
+"report, sales report, revenue, profit, performance, manager report, summary, export report, forecast, trend, top products, low performance, demand, seasonal trend, comparison, kpi\n\n" +
+
+"System & Technical Support:\n" +
+"login, logout, password, user role, admin, settings, error, update, technical issue, bug, system error, restart, backup, restore, sync, connection\n\n" +
+
+"Staff & HR Management:\n" +
+"employee, add employee, staff list, attendance, shift, performance review, role, access rights\n\n" +
+
+"Audit & Security:\n" +
+"audit, activity log, modification, security, compliance, transaction history, data retention\n\n" +
+
+"Data Privacy & Accounts:\n" +
+"privacy, confidential, delete data, personal data, user account, two factor, reset password\n\n" +
+
+"Customer Service:\n" +
+"customer service, complaint, feedback, follow up, satisfaction, return, exchange, thank customer\n\n" +
+
+"Scheduling & Tasks:\n" +
+"reminder, task, calendar, meeting, deadline\n\n" +
+
+"Promotions & Pricing:\n" +
+"discount, promotion, special offer, pricing, price update, bulk discount, markup, tax\n\n" +
+
+"Communication & Integration:\n" +
+"email, sms, integration, export data, import data, api\n\n" +
+
+"Delivery & Logistics:\n" +
+"delivery, shipping, delivery status, courier, pickup, delivery note, delivery schedule, track shipment\n\n" +
+
+"Company Info & Strategy:\n" +
+"dnd, company, mission, goal, vision, strategy, clients, suppliers, about\n\n" +
+
+"Miscellaneous:\n" +
+"motivation, fun fact, tip, update check, system info\n\n" +
+
+"— You can type any of these keywords or phrases, and I’ll respond with the relevant business information or assistance!"
+},
 
 
     };
