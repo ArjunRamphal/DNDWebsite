@@ -74,6 +74,11 @@ namespace DNDWebsite
 
             bool orderFinalized = IsOrderFinalized(orderId);
             SetEditingEnabled(!orderFinalized);
+
+            // Hide the Remove column in gvOrderProducts if order is finalized
+            if (gvOrderProducts.Columns.Count > 0)
+                gvOrderProducts.Columns[gvOrderProducts.Columns.Count - 1].Visible = !orderFinalized;
+
             CalculateAndDisplayRunningTotal(orderId);
         }
 
@@ -166,7 +171,6 @@ namespace DNDWebsite
             if (!string.IsNullOrEmpty(search))
                 query += " AND (p.ProductName LIKE @Search OR s.SupplierName LIKE @Search) ";
 
-            // Order by final price ascending
             query += " ORDER BY FinalPrice ASC";
 
             using (SqlConnection conn = new SqlConnection(connectionString))
@@ -211,7 +215,7 @@ namespace DNDWebsite
         {
             pnlOrderProducts.Visible = false;
             gvClientOrders.Visible = true;
-            gvClientOrders.DataBind();
+            LoadClientOrders(chkPending.Checked);
             chkPending.Visible = true;
             btnResetFilter.Visible = true;
             lblHeader.InnerText = "All Client Orders";
@@ -263,14 +267,12 @@ namespace DNDWebsite
             }
 
             decimal price = 0m;
-
-            // Calculate OrderSupplierProductPrice = (SupplierPrice + SupplierPrice * Surcharge/100) * Quantity
             using (SqlConnection conn = new SqlConnection(connectionString))
             using (SqlCommand cmd = new SqlCommand(
                 @"SELECT sp.SupplierProductPrice, p.ProductSurcharge 
-          FROM SupplierProduct sp
-          INNER JOIN Product p ON sp.ProductID = p.ProductID
-          WHERE sp.ProductID=@ProductID AND sp.SupplierID=@SupplierID", conn))
+                  FROM SupplierProduct sp
+                  INNER JOIN Product p ON sp.ProductID = p.ProductID
+                  WHERE sp.ProductID=@ProductID AND sp.SupplierID=@SupplierID", conn))
             {
                 cmd.Parameters.AddWithValue("@ProductID", productId);
                 cmd.Parameters.AddWithValue("@SupplierID", supplierId);
@@ -293,9 +295,9 @@ namespace DNDWebsite
             }
 
             string insertQuery = @"
-        INSERT INTO OrderSupplierProduct 
-        (OrderID, ProductID, SupplierID, OrderSupplierProductQuantity, OrderSupplierProductPrice, OrderSupplierProductStatus)
-        VALUES (@OrderID, @ProductID, @SupplierID, @Quantity, @Price, 0)";
+                INSERT INTO OrderSupplierProduct 
+                (OrderID, ProductID, SupplierID, OrderSupplierProductQuantity, OrderSupplierProductPrice, OrderSupplierProductStatus)
+                VALUES (@OrderID, @ProductID, @SupplierID, @Quantity, @Price, 0)";
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             using (SqlCommand cmd = new SqlCommand(insertQuery, conn))
@@ -358,10 +360,7 @@ namespace DNDWebsite
             lblRunningTotal.Text = total.ToString("C2");
         }
 
-        protected void btnCreateOrder_Click(object sender, EventArgs e)
-        {
-            // Triggers confirmation modal; finalization happens on Confirm button
-        }
+        protected void btnCreateOrder_Click(object sender, EventArgs e) { /* show modal */ }
 
         protected void btnConfirmFinalize_Click(object sender, EventArgs e)
         {
@@ -381,7 +380,6 @@ namespace DNDWebsite
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-
                 // Update Order
                 using (SqlCommand cmd = new SqlCommand(
                     "UPDATE [Order] SET OrderAmount=@Amount, OrderStatus=1, UserName=@UserName WHERE OrderID=@OrderID", conn))
@@ -392,7 +390,7 @@ namespace DNDWebsite
                     cmd.ExecuteNonQuery();
                 }
 
-                // Upsert Payment
+                // Payment
                 using (SqlCommand check = new SqlCommand("SELECT COUNT(*) FROM Payment WHERE OrderID=@OrderID", conn))
                 {
                     check.Parameters.AddWithValue("@OrderID", orderId);
@@ -421,7 +419,7 @@ namespace DNDWebsite
                     }
                 }
 
-                // Mark client items as completed
+                // Mark client items completed
                 using (SqlCommand cmd = new SqlCommand(
                     "UPDATE ClientOrderProduct SET ClientOrderProductStatus=1 WHERE OrderID=@OrderID", conn))
                 {
@@ -429,7 +427,7 @@ namespace DNDWebsite
                     cmd.ExecuteNonQuery();
                 }
 
-                // Mark supplier items as completed
+                // Mark supplier items completed
                 using (SqlCommand cmd = new SqlCommand(
                     "UPDATE OrderSupplierProduct SET OrderSupplierProductStatus=1 WHERE OrderID=@OrderID", conn))
                 {
@@ -441,9 +439,13 @@ namespace DNDWebsite
             LoadOrderProducts(orderId);
             LoadClientOrderProducts(orderId);
             SetEditingEnabled(false);
+
+            // Hide remove column after finalization
+            if (gvOrderProducts.Columns.Count > 0)
+                gvOrderProducts.Columns[gvOrderProducts.Columns.Count - 1].Visible = false;
+
             CalculateAndDisplayRunningTotal(orderId);
         }
-
 
         protected void gvClientOrders_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {

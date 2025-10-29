@@ -3,28 +3,36 @@
   "WorkspaceRootPath": "C:\\Users\\arjuu\\source\\repos\\DNDWebsite\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{0AB49005-3811-4F8E-82FB-71B4A6064EE8}|DNDWebsite.csproj|C:\\Users\\arjuu\\source\\repos\\DNDWebsite\\default.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "AbsoluteMoniker": "D:0:0:{0AB49005-3811-4F8E-82FB-71B4A6064EE8}|DNDWebsite.csproj|C:\\Users\\arjuu\\source\\repos\\DNDWebsite\\clientorders.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0AB49005-3811-4F8E-82FB-71B4A6064EE8}|DNDWebsite.csproj|solutionrelative:clientorders.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0AB49005-3811-4F8E-82FB-71B4A6064EE8}|DNDWebsite.csproj|C:\\Users\\arjuu\\source\\repos\\DNDWebsite\\clientorders.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{0AB49005-3811-4F8E-82FB-71B4A6064EE8}|DNDWebsite.csproj|solutionrelative:clientorders.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0AB49005-3811-4F8E-82FB-71B4A6064EE8}|DNDWebsite.csproj|c:\\users\\arjuu\\source\\repos\\dndwebsite\\default.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
       "RelativeMoniker": "D:0:0:{0AB49005-3811-4F8E-82FB-71B4A6064EE8}|DNDWebsite.csproj|solutionrelative:default.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0AB49005-3811-4F8E-82FB-71B4A6064EE8}|DNDWebsite.csproj|c:\\users\\arjuu\\source\\repos\\dndwebsite\\supplier.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{0AB49005-3811-4F8E-82FB-71B4A6064EE8}|DNDWebsite.csproj|solutionrelative:supplier.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0AB49005-3811-4F8E-82FB-71B4A6064EE8}|DNDWebsite.csproj|C:\\Users\\arjuu\\source\\repos\\DNDWebsite\\default.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0AB49005-3811-4F8E-82FB-71B4A6064EE8}|DNDWebsite.csproj|solutionrelative:default.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0AB49005-3811-4F8E-82FB-71B4A6064EE8}|DNDWebsite.csproj|c:\\users\\arjuu\\source\\repos\\dndwebsite\\chatbot.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0AB49005-3811-4F8E-82FB-71B4A6064EE8}|DNDWebsite.csproj|solutionrelative:chatbot.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0AB49005-3811-4F8E-82FB-71B4A6064EE8}|DNDWebsite.csproj|c:\\users\\arjuu\\source\\repos\\dndwebsite\\supplier.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0AB49005-3811-4F8E-82FB-71B4A6064EE8}|DNDWebsite.csproj|solutionrelative:supplier.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0AB49005-3811-4F8E-82FB-71B4A6064EE8}|DNDWebsite.csproj|c:\\users\\arjuu\\source\\repos\\dndwebsite\\chatbot.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
-      "RelativeMoniker": "D:0:0:{0AB49005-3811-4F8E-82FB-71B4A6064EE8}|DNDWebsite.csproj|solutionrelative:chatbot.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+      "AbsoluteMoniker": "D:0:0:{0AB49005-3811-4F8E-82FB-71B4A6064EE8}|DNDWebsite.csproj|c:\\users\\arjuu\\source\\repos\\dndwebsite\\clients.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0AB49005-3811-4F8E-82FB-71B4A6064EE8}|DNDWebsite.csproj|solutionrelative:clients.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0AB49005-3811-4F8E-82FB-71B4A6064EE8}|DNDWebsite.csproj|c:\\users\\arjuu\\source\\repos\\dndwebsite\\clientorders.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
-      "RelativeMoniker": "D:0:0:{0AB49005-3811-4F8E-82FB-71B4A6064EE8}|DNDWebsite.csproj|solutionrelative:clientorders.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0AB49005-3811-4F8E-82FB-71B4A6064EE8}|DNDWebsite.csproj|C:\\Users\\arjuu\\source\\repos\\DNDWebsite\\clientorders.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0AB49005-3811-4F8E-82FB-71B4A6064EE8}|DNDWebsite.csproj|solutionrelative:clientorders.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0AB49005-3811-4F8E-82FB-71B4A6064EE8}|DNDWebsite.csproj|c:\\users\\arjuu\\source\\repos\\dndwebsite\\clients.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{0AB49005-3811-4F8E-82FB-71B4A6064EE8}|DNDWebsite.csproj|solutionrelative:clients.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0AB49005-3811-4F8E-82FB-71B4A6064EE8}|DNDWebsite.csproj|C:\\Users\\arjuu\\source\\repos\\DNDWebsite\\editclient.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
@@ -46,7 +54,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Bookmark",
@@ -58,58 +66,59 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ChatBot.aspx.cs",
-              "DocumentMoniker": "C:\\Users\\arjuu\\source\\repos\\DNDWebsite\\ChatBot.aspx.cs",
-              "RelativeDocumentMoniker": "ChatBot.aspx.cs",
-              "ToolTip": "C:\\Users\\arjuu\\source\\repos\\DNDWebsite\\ChatBot.aspx.cs",
-              "RelativeToolTip": "ChatBot.aspx.cs",
-              "ViewState": "AgIAAGABAAAAAAAAAAAcwHEBAAAhAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-28T11:22:15.093Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "ChatBot.aspx",
-              "DocumentMoniker": "C:\\Users\\arjuu\\source\\repos\\DNDWebsite\\ChatBot.aspx",
-              "RelativeDocumentMoniker": "ChatBot.aspx",
-              "ToolTip": "C:\\Users\\arjuu\\source\\repos\\DNDWebsite\\ChatBot.aspx",
-              "RelativeToolTip": "ChatBot.aspx",
+              "Title": "Supplier.aspx",
+              "DocumentMoniker": "C:\\Users\\arjuu\\source\\repos\\DNDWebsite\\Supplier.aspx",
+              "RelativeDocumentMoniker": "Supplier.aspx",
+              "ToolTip": "C:\\Users\\arjuu\\source\\repos\\DNDWebsite\\Supplier.aspx",
+              "RelativeToolTip": "Supplier.aspx",
               "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
-              "WhenOpened": "2025-10-28T11:20:33.329Z",
+              "WhenOpened": "2025-10-29T09:13:36.479Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Login.aspx.cs",
-              "DocumentMoniker": "C:\\Users\\arjuu\\source\\repos\\DNDWebsite\\Login.aspx.cs",
-              "RelativeDocumentMoniker": "Login.aspx.cs",
-              "ToolTip": "C:\\Users\\arjuu\\source\\repos\\DNDWebsite\\Login.aspx.cs",
-              "RelativeToolTip": "Login.aspx.cs",
-              "ViewState": "AgIAACUAAAAAAAAAAAAQwDcAAABMAAAAAAAAAA==",
+              "DocumentIndex": 5,
+              "Title": "Supplier.aspx.cs",
+              "DocumentMoniker": "C:\\Users\\arjuu\\source\\repos\\DNDWebsite\\Supplier.aspx.cs",
+              "RelativeDocumentMoniker": "Supplier.aspx.cs",
+              "ToolTip": "C:\\Users\\arjuu\\source\\repos\\DNDWebsite\\Supplier.aspx.cs",
+              "RelativeToolTip": "Supplier.aspx.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABIAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-28T10:56:36.315Z"
+              "WhenOpened": "2025-10-29T09:13:46.938Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 6,
+              "Title": "Clients.aspx.cs",
+              "DocumentMoniker": "C:\\Users\\arjuu\\source\\repos\\DNDWebsite\\Clients.aspx.cs",
+              "RelativeDocumentMoniker": "Clients.aspx.cs",
+              "ToolTip": "C:\\Users\\arjuu\\source\\repos\\DNDWebsite\\Clients.aspx.cs",
+              "RelativeToolTip": "Clients.aspx.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-29T09:13:43.602Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "Default.aspx.cs",
               "DocumentMoniker": "C:\\Users\\arjuu\\source\\repos\\DNDWebsite\\Default.aspx.cs",
               "RelativeDocumentMoniker": "Default.aspx.cs",
               "ToolTip": "C:\\Users\\arjuu\\source\\repos\\DNDWebsite\\Default.aspx.cs",
               "RelativeToolTip": "Default.aspx.cs",
-              "ViewState": "AgIAAAgAAAAAAAAAAAAAwA0AAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAAIsAAAAAAAAAAAAAwJwAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-28T09:16:21.426Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "Default.aspx",
               "DocumentMoniker": "C:\\Users\\arjuu\\source\\repos\\DNDWebsite\\Default.aspx",
               "RelativeDocumentMoniker": "Default.aspx",
@@ -122,31 +131,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "EditClient.aspx.cs",
-              "DocumentMoniker": "C:\\Users\\arjuu\\source\\repos\\DNDWebsite\\EditClient.aspx.cs",
-              "RelativeDocumentMoniker": "EditClient.aspx.cs",
-              "ToolTip": "C:\\Users\\arjuu\\source\\repos\\DNDWebsite\\EditClient.aspx.cs",
-              "RelativeToolTip": "EditClient.aspx.cs",
-              "ViewState": "AgIAABwAAAAAAAAAAAAQwBsAAAAyAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-28T08:45:54.676Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "EditClient.aspx",
-              "DocumentMoniker": "C:\\Users\\arjuu\\source\\repos\\DNDWebsite\\EditClient.aspx",
-              "RelativeDocumentMoniker": "EditClient.aspx",
-              "ToolTip": "C:\\Users\\arjuu\\source\\repos\\DNDWebsite\\EditClient.aspx",
-              "RelativeToolTip": "EditClient.aspx",
-              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
-              "WhenOpened": "2025-10-28T08:45:51.174Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 1,
               "Title": "ClientOrders.aspx",
               "DocumentMoniker": "C:\\Users\\arjuu\\source\\repos\\DNDWebsite\\ClientOrders.aspx",
               "RelativeDocumentMoniker": "ClientOrders.aspx",
@@ -159,15 +144,65 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 0,
               "Title": "ClientOrders.aspx.cs",
               "DocumentMoniker": "C:\\Users\\arjuu\\source\\repos\\DNDWebsite\\ClientOrders.aspx.cs",
               "RelativeDocumentMoniker": "ClientOrders.aspx.cs",
               "ToolTip": "C:\\Users\\arjuu\\source\\repos\\DNDWebsite\\ClientOrders.aspx.cs",
               "RelativeToolTip": "ClientOrders.aspx.cs",
-              "ViewState": "AgIAAMwAAAAAAAAAAAAtwNoAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAALwBAAAAAAAAAAAAAMwBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-24T11:41:52.855Z"
+              "WhenOpened": "2025-10-24T11:41:52.855Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Clients.aspx",
+              "DocumentMoniker": "C:\\Users\\arjuu\\source\\repos\\DNDWebsite\\Clients.aspx",
+              "RelativeDocumentMoniker": "Clients.aspx",
+              "ToolTip": "C:\\Users\\arjuu\\source\\repos\\DNDWebsite\\Clients.aspx",
+              "RelativeToolTip": "Clients.aspx",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2025-10-29T09:13:41.234Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "EditClient.aspx.cs",
+              "DocumentMoniker": "C:\\Users\\arjuu\\source\\repos\\DNDWebsite\\EditClient.aspx.cs",
+              "RelativeDocumentMoniker": "EditClient.aspx.cs",
+              "ToolTip": "C:\\Users\\arjuu\\source\\repos\\DNDWebsite\\EditClient.aspx.cs",
+              "RelativeToolTip": "EditClient.aspx.cs",
+              "ViewState": "AgIAABwAAAAAAAAAAAAQwBsAAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-28T08:45:54.676Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Login.aspx.cs",
+              "DocumentMoniker": "C:\\Users\\arjuu\\source\\repos\\DNDWebsite\\Login.aspx.cs",
+              "RelativeDocumentMoniker": "Login.aspx.cs",
+              "ToolTip": "C:\\Users\\arjuu\\source\\repos\\DNDWebsite\\Login.aspx.cs",
+              "RelativeToolTip": "Login.aspx.cs",
+              "ViewState": "AgIAACUAAAAAAAAAAAAQwDcAAABMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-28T10:56:36.315Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "EditClient.aspx",
+              "DocumentMoniker": "C:\\Users\\arjuu\\source\\repos\\DNDWebsite\\EditClient.aspx",
+              "RelativeDocumentMoniker": "EditClient.aspx",
+              "ToolTip": "C:\\Users\\arjuu\\source\\repos\\DNDWebsite\\EditClient.aspx",
+              "RelativeToolTip": "EditClient.aspx",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2025-10-28T08:45:51.174Z"
             }
           ]
         }

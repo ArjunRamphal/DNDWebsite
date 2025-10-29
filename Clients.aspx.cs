@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Data;
+using System.Data.SqlClient;
+using System.Configuration;
+using System.Web.UI.WebControls;
 
 namespace DNDWebsite
 {
@@ -7,34 +10,57 @@ namespace DNDWebsite
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            /*
+            if (Session["UserType"] == null ||
+                (Session["UserType"].ToString() != "Sales Representative" &&
+                 Session["UserType"].ToString() != "Manager"))
+            {
+                Response.Redirect("Default.aspx");
+                return;
+            }*/
+            
             if (Session["UserType"] == null || (Session["UserType"].ToString() != "Sales Representative" && Session["UserType"].ToString() != "Manager"))
             {
-                Response.Redirect("Default.aspx"); // Not authorized
-                return;
+                Response.Redirect("Default.aspx");
+                return; 
             }
-
 
             if (!IsPostBack)
             {
-                LoadDummyClients();
+                LoadClientsFromDB();
             }
         }
 
-        private void LoadDummyClients()
+        private void LoadClientsFromDB()
         {
-            DataTable dt = new DataTable();
-            dt.Columns.Add("ClientID", typeof(int));
-            dt.Columns.Add("ClientName", typeof(string));
-            dt.Columns.Add("Email", typeof(string));
-            dt.Columns.Add("Phone", typeof(string));
+            string connStr = ConfigurationManager.ConnectionStrings["DNDConnectionString"].ConnectionString;
 
-            // Dummy clients
-            dt.Rows.Add(1, "Alice Johnson", "alice.johnson@example.com", "0824328973");
-            dt.Rows.Add(2, "Bob Smith", "bob.smith@example.com", "0812138329");
-            dt.Rows.Add(3, "Charlie Brown", "charlie.brown@example.com", "0718129017");
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                string query = @"SELECT ClientID, ClientName, ClientEmail, ClientPhoneNumber 
+                         FROM Client
+                         WHERE ClientOptOut = 0";
 
-            gvClients.DataSource = dt;
-            gvClients.DataBind();
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    conn.Open();
+
+                    DataTable dt = new DataTable();
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        da.Fill(dt);
+                    }
+
+                    gvClients.DataSource = dt;
+                    gvClients.DataBind();
+                }
+            }
+        }
+
+        protected void gvClients_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvClients.PageIndex = e.NewPageIndex;
+            LoadClientsFromDB();
         }
     }
 }

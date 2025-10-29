@@ -3,12 +3,18 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <h2 style="text-align:center;">Clients</h2>
 
-    <asp:GridView ID="gvClients" runat="server" AutoGenerateColumns="False" CssClass="grid" GridLines="None">
+    <asp:GridView ID="gvClients" runat="server"
+    AutoGenerateColumns="False"
+    CssClass="grid"
+    GridLines="None"
+    AllowPaging="true"
+    PageSize="10"
+    OnPageIndexChanging="gvClients_PageIndexChanging">
         <Columns>
             <asp:BoundField DataField="ClientID" HeaderText="Client ID" />
             <asp:BoundField DataField="ClientName" HeaderText="Client Name" />
-            <asp:BoundField DataField="Email" HeaderText="Email" />
-            <asp:BoundField DataField="Phone" HeaderText="Phone" />
+            <asp:BoundField DataField="ClientEmail" HeaderText="Email" />
+            <asp:BoundField DataField="ClientPhoneNumber" HeaderText="Phone" />
         </Columns>
     </asp:GridView>
 
