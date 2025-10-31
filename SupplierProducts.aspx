@@ -54,6 +54,12 @@
             <div style="margin-top:10px;">
                 <asp:Button ID="btnAddProduct" runat="server" Text="Add Product" CssClass="btn-search" OnClick="btnAddProduct_Click" />
             </div>
+            <div style="margin-top:10px;">
+                <a runat="server" id="lnkCantFindSupplier" href="Supplier.aspx?fromSupplierProducts=1" class="btn-search" style="display:inline-block; text-decoration:none;">
+                    Can't find supplier?
+                </a>
+            </div>
+
         </div>
     </div>
 

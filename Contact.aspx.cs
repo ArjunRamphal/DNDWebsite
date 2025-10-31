@@ -7,6 +7,23 @@ namespace DNDWebsite
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            // Check if user info is stored in session
+            if (Session["UserName"] != null)
+            {
+                txtName.Text = Session["UserName"].ToString();
+            }
+
+            if (Session["UserEmail"] != null)
+            {
+                txtEmail.Text = Session["UserEmail"].ToString();
+            }
+
+            // Optionally disable editing (if you want to keep them fixed)
+            if (Session["UserType"] != null && Session["UserType"].ToString() != "Client")
+            {
+                txtName.ReadOnly = true;
+                txtEmail.ReadOnly = true;
+            }
         }
 
         protected void btnSend_Click(object sender, EventArgs e)
@@ -20,26 +37,46 @@ namespace DNDWebsite
                 return;
             }
 
+            if (!txtEmail.Text.Contains("@") || !txtEmail.Text.Contains("."))
+            {
+                lblStatus.Text = "Please enter a valid email address.";
+                lblStatus.ForeColor = System.Drawing.Color.OrangeRed;
+                return;
+            }
+
             try
             {
                 MailMessage mail = new MailMessage();
-                mail.To.Add("dndtrading2@gmail.com");
-                mail.From = new MailAddress(txtEmail.Text.Trim());
-                mail.Subject = "Website Contact Form: " + txtName.Text.Trim();
-                mail.Body = txtMessage.Text.Trim();
 
+                // Your company inbox (recipient)
+                mail.To.Add("dndtrading22@gmail.com");
+
+                // Your company sender address (the one authenticated with SMTP)
+                mail.From = new MailAddress("dndtrading22@gmail.com", "DND Website Contact");
+
+                // Allow replies to go to the client's email
+                mail.ReplyToList.Add(new MailAddress(txtEmail.Text.Trim()));
+
+                mail.Subject = "Website Contact Form: " + txtName.Text.Trim();
+                mail.Body = $"You have received a new message from the DND Website contact form.\n\n" +
+                            $"Name: {txtName.Text}\n" +
+                            $"Email: {txtEmail.Text}\n\n" +
+                            $"Message:\n{txtMessage.Text}\n\n" +
+                            $"Sent on: {DateTime.Now}";
+
+                // Configure your SMTP client
                 SmtpClient smtp = new SmtpClient
                 {
-                    Host = "smtp.yourmailserver.com", // placeholder
-                    Port = 587,                      // or 25 or 465
-                    Credentials = new System.Net.NetworkCredential("your-email", "your-password"),
-                    EnableSsl = true
+                    Host = "smtp.gmail.com",
+                    Port = 587,
+                    EnableSsl = true,
+                    Credentials = new System.Net.NetworkCredential("dndtrading22@gmail.com", "qyax myny exec tzrb")
                 };
 
                 smtp.Send(mail);
 
-                lblStatus.Text = "Thank you! Your message has been sent.";
-                lblStatus.ForeColor = System.Drawing.Color.LightGreen;
+                lblStatus.Text = "Thank you! Your message has been sent successfully.";
+                lblStatus.ForeColor = System.Drawing.Color.Green;
 
                 // Clear fields
                 txtName.Text = "";
@@ -48,12 +85,10 @@ namespace DNDWebsite
             }
             catch (Exception ex)
             {
-                lblStatus.Text = "Sorry, there was an error sending your message. Try again later.";
+                lblStatus.Text = "Sorry, there was an error sending your message. Please try again later.";
                 lblStatus.ForeColor = System.Drawing.Color.OrangeRed;
-
-                // For debugging
-                // lblStatus.Text += "<br/>" + ex.Message;
             }
+
         }
     }
 }

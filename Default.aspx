@@ -68,7 +68,7 @@
 
     /* Fullscreen Hero Section */
     .hero-fullscreen-container {
-        background-image: url('<%= ResolveUrl("~/images/background.jpg") %>');
+        background-image: url('<%= ResolveUrl("~/images/background.jpeg") %>');
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;

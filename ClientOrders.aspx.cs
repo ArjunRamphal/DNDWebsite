@@ -67,6 +67,7 @@ namespace DNDWebsite
             LoadClientOrderProducts(orderId);
             LoadOrderProducts(orderId);
             LoadSupplierProducts();
+            LoadPaymentInfo(orderId);
 
             // show panel, hide main grid
             pnlOrderProducts.Visible = true;
@@ -465,5 +466,101 @@ namespace DNDWebsite
             Response.Redirect("SupplierProducts.aspx?fromClientOrders=1");
         }
 
+        private void LoadPaymentInfo(int orderId)
+        {
+            string query = @"
+        SELECT PaymentID, PaymentTotal, PaymentDue, PaymentSurplus,
+               CASE WHEN PaymentStatus = 1 THEN 'Paid' ELSE 'Pending' END AS PaymentStatusText
+        FROM Payment
+        WHERE OrderID = @OrderID";
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlCommand cmd = new SqlCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@OrderID", orderId);
+                using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                {
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    gvPayment.DataSource = dt;
+                    gvPayment.DataBind();
+                }
+            }
+        }
+
+        protected void btnUpdatePayment_Click(object sender, EventArgs e)
+        {
+            lblPaymentMessage.Text = "";
+            lblPaymentMessage.ForeColor = System.Drawing.Color.Green;
+
+            if (!decimal.TryParse(txtPaymentAmount.Text.Trim(), out decimal paymentAmount) || paymentAmount <= 0)
+            {
+                lblPaymentMessage.Text = "Please enter a valid payment amount.";
+                lblPaymentMessage.ForeColor = System.Drawing.Color.Red;
+                return;
+            }
+
+            int orderId = Convert.ToInt32(hfSelectedOrderId.Value);
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+
+                // Get current payment info
+                decimal paymentDue = 0m;
+                decimal paymentSurplus = 0m;
+                bool paymentStatus = false;
+
+                using (SqlCommand cmd = new SqlCommand("SELECT PaymentDue, PaymentSurplus, PaymentStatus FROM Payment WHERE OrderID=@OrderID", conn))
+                {
+                    cmd.Parameters.AddWithValue("@OrderID", orderId);
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            paymentDue = Convert.ToDecimal(reader["PaymentDue"]);
+                            paymentSurplus = Convert.ToDecimal(reader["PaymentSurplus"]);
+                            paymentStatus = Convert.ToBoolean(reader["PaymentStatus"]);
+                        }
+                        else
+                        {
+                            lblPaymentMessage.Text = "Payment record not found.";
+                            lblPaymentMessage.ForeColor = System.Drawing.Color.Red;
+                            return;
+                        }
+                    }
+                }
+
+                decimal newDue = paymentDue - paymentAmount;
+                decimal newSurplus = paymentSurplus;
+
+                if (newDue < 0)
+                {
+                    newSurplus += Math.Abs(newDue);
+                    newDue = 0;
+                }
+
+                bool newStatus = newDue == 0;
+
+                using (SqlCommand updateCmd = new SqlCommand(
+                    @"UPDATE Payment
+              SET PaymentDue=@PaymentDue, PaymentSurplus=@PaymentSurplus, PaymentStatus=@PaymentStatus
+              WHERE OrderID=@OrderID", conn))
+                {
+                    updateCmd.Parameters.AddWithValue("@PaymentDue", newDue);
+                    updateCmd.Parameters.AddWithValue("@PaymentSurplus", newSurplus);
+                    updateCmd.Parameters.AddWithValue("@PaymentStatus", newStatus);
+                    updateCmd.Parameters.AddWithValue("@OrderID", orderId);
+
+                    updateCmd.ExecuteNonQuery();
+                }
+
+                lblPaymentMessage.Text = $"Payment applied successfully. Remaining due: {newDue:C2}, Surplus: {newSurplus:C2}";
+                txtPaymentAmount.Text = "";
+
+                // Refresh Payment Grid
+                LoadPaymentInfo(orderId);
+            }
+        }
     }
 }

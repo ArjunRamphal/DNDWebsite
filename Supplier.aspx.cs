@@ -22,6 +22,8 @@ namespace DNDWebsite
             if (!IsPostBack)
             {
                 lblStatus.Text = "";
+
+                pnlBackToProducts.Visible = Request.QueryString["fromSupplierProducts"] == "1";
             }
         }
 
@@ -92,6 +94,11 @@ namespace DNDWebsite
         {
             gvSuppliers.PageIndex = e.NewPageIndex;
             gvSuppliers.DataBind();
+        }
+
+        protected void btnBackToProducts_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("SupplierProducts.aspx");
         }
     }
 }

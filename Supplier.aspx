@@ -3,6 +3,11 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <h2 style="text-align:center; color:#2F4F4F;">Suppliers</h2>
 
+    <asp:Panel ID="pnlBackToProducts" runat="server" Visible="false" Style="text-align:center; margin-bottom:15px;">
+        <asp:Button ID="btnBackToProducts" runat="server" CssClass="btn-search" Text="Back to Supplier Products" OnClick="btnBackToProducts_Click" />
+    </asp:Panel>
+
+
     <div style="display:flex; gap:20px; justify-content:center; align-items:flex-start; flex-wrap:wrap; margin-top:20px;">
         <!-- Grid area -->
         <div style="flex:1; min-width:480px;">

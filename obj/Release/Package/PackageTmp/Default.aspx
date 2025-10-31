@@ -68,7 +68,7 @@
 
     /* Fullscreen Hero Section */
     .hero-fullscreen-container {
-        background-image: url('<%= ResolveUrl("~/background.jpg") %>');
+        background-image: url('<%= ResolveUrl("~/images/background.jpeg") %>');
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -220,7 +220,7 @@
                     The right products. Streamlined procurement.<br />
                     A wide selection of stationery and office essentials.<br />
                     Expert support you can rely on.<br />
-                    Efficient, accurate order management powered by modern digital tools—<br />
+                    Efficient, accurate order management powered by modern digital tools-<br />
                     the perfect fit for your business needs.
                 </p>
             </div>
