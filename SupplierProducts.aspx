@@ -49,7 +49,7 @@
                 <asp:TextBox ID="txtPrice" runat="server" CssClass="input-box" Placeholder="Price"></asp:TextBox>
             </div>
             <div style="margin:10px 0;">
-                <asp:TextBox ID="txtSurcharge" runat="server" CssClass="input-box" Placeholder="Surcharge (%)"></asp:TextBox>
+                <asp:TextBox ID="txtSurcharge" runat="server" CssClass="input-box" Placeholder="Surcharge"></asp:TextBox>
             </div>
             <div style="margin-top:10px;">
                 <asp:Button ID="btnAddProduct" runat="server" Text="Add Product" CssClass="btn-search" OnClick="btnAddProduct_Click" />
@@ -69,6 +69,7 @@
             padding: 8px;
             border: 1px solid #4682B4;
             border-radius: 6px;
+            box-sizing: border-box;
         }
 
         .btn-search {

@@ -21,13 +21,18 @@ namespace DNDWebsite
 
             if (!IsPostBack)
             {
-                // Show Back button only if navigated from ClientOrders
-                pnlBackToOrders.Visible = Request.QueryString["fromClientOrders"] == "1";
+                // Show Back to Orders button if user came from ClientOrders
+                pnlBackToOrders.Visible = Session["FromClientOrders"] != null && (bool)Session["FromClientOrders"];
+
+                // Store the order ID in ViewState (for Back button)
+                if (Session["CurrentOrderID"] != null)
+                    ViewState["CurrentOrderID"] = Session["CurrentOrderID"];
 
                 LoadSupplierDropdowns();
                 LoadSupplierProducts();
             }
         }
+
 
         private void LoadSupplierDropdowns()
         {
@@ -156,8 +161,16 @@ namespace DNDWebsite
 
         protected void btnBackToOrders_Click(object sender, EventArgs e)
         {
-            Response.Redirect("ClientOrders.aspx");
-        }
+            string orderId = ViewState["CurrentOrderID"]?.ToString();
 
+            // Clear the Session flags
+            Session.Remove("FromClientOrders");
+            Session.Remove("CurrentOrderID");
+
+            if (!string.IsNullOrEmpty(orderId))
+                Response.Redirect($"ClientOrders.aspx?selectedOrderID={orderId}");
+            else
+                Response.Redirect("ClientOrders.aspx");
+        }
     }
 }

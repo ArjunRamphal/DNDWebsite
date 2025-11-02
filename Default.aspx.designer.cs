@@ -105,6 +105,15 @@ namespace DNDWebsite
         protected global::System.Web.UI.WebControls.Panel pnlReportLink;
 
         /// <summary>
+        /// LinkButton1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton LinkButton1;
+
+        /// <summary>
         /// btnLogin control.
         /// </summary>
         /// <remarks>
@@ -132,15 +141,6 @@ namespace DNDWebsite
         protected global::System.Web.UI.WebControls.Button btnLogout;
 
         /// <summary>
-        /// btnContact control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnContact;
-
-        /// <summary>
         /// btnHelp control.
         /// </summary>
         /// <remarks>
@@ -166,5 +166,14 @@ namespace DNDWebsite
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel Panel1;
+
+        /// <summary>
+        /// phChatbotScript control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.PlaceHolder phChatbotScript;
     }
 }

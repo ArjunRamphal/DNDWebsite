@@ -240,8 +240,10 @@
             transform: translateX(0) translateY(0) !important;
         }
 
+        .input-box, .message-box {
+            font-family: inherit;
+        }
     </style>
-
 
     <script>
         // Scroll animations

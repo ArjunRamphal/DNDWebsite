@@ -88,7 +88,6 @@ namespace DNDWebsite
                 lblStatus.Text = "Sorry, there was an error sending your message. Please try again later.";
                 lblStatus.ForeColor = System.Drawing.Color.OrangeRed;
             }
-
         }
     }
 }

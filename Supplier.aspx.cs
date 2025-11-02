@@ -98,6 +98,7 @@ namespace DNDWebsite
 
         protected void btnBackToProducts_Click(object sender, EventArgs e)
         {
+            // Keep the session intact so SupplierProducts knows the user came from ClientOrders
             Response.Redirect("SupplierProducts.aspx");
         }
     }

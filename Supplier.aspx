@@ -13,7 +13,7 @@
         <div style="flex:1; min-width:480px;">
             <asp:SqlDataSource ID="sdsSuppliers" runat="server"
                 ConnectionString="<%$ ConnectionStrings:DNDConnectionString %>"
-                SelectCommand="SELECT SupplierID, SupplierName, SupplierPhoneNumber, SupplierEmail, SupplierOptOut FROM Supplier ORDER BY SupplierName"
+                SelectCommand="SELECT SupplierID, SupplierName, SupplierPhoneNumber, SupplierEmail, SupplierOptOut FROM Supplier ORDER BY SupplierID"
                 UpdateCommand="UPDATE Supplier SET SupplierName=@SupplierName, SupplierPhoneNumber=@SupplierPhoneNumber, SupplierEmail=@SupplierEmail, SupplierOptOut=@SupplierOptOut WHERE SupplierID=@SupplierID">
                 <UpdateParameters>
                     <asp:Parameter Name="SupplierName" Type="String" />

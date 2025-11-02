@@ -8,7 +8,18 @@
     <title>Login / Signup</title>
     <style>
         body { font-family: Arial, sans-serif; background:#ffffff; color:#2F4F4F; text-align:center; margin:0; padding:40px; }
-        input, .aspNetDisabled, .aspNetInput { padding:10px; margin:5px; border-radius:6px; border:1px solid #ccc; width:260px; background:#f5f5f5; color:#2F4F4F; }
+        
+        input, select, .aspNetDisabled, .aspNetInput { 
+            padding:10px; 
+            margin:5px; 
+            border-radius:6px; 
+            border:1px solid #ccc; 
+            width:260px; 
+            background:#f5f5f5; 
+            color:#2F4F4F;
+            box-sizing: border-box;
+        }
+
         .btn { background:#4682B4; color:#fff; font-weight:bold; padding:10px 18px; border:none; border-radius:6px; cursor:pointer; margin-top:8px; }
         .btn:hover { background:#5a9bd4; }
         .link-btn { background:none; border:none; color:#2F4F4F; cursor:pointer; text-decoration:underline; font-size:0.95rem; margin:5px 0; }
@@ -18,6 +29,29 @@
         hr { border:0; border-top:1px solid #ddd; margin:24px 0; }
         .msg { display:block; margin-top:12px; min-height:24px; color:#2F4F4F; }
         #signupSection, #resetSection { display:none; margin-top:20px; }
+
+        .password-wrapper {
+            display: inline-block;
+            position: relative;
+            width: auto;
+        }
+
+        .password-wrapper input {
+            width: 260px;
+            padding-right: 30px;
+            box-sizing: border-box;
+        }
+
+        .password-wrapper .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 18px;
+            color: #888;
+            user-select: none;
+        }
     </style>
 </head>
 <body>
@@ -30,7 +64,12 @@
             <div id="loginSection" runat="server">
                 <h2>Login</h2>
                 <asp:TextBox ID="txtLoginEmail" runat="server" placeholder="Email/Username"></asp:TextBox><br />
-                <asp:TextBox ID="txtLoginPassword" runat="server" TextMode="Password" placeholder="Password"></asp:TextBox><br />
+
+                <div class="password-wrapper">
+                    <asp:TextBox ID="txtLoginPassword" runat="server" TextMode="Password" placeholder="Password"></asp:TextBox>
+                    <span class="toggle-password">&#128065;</span> <!-- Unicode eye icon -->
+                </div>
+
                 <asp:Button ID="btnLogin" runat="server" Text="Login" CssClass="btn" OnClick="btnLogin_Click" /><br />
 
                 <asp:Button ID="btnForgotPassword" runat="server" Text="Forgot Password?" CssClass="link-btn" OnClientClick="showReset(); return false;" /><br />
@@ -45,7 +84,10 @@
                 <asp:TextBox ID="txtSignupName" runat="server" placeholder="Full Name"></asp:TextBox><br />
                 <asp:TextBox ID="txtSignupPhone" runat="server" placeholder="Phone Number"></asp:TextBox><br />
                 <asp:TextBox ID="txtSignupEmail" runat="server" placeholder="Email"></asp:TextBox><br />
-                <asp:TextBox ID="txtSignupPassword" runat="server" TextMode="Password" placeholder="Password"></asp:TextBox><br />
+                <div class="password-wrapper">
+                    <asp:TextBox ID="txtSignupPassword" runat="server" TextMode="Password" placeholder="Password"></asp:TextBox>
+                    <span class="toggle-password">&#128065;</span>
+                </div>
 
                 <!-- Verification Question & Answer -->
                 <asp:DropDownList ID="ddlQuestion" runat="server">
@@ -76,8 +118,17 @@
                 <asp:Panel ID="pnlVerification" runat="server" Visible="false">
                     <asp:Label ID="lblVerificationQuestion" runat="server" Text="" /><br />
                     <asp:TextBox ID="txtResetAnswer" runat="server" placeholder="Answer"></asp:TextBox><br />
-                    <asp:TextBox ID="txtNewPassword" runat="server" TextMode="Password" placeholder="New Password"></asp:TextBox><br />
-                    <asp:TextBox ID="txtConfirmPassword" runat="server" TextMode="Password" placeholder="Confirm New Password"></asp:TextBox><br />
+
+                    <div class="password-wrapper">
+                        <asp:TextBox ID="txtNewPassword" runat="server" TextMode="Password" placeholder="New Password"></asp:TextBox>
+                        <span class="toggle-password">&#128065;</span>
+                    </div>
+
+                    <div class="password-wrapper">
+                        <asp:TextBox ID="txtConfirmPassword" runat="server" TextMode="Password" placeholder="Confirm New Password"></asp:TextBox>
+                        <span class="toggle-password">&#128065;</span>
+                    </div>
+
                     <asp:Button ID="btnResetPassword" runat="server" Text="Reset Password" CssClass="btn" OnClick="btnResetPassword_Click" /><br />
                 </asp:Panel>
 
@@ -119,6 +170,23 @@
             document.getElementById('<%= btnGetQuestion.ClientID %>').style.display = 'inline-block';
             document.getElementById('<%= pnlVerification.ClientID %>').style.display = 'none';
         }
+
+        document.querySelectorAll('.password-wrapper').forEach(wrapper => {
+            const input = wrapper.querySelector('input[type="password"], input[type="text"]');
+            const toggle = wrapper.querySelector('.toggle-password');
+
+            toggle.addEventListener('mousedown', () => {
+                input.type = 'text';
+            });
+
+            toggle.addEventListener('mouseup', () => {
+                input.type = 'password';
+            });
+
+            toggle.addEventListener('mouseleave', () => {
+                input.type = 'password';
+            });
+        });
     </script>
 </body>
 </html>

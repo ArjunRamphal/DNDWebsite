@@ -23,7 +23,31 @@ namespace DNDWebsite
             {
                 LoadClientOrders();
                 LoadSuppliersFilter();
+
+                if (!string.IsNullOrEmpty(Request.QueryString["selectedOrderID"]))
+                {
+                    int orderId = Convert.ToInt32(Request.QueryString["selectedOrderID"]);
+
+                    // Select the order in GridView
+                    GridViewRow row = null;
+                    foreach (GridViewRow r in gvClientOrders.Rows)
+                    {
+                        if (Convert.ToInt32(gvClientOrders.DataKeys[r.RowIndex].Value) == orderId)
+                        {
+                            row = r;
+                            gvClientOrders.SelectedIndex = r.RowIndex;
+                            break;
+                        }
+                    }
+
+                    if (row != null)
+                    {
+                        // Load order details like when user clicks Select
+                        gvClientOrders_SelectedIndexChanged(gvClientOrders, EventArgs.Empty);
+                    }
+                }
             }
+
         }
 
         private void LoadClientOrders(bool pendingOnly = false)
@@ -248,6 +272,7 @@ namespace DNDWebsite
             if (string.IsNullOrEmpty(hfSelectedProductId.Value) || string.IsNullOrEmpty(hfSelectedSupplierId.Value))
             {
                 lblAddMessage.Text = "Please select a supplier product first.";
+                lblAddMessage.ForeColor = System.Drawing.Color.Red;
                 return;
             }
 
@@ -255,6 +280,7 @@ namespace DNDWebsite
             if (IsOrderFinalized(orderId))
             {
                 lblAddMessage.Text = "Order is finalized; cannot add products.";
+                lblAddMessage.ForeColor = System.Drawing.Color.Red;
                 return;
             }
 
@@ -316,6 +342,7 @@ namespace DNDWebsite
             LoadOrderProducts(orderId);
             CalculateAndDisplayRunningTotal(orderId);
 
+            lblAddMessage.ForeColor = System.Drawing.Color.Green;
             lblAddMessage.Text = "Product added to order.";
             txtAddQty.Text = "";
             hfSelectedProductId.Value = "";
@@ -462,8 +489,11 @@ namespace DNDWebsite
 
         protected void btnGoToSupplierProducts_Click(object sender, EventArgs e)
         {
-            // Add a query string to indicate navigation from ClientOrders page
-            Response.Redirect("SupplierProducts.aspx?fromClientOrders=1");
+            // Store the originating order in Session
+            Session["FromClientOrders"] = true;
+            Session["CurrentOrderID"] = hfSelectedOrderId.Value;
+
+            Response.Redirect("SupplierProducts.aspx");
         }
 
         private void LoadPaymentInfo(int orderId)
