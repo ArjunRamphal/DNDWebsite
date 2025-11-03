@@ -2,6 +2,7 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Web.UI;
+using System.Web.UI.WebControls;
 
 namespace DNDWebsite
 {
@@ -13,21 +14,75 @@ namespace DNDWebsite
         {
             if (Session["UserType"] == null || Session["UserType"].ToString() != "Client")
             {
-                Response.Redirect("Default.aspx"); // Not authorized
+                Response.Redirect("Default.aspx");
                 return;
             }
 
             if (!IsPostBack)
             {
+                InitializeClientProductsGrid();
+                LoadAvailableProducts();
+            }
+        }
+
+        private void InitializeClientProductsGrid()
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("ProductName");
+            dt.Columns.Add("Quantity");
+            ViewState["Products"] = dt;
+
+            gvProducts.DataSource = dt;
+            gvProducts.DataBind();
+        }
+
+        private void LoadAvailableProducts()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT ProductID, ProductName, ProductSurcharge FROM Product ORDER BY ProductName";
+                SqlDataAdapter da = new SqlDataAdapter(query, conn);
                 DataTable dt = new DataTable();
-                dt.Columns.Add("ProductName");
-                dt.Columns.Add("Quantity");
-                ViewState["Products"] = dt;
+                da.Fill(dt);
+                gvAvailableProducts.DataSource = dt;
+                gvAvailableProducts.DataBind();
+            }
+        }
+
+        protected void gvAvailableProducts_PageIndexChanging(object sender, System.Web.UI.WebControls.GridViewPageEventArgs e)
+        {
+            gvAvailableProducts.PageIndex = e.NewPageIndex;
+            LoadAvailableProducts();
+        }
+
+        protected void gvAvailableProducts_RowCommand(object sender, System.Web.UI.WebControls.GridViewCommandEventArgs e)
+        {
+            if (e.CommandName == "SelectProduct")
+            {
+                int index = Convert.ToInt32(e.CommandArgument);
+                GridViewRow row = gvAvailableProducts.Rows[index];
+
+                string productName = row.Cells[1].Text;
+                TextBox txtQty = row.FindControl("txtQuantityRow") as TextBox;
+                int quantity = 1;
+
+                if (txtQty != null && int.TryParse(txtQty.Text, out int parsedQty) && parsedQty > 0)
+                {
+                    quantity = parsedQty;
+                }
+
+                DataTable dt = ViewState["Products"] as DataTable;
+                DataRow dr = dt.NewRow();
+                dr["ProductName"] = productName;
+                dr["Quantity"] = quantity;
+                dt.Rows.Add(dr);
 
                 gvProducts.DataSource = dt;
                 gvProducts.DataBind();
+                ViewState["Products"] = dt;
             }
         }
+
 
         protected void btnAddProduct_Click(object sender, EventArgs e)
         {
@@ -73,6 +128,16 @@ namespace DNDWebsite
             ViewState["Products"] = dt;
         }
 
+        protected void gvProducts_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvProducts.PageIndex = e.NewPageIndex;
+
+            // Rebind the GridView using ViewState
+            DataTable dt = ViewState["Products"] as DataTable;
+            gvProducts.DataSource = dt;
+            gvProducts.DataBind();
+        }
+
         protected void btnCreateOrder_Click(object sender, EventArgs e)
         {
             DataTable dt = ViewState["Products"] as DataTable;
@@ -90,7 +155,6 @@ namespace DNDWebsite
             {
                 conn.Open();
 
-                // Get ClientID
                 string clientQuery = "SELECT ClientID FROM Client WHERE ClientEmail=@Email";
                 SqlCommand clientCmd = new SqlCommand(clientQuery, conn);
                 clientCmd.Parameters.AddWithValue("@Email", clientEmail);
@@ -102,23 +166,21 @@ namespace DNDWebsite
                 }
                 clientID = Convert.ToInt32(result);
 
-                // Insert Order
                 string insertOrder = @"INSERT INTO [Order] (ClientID, UserName, OrderDate, OrderAmount, OrderStatus) 
-                               VALUES (@ClientID, '', @OrderDate, 0, 0); SELECT SCOPE_IDENTITY();";
+                                       VALUES (@ClientID, '', @OrderDate, 0, 0); SELECT SCOPE_IDENTITY();";
                 SqlCommand orderCmd = new SqlCommand(insertOrder, conn);
                 orderCmd.Parameters.AddWithValue("@ClientID", clientID);
                 orderCmd.Parameters.AddWithValue("@OrderDate", DateTime.Today);
                 int orderID = Convert.ToInt32(orderCmd.ExecuteScalar());
 
-                // Insert products into ClientOrderProduct
                 foreach (DataRow row in dt.Rows)
                 {
                     string productName = row["ProductName"].ToString();
                     int quantity = Convert.ToInt32(row["Quantity"]);
 
                     string insertProduct = @"INSERT INTO ClientOrderProduct 
-                                     (OrderID, ClientID, ClientOrderProductName, ClientOrderProductQuantity, ClientOrderProductStatus)
-                                     VALUES (@OrderID, @ClientID, @ProductName, @Quantity, 0)";
+                                             (OrderID, ClientID, ClientOrderProductName, ClientOrderProductQuantity, ClientOrderProductStatus)
+                                             VALUES (@OrderID, @ClientID, @ProductName, @Quantity, 0)";
                     SqlCommand prodCmd = new SqlCommand(insertProduct, conn);
                     prodCmd.Parameters.AddWithValue("@OrderID", orderID);
                     prodCmd.Parameters.AddWithValue("@ClientID", clientID);
@@ -127,10 +189,9 @@ namespace DNDWebsite
                     prodCmd.ExecuteNonQuery();
                 }
 
-                // Insert a Payment record with default values
                 string insertPayment = @"INSERT INTO Payment 
-                                 (OrderID, PaymentTotal, PaymentDue, PaymentSurplus, PaymentStatus)
-                                 VALUES (@OrderID, 0, 0, 0, 0)";
+                                         (OrderID, PaymentTotal, PaymentDue, PaymentSurplus, PaymentStatus)
+                                         VALUES (@OrderID, 0, 0, 0, 0)";
                 SqlCommand paymentCmd = new SqlCommand(insertPayment, conn);
                 paymentCmd.Parameters.AddWithValue("@OrderID", orderID);
                 paymentCmd.ExecuteNonQuery();
@@ -139,14 +200,7 @@ namespace DNDWebsite
             lblMessage.ForeColor = System.Drawing.Color.Green;
             lblMessage.Text = "Order request and payment record created successfully.";
 
-            // Clear GridView and input
-            DataTable dtClear = new DataTable();
-            dtClear.Columns.Add("ProductName");
-            dtClear.Columns.Add("Quantity");
-            ViewState["Products"] = dtClear;
-            gvProducts.DataSource = dtClear;
-            gvProducts.DataBind();
+            InitializeClientProductsGrid();
         }
-
     }
 }
