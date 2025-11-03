@@ -42,7 +42,6 @@ namespace DNDWebsite
                 return;
             }
 
-            // optional: simple validation for phone/email (light)
             if (!string.IsNullOrEmpty(phone) && phone.Length > 15)
             {
                 lblStatus.Text = "Phone number too long.";

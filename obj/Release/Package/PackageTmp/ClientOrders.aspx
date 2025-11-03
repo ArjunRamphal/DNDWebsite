@@ -64,7 +64,7 @@
                     &nbsp;
                 </div>
 
-                <!-- Payment Information Grid moved here -->
+                <!-- Payment Information Grid -->
                 <h3 style="color:#2F4F4F; margin-top:18px;">Payment Information</h3>
                 <asp:GridView ID="gvPayment" runat="server" AutoGenerateColumns="False" CssClass="grid" GridLines="None" EmptyDataText="No payment record found">
                     <Columns>
@@ -157,21 +157,25 @@
         .grid {
             margin: 12px auto 18px auto;
             width: 100%;
-            max-width: 680px;
             border-collapse: collapse;
             background-color: #F5F5F5;
             color: #2F4F4F;
         }
+
         .grid th, .grid td {
             border: 1px solid #4682B4;
             padding: 8px;
             text-align: center;
         }
+
         .grid th {
             background-color: #4682B4;
             color: #FFFFFF;
         }
-        .grid tr:hover { background-color: #D0E4F5; }
+        .grid tr:hover { 
+            background-color: #D0E4F5; 
+        }
+
         .btn-search {
             padding: 8px 14px;
             background-color: #4682B4;
@@ -180,8 +184,13 @@
             border-radius: 6px;
             cursor: pointer;
         }
-        .btn-search:hover { background-color: #5a9bd3; }
-        .input-box { padding:8px; border-radius:6px; border:1px solid #ccc; margin:4px 0; width:220px; }
+        .btn-search:hover { 
+            background-color: #5a9bd3;
+        }
+
+        .input-box { 
+            padding:8px; border-radius:6px; border:1px solid #ccc; margin:4px 0; width:220px; 
+        }
     </style>
 
     <script type="text/javascript">
