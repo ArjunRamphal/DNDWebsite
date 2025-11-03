@@ -33,6 +33,24 @@ namespace DNDWebsite
         protected global::System.Web.UI.WebControls.GridView gvCheckout;
 
         /// <summary>
+        /// gvPayment control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gvPayment;
+
+        /// <summary>
+        /// lblPaymentStatusMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblPaymentStatusMessage;
+
+        /// <summary>
         /// btnBackToOrders control.
         /// </summary>
         /// <remarks>

@@ -24,6 +24,28 @@
             </div>
         </section>
 
+    <section class="map-section slide-left">
+    <h3>
+        <span class="map-icon"></span> Find Us
+    </h3>
+
+    <div class="map-wrapper">
+        <iframe
+            width="100%"
+            height="380"
+            loading="lazy"
+            allowfullscreen
+            referrerpolicy="no-referrer-when-downgrade"
+            src="https://www.google.com/maps?q=19+Marriott+Road+Morningside+Durban&output=embed">
+        </iframe>
+    </div>
+
+    <a class="map-btn" target="_blank"
+       href="https://www.google.com/maps?q=19+Marriott+Road+Morningside+Durban">
+        Open in Google Maps
+    </a>
+    </section>
+
         <section class="contact-form slide-right">
             <h3>Send Us a Message</h3>
             <asp:Label ID="lblStatus" runat="server" CssClass="status-msg" />
@@ -128,6 +150,11 @@
             color: #4682B4;
         }
 
+        .input-box[readonly] {
+            background-color: #e9ecef;
+            cursor: not-allowed;
+        }
+
         /* Animations */
         .fade-in, .slide-left, .slide-right {
             opacity: 0;
@@ -146,6 +173,75 @@
         .visible {
             opacity: 1 !important;
             transform: translateX(0) translateY(0) !important;
+        }
+    </style>
+
+    <style>
+        .map-section {
+            margin: 40px auto 60px auto;
+            max-width: 800px;
+            text-align: center;
+            color: #2F4F4F;
+        }
+
+        .map-section h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .map-icon {
+            font-size: 2rem;
+        }
+
+        .map-wrapper {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: none;
+            margin-bottom: 15px;
+            border: none;
+        }
+
+        .map-wrapper iframe {
+            border: 0;
+        }
+
+        .map-wrapper:hover {
+            box-shadow: 0 8px 20px rgba(70, 130, 180, 0.25);
+        }
+
+        .map-btn {
+            display: inline-block;
+            background: #4682B4;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+
+        .map-btn:hover {
+            background: #5A9BD4;
+        }
+
+        .map-section.slide-left {
+            opacity: 0;
+            transform: translateX(-60px);
+            transition: all 0.8s ease-out;
+        }
+
+        .map-section.visible {
+            opacity: 1 !important;
+            transform: translateX(0) translateY(0) !important;
+        }
+
+        .input-box, .message-box {
+            font-family: inherit;
         }
     </style>
 

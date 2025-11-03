@@ -6,23 +6,35 @@
     <meta charset="utf-8" />
     <title>DND Trading & General Supplies</title>
 <style>
+
+    html {
+        height: 100%;
+        scroll-behavior: smooth;
+    }
+
     body { 
         font-family: Arial, sans-serif; 
-        margin: 0; 
+        margin: 0;
         background-color: #ffffff; 
         color: #2F4F4F;
+        height: 100%;
     }
 
     /* Header */
     header { 
-        background-color: #2b5c8a; 
+        background-color: transparent;
         color: #FFFFFF; 
-        padding: 20px; 
+        padding: 50px 50px 50px 50px;
         display: flex; 
         justify-content: space-between; 
         align-items: center; 
-        height: 60px;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        height: 40px;
+        box-shadow: none;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 10;
+        box-sizing: border-box;
     }
 
     nav a { 
@@ -39,6 +51,21 @@
     nav a:hover { 
         background-color: #3c7cc0; 
         color: #fff; 
+    }
+
+    .nav-contact {
+    color: #FFFFFF;
+    text-decoration: none;
+    font-weight: bold;
+    margin-left: 10px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+    }
+
+    .nav-contact:hover {
+        background-color: #3c7cc0;
+        color: #fff;
     }
 
     .btn-contact, .btn-login, .btn-logout { 
@@ -172,7 +199,7 @@
     <form id="form1" runat="server">
         <header>
             <div>
-                <h1 style="margin:0;">DND Trading & General Supplies</h1>
+                <h1 style="margin:0;">&nbsp;DND Trading & General Supplies</h1>
                 <nav>
                     <asp:Panel ID="pnlAccountLink" runat="server" Visible="false" style="display:inline;">
                         <a href="EditClient.aspx">Account</a>
@@ -202,13 +229,13 @@
                         <a href="Report.aspx">Reports</a>
                     </asp:Panel>
                     &nbsp;<a href="About.aspx">About Us</a>
+                    <asp:LinkButton ID="LinkButton1" runat="server" CssClass="nav-contact" OnClick="btnContact_Click">Contact Us</asp:LinkButton>
                 </nav>
             </div>
             <div>
                 <asp:Button ID="btnLogin" runat="server" CssClass="btn-login" Text="Login / Sign Up" OnClick="btnLogin_Click" />
                 <asp:Label ID="lblWelcome" runat="server" Text="" Visible="false" />
                 <asp:Button ID="btnLogout" runat="server" CssClass="btn-logout" Text="Logout" OnClick="btnLogout_Click" Visible="false" />
-                <asp:Button ID="btnContact" runat="server" CssClass="btn-contact" Text="Contact Us" OnClick="btnContact_Click" />
                 <asp:Button ID="btnHelp" runat="server" Text="Help"  CssClass="btn-contact" OnClientClick="openHelpPanel(); return false;" OnClick="btnHelp_Click" />
             </div>
         </header>
@@ -290,5 +317,11 @@
             document.getElementById("helpOverlay").style.display = "none";
         };
     </script>
+
+    <asp:PlaceHolder ID="phChatbotScript" runat="server">
+        <script>
+            (function () { if (!window.chatbase || window.chatbase("getState") !== "initialized") { window.chatbase = (...arguments) => { if (!window.chatbase.q) { window.chatbase.q = [] } window.chatbase.q.push(arguments) }; window.chatbase = new Proxy(window.chatbase, { get(target, prop) { if (prop === "q") { return target.q } return (...args) => target(prop, ...args) } }) } const onLoad = function () { const script = document.createElement("script"); script.src = "https://www.chatbase.co/embed.min.js"; script.id = "hBuXQYlUTLPyZ-GpRixVm"; script.domain = "www.chatbase.co"; document.body.appendChild(script) }; if (document.readyState === "complete") { onLoad() } else { window.addEventListener("load", onLoad) } })();
+        </script>
+    </asp:PlaceHolder>
 </body>
 </html>

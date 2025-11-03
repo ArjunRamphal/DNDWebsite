@@ -21,6 +21,11 @@ namespace DNDWebsite
 
             if (!IsPostBack)
             {
+                if (Request.QueryString["unauthorized"] == "true")
+                {
+                    lblUnauthorizedMessage.Text = "You are not authorized to view that order.";
+                }
+
                 LoadOrders();
             }
         }
@@ -42,7 +47,7 @@ namespace DNDWebsite
                         FROM [Order] o
                         LEFT JOIN Payment p ON o.OrderID = p.OrderID
                         WHERE o.ClientID = @ClientID
-                        ORDER BY o.OrderDate DESC";
+                        ORDER BY o.OrderID DESC";
 
                     SqlCommand cmd = new SqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("@ClientID", clientId);
@@ -77,6 +82,12 @@ namespace DNDWebsite
                 lblMessage.Text = "Error loading orders: " + ex.Message;
                 lblMessage.ForeColor = System.Drawing.Color.Red;
             }
+        }
+
+        protected void gvOrders_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvOrders.PageIndex = e.NewPageIndex;
+            LoadOrders();
         }
 
         protected void gvOrders_RowCommand(object sender, GridViewCommandEventArgs e)

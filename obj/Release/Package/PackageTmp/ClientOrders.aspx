@@ -62,7 +62,31 @@
                 <div style="text-align:center; margin-top:12px;">
                     <asp:Button ID="btnCreateOrder" runat="server" Text="Create Order (Finalize)" CssClass="btn-search" OnClientClick="return showFinalizeModal();" OnClick="btnCreateOrder_Click" />
                     &nbsp;
+                </div>
+
+                <!-- Payment Information Grid moved here -->
+                <h3 style="color:#2F4F4F; margin-top:18px;">Payment Information</h3>
+                <asp:GridView ID="gvPayment" runat="server" AutoGenerateColumns="False" CssClass="grid" GridLines="None" EmptyDataText="No payment record found">
+                    <Columns>
+                        <asp:BoundField DataField="PaymentID" HeaderText="Payment ID" />
+                        <asp:BoundField DataField="PaymentTotal" HeaderText="Total" DataFormatString="{0:C2}" />
+                        <asp:BoundField DataField="PaymentDue" HeaderText="Due" DataFormatString="{0:C2}" />
+                        <asp:BoundField DataField="PaymentSurplus" HeaderText="Surplus" DataFormatString="{0:C2}" />
+                        <asp:BoundField DataField="PaymentStatusText" HeaderText="Status" />
+                    </Columns>
+                </asp:GridView>
+
+                <!-- Payment Update Section -->
+                <div style="margin-top:12px; text-align:center;">
+                    <asp:TextBox ID="txtPaymentAmount" runat="server" CssClass="input-box" placeholder="Enter payment amount" style="width:150px;" />
+                    <asp:Button ID="btnUpdatePayment" runat="server" Text="Apply Payment" CssClass="btn-search" OnClick="btnUpdatePayment_Click" />
+                    <br />
+                    <asp:Label ID="lblPaymentMessage" runat="server" Text="" ForeColor="Green" />
+                </div>
+
+                <div style="text-align:center; margin-top:12px;">
                     <asp:Button ID="btnBack" runat="server" Text="Back to Orders" OnClick="btnBack_Click" CssClass="btn-search" />
+                    &nbsp;
                 </div>
             </div>
 
@@ -94,6 +118,7 @@
                     <asp:Label ID="lblAddMessage" runat="server" Text="" ForeColor="Green" />
                 </div>
 
+                <!-- Supplier Products Grid -->
                 <asp:GridView ID="gvSupplierProducts" runat="server" AutoGenerateColumns="False" CssClass="grid" GridLines="None"
                 OnSelectedIndexChanged="gvSupplierProducts_SelectedIndexChanged"
                 OnPageIndexChanging="gvSupplierProducts_PageIndexChanging"
