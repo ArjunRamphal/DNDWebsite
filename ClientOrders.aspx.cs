@@ -4,6 +4,8 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Net.Mail;
+using System.Text;
 
 namespace DNDWebsite
 {
@@ -464,6 +466,127 @@ namespace DNDWebsite
                 }
             }
 
+            // --------------------- CLIENT EMAIL ---------------------
+            string clientEmail = "";
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlCommand cmd = new SqlCommand(
+                "SELECT c.ClientEmail FROM [Order] o INNER JOIN Client c ON o.ClientID=c.ClientID WHERE o.OrderID=@OrderID", conn))
+            {
+                cmd.Parameters.AddWithValue("@OrderID", orderId);
+                conn.Open();
+                object res = cmd.ExecuteScalar();
+                if (res != null) clientEmail = res.ToString();
+            }
+
+            if (!string.IsNullOrEmpty(clientEmail))
+            {
+                // ✅ Get product details directly from OrderSupplierProduct
+                DataTable clientProducts = new DataTable();
+                using (SqlCommand cmd = new SqlCommand(@"
+        SELECT p.ProductName, osp.OrderSupplierProductQuantity AS Quantity,
+               (osp.OrderSupplierProductPrice / osp.OrderSupplierProductQuantity) AS UnitPrice,
+               osp.OrderSupplierProductPrice AS LineTotal
+        FROM OrderSupplierProduct osp
+        INNER JOIN Product p ON osp.ProductID = p.ProductID
+        WHERE osp.OrderID = @OrderID", new SqlConnection(connectionString)))
+                {
+                    cmd.Parameters.AddWithValue("@OrderID", orderId);
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        da.Fill(clientProducts);
+                }
+
+                // ✅ Build a clean HTML email
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine("<html><body style='font-family:Arial,sans-serif;'>");
+                sb.AppendLine($"<h2>Order Confirmation - Order #{orderId}</h2>");
+                sb.AppendLine("<p>Dear Customer,<br>Thank you for your order! Here are your order details:</p>");
+                sb.AppendLine("<table border='1' cellspacing='0' cellpadding='6' style='border-collapse:collapse; width:80%;'>");
+                sb.AppendLine("<tr style='background-color:#f2f2f2; text-align:left;'><th>Product</th><th>Quantity</th><th>Unit Price</th><th>Line Total</th></tr>");
+
+                decimal clienttotal = 0m;
+                foreach (DataRow row in clientProducts.Rows)
+                {
+                    string productName = row["ProductName"].ToString();
+                    int qty = Convert.ToInt32(row["Quantity"]);
+                    decimal unitPrice = Convert.ToDecimal(row["UnitPrice"]);
+                    decimal lineTotal = Convert.ToDecimal(row["LineTotal"]);
+                    clienttotal += lineTotal;
+
+                    sb.AppendLine($"<tr><td>{productName}</td><td>{qty}</td><td>R{unitPrice:F2}</td><td>R{lineTotal:F2}</td></tr>");
+                }
+
+                sb.AppendLine($"<tr><td colspan='3' style='text-align:right;'><b>Total Price:</b></td><td><b>R{clienttotal:F2}</b></td></tr>");
+                sb.AppendLine("</table>");
+                sb.AppendLine("<p>Please send proof of payment to <b>DNDTrading22@gmail.com</b>.</p>");
+                sb.AppendLine("<p>Kind regards,<br><b>DND Trading Team</b></p>");
+                sb.AppendLine("</body></html>");
+
+                // ✅ Send as HTML email
+                SendEmail(clientEmail, $"Your Order #{orderId} - DND Trading", sb.ToString(), true);
+            }
+
+
+            // 2. Emails to suppliers
+            DataTable suppliers = new DataTable();
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlCommand cmd = new SqlCommand(
+                @"SELECT DISTINCT s.SupplierID, s.SupplierEmail, s.SupplierName 
+                  FROM OrderSupplierProduct osp
+                  INNER JOIN Supplier s ON osp.SupplierID=s.SupplierID
+                  WHERE osp.OrderID=@OrderID", conn))
+            {
+                cmd.Parameters.AddWithValue("@OrderID", orderId);
+                conn.Open();
+                using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    da.Fill(suppliers);
+            }
+
+            foreach (DataRow sRow in suppliers.Rows)
+            {
+                string supplierEmail = sRow["SupplierEmail"].ToString();
+                string supplierName = sRow["SupplierName"].ToString();
+
+                DataTable supplierProducts = new DataTable();
+                using (SqlCommand cmd = new SqlCommand(
+                    @"SELECT p.ProductName, osp.OrderSupplierProductQuantity, osp.OrderSupplierProductPrice
+                  FROM OrderSupplierProduct osp
+                  INNER JOIN Product p ON osp.ProductID=p.ProductID
+                  WHERE osp.OrderID=@OrderID AND osp.SupplierID=@SupplierID", new SqlConnection(connectionString)))
+                {
+                    cmd.Parameters.AddWithValue("@OrderID", orderId);
+                    cmd.Parameters.AddWithValue("@SupplierID", sRow["SupplierID"]);
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        da.Fill(supplierProducts);
+                }
+
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine("<html><body style='font-family:Arial,sans-serif;'>");
+                sb.AppendLine($"<h2 style='color:#2c3e50;'>New Order Request - Order #{orderId}</h2>");
+                sb.AppendLine($"<p>Dear {supplierName},</p>");
+                sb.AppendLine("<p>Please prepare the following items for delivery to <b>DND Trading</b>:</p>");
+                sb.AppendLine("<table border='1' cellspacing='0' cellpadding='6' style='border-collapse:collapse; width:80%;'>");
+                sb.AppendLine("<tr style='background-color:#f2f2f2; text-align:left;'><th>Product</th><th>Quantity</th><th>Price</th></tr>");
+
+                decimal supplierTotal = 0m;
+                foreach (DataRow row in supplierProducts.Rows)
+                {
+                    string productName = row["ProductName"].ToString();
+                    int qty = Convert.ToInt32(row["OrderSupplierProductQuantity"]);
+                    decimal price = Convert.ToDecimal(row["OrderSupplierProductPrice"]);
+                    supplierTotal += price;
+
+                    sb.AppendLine($"<tr><td>{productName}</td><td>{qty}</td><td>R{price:F2}</td></tr>");
+                }
+
+                sb.AppendLine($"<tr><td colspan='2' style='text-align:right;'><b>Total Price:</b></td><td><b>R{supplierTotal:F2}</b></td></tr>");
+                sb.AppendLine("</table>");
+                sb.AppendLine("<p>Please confirm receipt of this order and estimated delivery time.</p>");
+                sb.AppendLine("<p>Kind regards,<br><b>DND Trading Team</b><br><small>DNDTrading22@gmail.com</small></p>");
+                sb.AppendLine("</body></html>");
+
+                SendEmail(supplierEmail, $"New Order Request #{orderId} - DND Trading", sb.ToString(), true);
+            }
+
             LoadOrderProducts(orderId);
             LoadClientOrderProducts(orderId);
             SetEditingEnabled(false);
@@ -473,6 +596,32 @@ namespace DNDWebsite
                 gvOrderProducts.Columns[gvOrderProducts.Columns.Count - 1].Visible = false;
 
             CalculateAndDisplayRunningTotal(orderId);
+        }
+
+        private void SendEmail(string toEmail, string subject, string body, bool isHtml = false)
+        {
+            try
+            {
+                using (MailMessage mail = new MailMessage())
+                {
+                    mail.From = new MailAddress("DNDTrading22@gmail.com");
+                    mail.To.Add(toEmail);
+                    mail.Subject = subject;
+                    mail.Body = body;
+                    mail.IsBodyHtml = isHtml;
+
+                    using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
+                    {
+                        smtp.Credentials = new System.Net.NetworkCredential("DNDTrading22@gmail.com", "qyax myny exec tzrb");
+                        smtp.EnableSsl = true;
+                        smtp.Send(mail);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Optional: log error
+            }
         }
 
         protected void gvClientOrders_PageIndexChanging(object sender, GridViewPageEventArgs e)

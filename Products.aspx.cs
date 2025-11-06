@@ -36,31 +36,42 @@ namespace DNDWebsite
             gvProducts.DataBind();
         }
 
-        private void LoadAvailableProducts()
+        // Updated LoadAvailableProducts to support optional filter
+        private void LoadAvailableProducts(string filter = "")
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string query = "SELECT ProductID, ProductName, ProductSurcharge FROM Product ORDER BY ProductName";
+                string query = "SELECT ProductID, ProductName, ProductSurcharge FROM Product";
+
+                if (!string.IsNullOrEmpty(filter))
+                    query += " WHERE ProductName LIKE @Filter";
+
+                query += " ORDER BY ProductName";
+
                 SqlDataAdapter da = new SqlDataAdapter(query, conn);
+                if (!string.IsNullOrEmpty(filter))
+                    da.SelectCommand.Parameters.AddWithValue("@Filter", "%" + filter + "%");
+
                 DataTable dt = new DataTable();
                 da.Fill(dt);
+
                 gvAvailableProducts.DataSource = dt;
                 gvAvailableProducts.DataBind();
             }
         }
 
-        protected void gvAvailableProducts_PageIndexChanging(object sender, System.Web.UI.WebControls.GridViewPageEventArgs e)
+        protected void gvAvailableProducts_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             gvAvailableProducts.PageIndex = e.NewPageIndex;
-            LoadAvailableProducts();
+            LoadAvailableProducts(txtFilter.Text.Trim());
         }
 
-        protected void gvAvailableProducts_RowCommand(object sender, System.Web.UI.WebControls.GridViewCommandEventArgs e)
+        protected void gvAvailableProducts_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             if (e.CommandName == "SelectProduct")
             {
                 int index = Convert.ToInt32(e.CommandArgument);
-                GridViewRow row = gvAvailableProducts.Rows[index];
+                GridViewRow row = gvAvailableProducts.Rows[index % gvAvailableProducts.PageSize];
 
                 string productName = row.Cells[1].Text;
                 TextBox txtQty = row.FindControl("txtQuantityRow") as TextBox;
@@ -71,18 +82,51 @@ namespace DNDWebsite
                     quantity = parsedQty;
                 }
 
+                // Load existing products from ViewState
                 DataTable dt = ViewState["Products"] as DataTable;
+                if (dt == null)
+                {
+                    dt = new DataTable();
+                    dt.Columns.Add("ProductName");
+                    dt.Columns.Add("Quantity");
+                }
+
                 DataRow dr = dt.NewRow();
                 dr["ProductName"] = productName;
                 dr["Quantity"] = quantity;
                 dt.Rows.Add(dr);
 
+                ViewState["Products"] = dt;
+
+                // Rebind right grid
                 gvProducts.DataSource = dt;
                 gvProducts.DataBind();
-                ViewState["Products"] = dt;
+
+                // Force the right UpdatePanel to refresh
+                if (upSelectedProducts != null)
+                    upSelectedProducts.Update();
             }
         }
 
+        protected void gvAvailableProducts_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                var drv = e.Row.DataItem as System.Data.DataRowView;
+                if (drv != null)
+                {
+                    string productName = drv["ProductName"].ToString();
+                    e.Row.Attributes["data-product"] = productName;
+                }
+            }
+        }
+
+        // Server-side filter handler
+        protected void txtFilter_TextChanged(object sender, EventArgs e)
+        {
+            gvAvailableProducts.PageIndex = 0; // reset to first page
+            LoadAvailableProducts(txtFilter.Text.Trim());
+        }
 
         protected void btnAddProduct_Click(object sender, EventArgs e)
         {
@@ -118,7 +162,7 @@ namespace DNDWebsite
             lblMessage.Text = "";
         }
 
-        protected void gvProducts_RowDeleting(object sender, System.Web.UI.WebControls.GridViewDeleteEventArgs e)
+        protected void gvProducts_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
             DataTable dt = ViewState["Products"] as DataTable;
             dt.Rows.RemoveAt(e.RowIndex);
@@ -131,8 +175,6 @@ namespace DNDWebsite
         protected void gvProducts_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             gvProducts.PageIndex = e.NewPageIndex;
-
-            // Rebind the GridView using ViewState
             DataTable dt = ViewState["Products"] as DataTable;
             gvProducts.DataSource = dt;
             gvProducts.DataBind();

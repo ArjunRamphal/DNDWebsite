@@ -60,6 +60,24 @@ namespace DNDWebsite
         protected global::System.Web.UI.WebControls.Label lblFilter;
 
         /// <summary>
+        /// txtFilter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtFilter;
+
+        /// <summary>
+        /// upProducts control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel upProducts;
+
+        /// <summary>
         /// gvAvailableProducts control.
         /// </summary>
         /// <remarks>
@@ -67,6 +85,15 @@ namespace DNDWebsite
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView gvAvailableProducts;
+
+        /// <summary>
+        /// upSelectedProducts control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel upSelectedProducts;
 
         /// <summary>
         /// gvProducts control.

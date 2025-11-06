@@ -48,7 +48,8 @@
                 <h3 style="color:#2F4F4F; margin-top:18px;">Supplier Order Items</h3>
 
                 <asp:GridView ID="gvOrderProducts" runat="server" AutoGenerateColumns="False" CssClass="grid" GridLines="None"
-                    OnRowDeleting="gvOrderProducts_RowDeleting" EmptyDataText="No supplier items added">
+                    OnRowDeleting="gvOrderProducts_RowDeleting" EmptyDataText="No supplier items added"
+                    DataKeyNames="ProductID,SupplierID">
                     <Columns>
                         <asp:BoundField DataField="ProductName" HeaderText="Product Name" />
                         <asp:BoundField DataField="SupplierName" HeaderText="Supplier" />
