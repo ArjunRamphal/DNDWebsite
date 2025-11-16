@@ -38,6 +38,9 @@ namespace DNDWebsite
                 // Show Reports only to Managers
                 pnlReportLink.Visible = (userType == "Manager");
 
+                pnlAboutLink.Visible = (userType == "Client");
+                pnlContactLink.Visible = (userType == "Client");
+
                 // Welcome label
                 lblWelcome.Text = "Welcome, " + Session["UserName"];
                 lblWelcome.Visible = true;
@@ -56,6 +59,8 @@ namespace DNDWebsite
                 pnlSuppliersLink.Visible = false;
                 pnlSupplierProductsLink.Visible = false;
                 pnlReportLink.Visible = false;
+                pnlAboutLink.Visible = true;
+                pnlContactLink.Visible = true;
 
                 lblWelcome.Visible = false;
                 btnLogin.Visible = true;
@@ -83,6 +88,9 @@ namespace DNDWebsite
             pnlSuppliersLink.Visible = false;
             pnlSupplierProductsLink.Visible = false;
             pnlReportLink.Visible = false;
+            pnlAccountLink.Visible = false;
+            pnlAboutLink.Visible = true;
+            pnlContactLink.Visible = true;
 
             if (Session["UserType"] != null)
             {
@@ -98,6 +106,8 @@ namespace DNDWebsite
 
                     pnlProductsLink.Visible = true;
                     pnlOrdersLink.Visible = true;
+                    pnlAboutLink.Visible = true;
+                    pnlContactLink.Visible = true;
                 }
                 else
                 {
@@ -188,11 +198,6 @@ namespace DNDWebsite
         protected void btnHelp_Click(object sender, EventArgs e)
         {
 
-        }
-
-        protected void btnContact_Click(object sender, EventArgs e)
-        {
-            Response.Redirect("Contact.aspx");
         }
 
         protected void btnLogin_Click(object sender, EventArgs e)

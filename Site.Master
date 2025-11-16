@@ -97,6 +97,10 @@
         margin-top: 40px;
     }
 
+    footer p {
+        color: #fff;
+    }
+
     footer a {
         color: #fff;
         text-decoration: none;

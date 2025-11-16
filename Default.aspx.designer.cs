@@ -105,13 +105,22 @@ namespace DNDWebsite
         protected global::System.Web.UI.WebControls.Panel pnlReportLink;
 
         /// <summary>
-        /// LinkButton1 control.
+        /// pnlAboutLink control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton LinkButton1;
+        protected global::System.Web.UI.WebControls.Panel pnlAboutLink;
+
+        /// <summary>
+        /// pnlContactLink control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlContactLink;
 
         /// <summary>
         /// btnLogin control.

@@ -7,22 +7,34 @@ namespace DNDWebsite
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            // Check if user info is stored in session
-            if (Session["UserName"] != null)
+            if (Session["UserType"] != null)
             {
-                txtName.Text = Session["UserName"].ToString();
+                string userType = Session["UserType"].ToString();
+                if (userType == "Sales Representative" || userType == "Manager")
+                {
+                    Response.Redirect("Default.aspx");
+                    return;
+                }
             }
 
-            if (Session["UserEmail"] != null)
+            if (!IsPostBack)
             {
-                txtEmail.Text = Session["UserEmail"].ToString();
-            }
+                // Check if user info is stored in session
+                if (Session["UserName"] != null)
+                {
+                    txtName.Text = Session["UserName"].ToString();
+                }
 
-            // Optionally disable editing (if you want to keep them fixed)
-            if (Session["UserType"] != null && Session["UserType"].ToString() != "Client")
-            {
-                txtName.ReadOnly = true;
-                txtEmail.ReadOnly = true;
+                if (Session["UserEmail"] != null)
+                {
+                    txtEmail.Text = Session["UserEmail"].ToString();
+                }
+
+                if (Session["UserType"] != null && Session["UserType"].ToString() == "Client")
+                {
+                    txtName.ReadOnly = true;
+                    txtEmail.ReadOnly = true;
+                }
             }
         }
 

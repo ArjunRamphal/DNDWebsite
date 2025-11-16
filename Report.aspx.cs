@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Data;
+using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Web.Script.Serialization;
 using System.Web.UI;
 
 namespace DNDWebsite
@@ -9,6 +10,10 @@ namespace DNDWebsite
     {
         private readonly string connectionString =
             System.Configuration.ConfigurationManager.ConnectionStrings["DNDConnectionString"].ConnectionString;
+
+        public string ChartJson { get; set; }
+        public string SupplierChartJson { get; set; }
+
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -21,92 +26,101 @@ namespace DNDWebsite
 
             if (!IsPostBack)
             {
-                //LoadReports();
+                LoadRevenueChart();
+                LoadSupplierChart();
+                Response.Write("<script>console.log('ChartJson: " + ChartJson + "');</script>");
+
+
             }
         }
-        /*
-        private void LoadReports()
-        {
-            LoadClientSummaryReport();
-            LoadMonthlyRevenueReport();
-            //LoadSupplierPerformanceReport();
-        }
 
-        private void LoadClientSummaryReport()
+        private void LoadRevenueChart()
         {
-            DataTable dt = new DataTable();
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            List<string> labels = new List<string>();
+            List<decimal> values = new List<decimal>();
+
+            string query = @"
+        SELECT DATENAME(month, OrderDate) + ' ' + CAST(YEAR(OrderDate) AS VARCHAR) AS [MonthYear],
+               SUM(OrderAmount) AS Revenue
+        FROM [Order]
+        GROUP BY YEAR(OrderDate), MONTH(OrderDate), DATENAME(month, OrderDate)
+        ORDER BY YEAR(OrderDate), MONTH(OrderDate);";
+
+            try
             {
-                string query = @"
-                    SELECT 
-                        c.ClientName, 
-                        COUNT(o.OrderID) AS TotalOrders,
-                        SUM(o.OrderAmount) AS TotalSpent
-                    FROM [Order] o
-                    INNER JOIN Client c ON o.ClientID = c.ClientID
-                    GROUP BY c.ClientName
-                    ORDER BY TotalSpent DESC";
+                using (SqlConnection con = new SqlConnection(connectionString))
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    con.Open();
+                    using (SqlDataReader rdr = cmd.ExecuteReader())
+                    {
+                        while (rdr.Read())
+                        {
+                            string monthYear = rdr["MonthYear"] != DBNull.Value ? rdr["MonthYear"].ToString() : "";
+                            decimal revenue = rdr["Revenue"] != DBNull.Value ? Convert.ToDecimal(rdr["Revenue"]) : 0;
 
-                SqlDataAdapter da = new SqlDataAdapter(query, conn);
-                da.Fill(dt);
+                            labels.Add(monthYear);
+                            values.Add(revenue);
+                        }
+                    }
+                }
+
+                var chartData = new
+                {
+                    labels,
+                    values
+                };
+
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                ChartJson = js.Serialize(chartData);
             }
-
-            ReportDocument rpt = new ReportDocument();
-            rpt.Load(Server.MapPath("~/ClientSummaryReport.rpt"));
-            rpt.SetDataSource(dt);
-            crvClientSummary.ReportSource = rpt;
-            crvClientSummary.DataBind();
-        }
-        
-        private void LoadMonthlyRevenueReport()
-        {
-            DataTable dt = new DataTable();
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            catch (SqlException ex)
             {
-                string query = @"
-                    SELECT 
-                        YEAR(OrderDate) AS OrderDate,
-                        SUM(OrderAmount) AS TotalRevenue,
-                        COUNT(OrderID) AS TotalOrders
-                    FROM [Order]
-                    GROUP BY YEAR(OrderDate), MONTH(OrderDate)
-                    ORDER BY YEAR(OrderDate), MONTH(OrderDate);
-                    ";
-                SqlDataAdapter da = new SqlDataAdapter(query, conn);
-                da.Fill(dt);
+                ChartJson = "{}";
+                System.Diagnostics.Debug.WriteLine("SQL Error: " + ex.Message);
             }
-
-            ReportDocument rpt = new ReportDocument();
-            rpt.Load(Server.MapPath("~/MonthlyRevenueReport.rpt"));
-            rpt.SetDataSource(dt);
-            crvMonthlyRevenue.ReportSource = rpt;
-            crvMonthlyRevenue.DataBind();
-        }
-        
-        private void LoadSupplierPerformanceReport()
-        {
-            DataTable dt = new DataTable();
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            catch (Exception ex)
             {
-                string query = @"
-                    SELECT 
-                        s.SupplierName,
-                        COUNT(osp.ProductID) AS TotalProductsSold,
-                        SUM(osp.OrderSupplierProductQuantity * osp.OrderSupplierProductPrice) AS TotalRevenue
-                    FROM OrderSupplierProduct osp
-                    INNER JOIN Supplier s ON osp.SupplierID = s.SupplierID
-                    GROUP BY s.SupplierName
-                    ORDER BY TotalRevenue DESC";
+                ChartJson = "{}";
+                System.Diagnostics.Debug.WriteLine("General Error: " + ex.Message);
+            }
+        }
+        private void LoadSupplierChart()
+        {
+            List<string> productNames = new List<string>();
+            List<int> quantities = new List<int>();
 
-                SqlDataAdapter da = new SqlDataAdapter(query, conn);
-                da.Fill(dt);
+            string query = @"
+       SELECT TOP 5 P.ProductName, SUM(OSP.OrderSupplierProductQuantity) AS TotalQty
+FROM OrderSupplierProduct OSP
+JOIN Product P ON OSP.ProductID = P.ProductID
+JOIN [Order] O ON OSP.OrderID = O.OrderID
+WHERE MONTH(O.OrderDate) = MONTH(GETDATE())
+  AND YEAR(O.OrderDate) = YEAR(GETDATE())
+GROUP BY P.ProductName
+ORDER BY TotalQty DESC;";
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            using (SqlCommand cmd = new SqlCommand(query, con))
+            {
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                int rank = 1;
+                while (rdr.Read())
+                {
+                    string name = rdr["ProductName"].ToString();
+                    int qty = Convert.ToInt32(rdr["TotalQty"]);
+
+                    productNames.Add($"{rank}. {name}");
+                    quantities.Add(qty);
+
+                    rank++;
+                }
             }
 
-            ReportDocument rpt = new ReportDocument();
-            rpt.Load(Server.MapPath("~/SupplierPerformanceReport.rpt"));
-            rpt.SetDataSource(dt);
-            crvSupplierPerformance.ReportSource = rpt;
-            crvSupplierPerformance.DataBind();
-        }*/
+            var chartData = new { labels = productNames, values = quantities };
+            SupplierChartJson = new JavaScriptSerializer().Serialize(chartData);
+        }
+
     }
 }

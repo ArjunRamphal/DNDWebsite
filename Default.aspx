@@ -117,7 +117,6 @@
             transform: scale(1.1);
         }
 
-
     </style>
 </head>
 <body>
@@ -125,7 +124,6 @@
         <header>
             <div style="display:flex; align-items:center; gap:12px;">
                 <h1 style="margin-right:6px;">DND Trading &amp; General Supplies</h1>
-
                 <!-- NAV: panels kept exactly as in your code-behind -->
                 <nav>
                     <asp:Panel ID="pnlAccountLink" runat="server" Visible="false" style="display:inline;">
@@ -164,8 +162,7 @@
                         <a href="Report.aspx">Reports</a>
                     </asp:Panel>
 
-                    &nbsp;<a href="About.aspx">About Us</a>
-                    <asp:LinkButton ID="LinkButton1" runat="server" CssClass="nav-contact" OnClick="btnContact_Click">Contact Us</asp:LinkButton>
+                    <asp:Panel ID="pnlAboutLink" runat="server" Visible="false" style="display:inline;"><a href="About.aspx">About Us</a></asp:Panel><asp:Panel ID="pnlContactLink" runat="server" Visible="false" style="display:inline;"><a href="Contact.aspx" class="nav-contact">Contact Us</a></asp:Panel>
                 </nav>
             </div>
 
