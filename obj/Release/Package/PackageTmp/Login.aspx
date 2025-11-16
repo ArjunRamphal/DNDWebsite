@@ -7,7 +7,7 @@
 <head runat="server">
     <title>Login / Signup</title>
     <style>
-        body { font-family: Arial, sans-serif; background:#ffffff; color:#2F4F4F; text-align:center; margin:0; padding:40px; }
+        body { font-family: Arial, sans-serif; background:#ffffff; text-align:center; margin:0; padding:40px; }
         
         input, select, .aspNetDisabled, .aspNetInput { 
             padding:10px; 
@@ -16,18 +16,17 @@
             border:1px solid #ccc; 
             width:260px; 
             background:#f5f5f5; 
-            color:#2F4F4F;
             box-sizing: border-box;
         }
 
         .btn { background:#4682B4; color:#fff; font-weight:bold; padding:10px 18px; border:none; border-radius:6px; cursor:pointer; margin-top:8px; }
         .btn:hover { background:#5a9bd4; }
-        .link-btn { background:none; border:none; color:#2F4F4F; cursor:pointer; text-decoration:underline; font-size:0.95rem; margin:5px 0; }
-        .link-btn:hover { color:#2F4F4F; }
+        .link-btn { background:none; border:none; color:#0000EE; cursor:pointer; text-decoration:underline; font-size:0.95rem; margin:5px 0; }
+        .link-btn:hover { color:#0000EE; }
         h2 { margin:28px 0 10px; }
         .wrap { max-width:420px; margin:0 auto; background:#f9f9f9; padding:24px; border:1px solid #ddd; border-radius:10px; }
         hr { border:0; border-top:1px solid #ddd; margin:24px 0; }
-        .msg { display:block; margin-top:12px; min-height:24px; color:#2F4F4F; }
+        .msg { display:block; margin-top:12px; min-height:24px; }
         #signupSection, #resetSection { display:none; margin-top:20px; }
 
         .password-wrapper {

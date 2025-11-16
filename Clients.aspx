@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="Clients" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Clients.aspx.cs" Inherits="DNDWebsite.Clients" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    <h2 style="text-align:center; color:#2F4F4F;">Clients</h2>
+    <h2 style="text-align:center;">Clients</h2>
 
     <!-- Search Form -->
     <div style="text-align:center; margin-bottom:20px;">
@@ -17,25 +17,29 @@
 
     <!-- Clients Grid -->
     <asp:GridView ID="gvClients" runat="server"
-        AutoGenerateColumns="False"
-        CssClass="grid"
-        GridLines="None"
-        AllowPaging="true"
-        PageSize="10"
-        OnPageIndexChanging="gvClients_PageIndexChanging">
-        <Columns>
-            <asp:BoundField DataField="ClientID" HeaderText="Client ID" ReadOnly="True" />
-            <asp:BoundField DataField="ClientName" HeaderText="Client Name" />
-            <asp:BoundField DataField="ClientEmail" HeaderText="Email" />
+        AutoGenerateColumns="False"
+        CssClass="grid"
+        GridLines="None"
+        AllowPaging="true"
+        PageSize="10"
+        OnPageIndexChanging="gvClients_PageIndexChanging">
+
+        <RowStyle CssClass="data-row" />
+
+        <Columns>
+            <asp:BoundField DataField="ClientID" HeaderText="Client ID" ReadOnly="True" />
+            <asp:BoundField DataField="ClientName" HeaderText="Client Name" />
+            <asp:BoundField DataField="ClientEmail" HeaderText="Email" />
             <asp:BoundField DataField="ClientPhoneNumber" HeaderText="Phone" />
-            <asp:TemplateField HeaderText="Opt-Out Status">
-                <ItemTemplate>
-                    <%# Convert.ToBoolean(Eval("ClientOptOut")) ? "Opted Out" : "Active" %>
-                </ItemTemplate>
-            </asp:TemplateField>
-        </Columns>
-        <PagerSettings Mode="NumericFirstLast" PageButtonCount="10" />
-    </asp:GridView>
+            <asp:TemplateField HeaderText="Opt-Out Status">
+                <ItemTemplate>
+                    <%# Convert.ToBoolean(Eval("ClientOptOut")) ? "Opted Out" : "Active" %>
+                </ItemTemplate>
+            </asp:TemplateField>
+        </Columns>
+        
+        <PagerStyle CssClass="pager" BackColor="#4682B4" ForeColor="White" HorizontalAlign="Center" />
+    </asp:GridView>
 
     <asp:Label ID="lblMessage" runat="server" Text="" CssClass="status-msg" />
 
@@ -80,8 +84,8 @@
             font-weight: bold;
         }
 
-        .grid tr:hover {
-            background-color: #d0e4ff;
+        .grid tr.data-row:hover {
+            background-color: #D0E4F5;
         }
 
         .status-msg {
@@ -90,6 +94,29 @@
             font-weight: bold;
             color: #d9534f;
             text-align: center;
+        }
+
+        .pager {
+            background-color: #4682B4;
+            color: #FFFFFF;
+            text-align: center;
+        }
+
+        .pager a, .pager span {
+            display: inline-block;
+            padding: 5px 10px;
+            margin: 2px;
+            border-radius: 4px;
+            color: #FFFFFF;
+            text-decoration: none;
+        }
+
+        .pager a:hover {
+            background-color: #5a9bd3;
+        }
+
+        .pager span {
+            background-color: #315f7d;
         }
     </style>
 </asp:Content>

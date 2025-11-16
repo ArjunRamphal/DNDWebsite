@@ -118,7 +118,20 @@ namespace DNDWebsite
 
                 if (dt.Rows.Count > 0)
                 {
+                    decimal total = Convert.ToDecimal(dt.Rows[0]["PaymentTotal"]);
                     bool paymentStatus = Convert.ToBoolean(dt.Rows[0]["PaymentStatus"]);
+
+                    // NEW CONDITION – PaymentTotal = 0
+                    if (total == 0)
+                    {
+                        lblPaymentStatusMessage.ForeColor = System.Drawing.Color.DarkOrange;
+                        lblPaymentStatusMessage.Text =
+                            "A sales representative will soon fulfill your order.<br />" +
+                            "You will receive an email shortly containing the order details.";
+                        return;
+                    }
+
+                    // Existing logic for unpaid but non-zero payment
                     if (!paymentStatus)
                     {
                         lblPaymentStatusMessage.ForeColor = System.Drawing.Color.Red;
@@ -129,7 +142,8 @@ namespace DNDWebsite
                     else
                     {
                         lblPaymentStatusMessage.ForeColor = System.Drawing.Color.Green;
-                        lblPaymentStatusMessage.Text = "Payment received successfully. Thank you!";
+                        lblPaymentStatusMessage.Text =
+                            "Payment received successfully. Thank you!";
                     }
                 }
                 else

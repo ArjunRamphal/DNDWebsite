@@ -2,9 +2,14 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2 id="lblHeader" runat="server" style="text-align:center; color:#2F4F4F;">All Client Orders</h2>
+    <h2 id="lblHeader" runat="server" style="text-align:center;">All Client Orders</h2>
 
     <div id="filtersRow" style="text-align:center; margin-bottom:10px;">
+        <div id="clientSearchRow" style="text-align:center; margin-bottom:10px;">
+            <asp:TextBox ID="txtClientSearch" runat="server" CssClass="input-box" placeholder="Search clients by name..." />
+            <asp:Button ID="btnSearchClient" runat="server" Text="Search" CssClass="btn-search" OnClick="btnSearchClient_Click" />
+        </div>
+
         <asp:CheckBox ID="chkPending" runat="server" Text="Show Pending Orders Only" AutoPostBack="true" OnCheckedChanged="chkPending_CheckedChanged" />
         <asp:Button ID="btnResetFilter" runat="server" Text="Reset Filter" OnClick="btnResetFilter_Click" CssClass="btn-search" />
     </div>
@@ -14,26 +19,39 @@
         OnSelectedIndexChanged="gvClientOrders_SelectedIndexChanged"
         OnPageIndexChanging="gvClientOrders_PageIndexChanging"
         DataKeyNames="OrderID" AllowPaging="true" PageSize="10">
+
+        <RowStyle CssClass="data-row" />
+
         <Columns>
-            <asp:CommandField ShowSelectButton="True" SelectText="Select" />
+            <asp:TemplateField HeaderText="Action">
+                <ItemTemplate>
+                    <asp:Button ID="btnSelect" runat="server" 
+                        Text="Select" 
+                        CommandName="Select" 
+                        CssClass="btn-search" />
+                </ItemTemplate>
+            </asp:TemplateField>
             <asp:BoundField DataField="OrderID" HeaderText="Order ID" />
             <asp:BoundField DataField="ClientName" HeaderText="Client" />
             <asp:BoundField DataField="OrderDate" HeaderText="Date" DataFormatString="{0:yyyy-MM-dd}" />
             <asp:BoundField DataField="OrderAmount" HeaderText="Total" DataFormatString="{0:C2}" />
             <asp:BoundField DataField="OrderStatus" HeaderText="Status" />
         </Columns>
+
+        <PagerStyle CssClass="pager" BackColor="#4682B4" ForeColor="White" HorizontalAlign="Center" />
+
     </asp:GridView>
 
     <!-- Detail Panel -->
     <asp:Panel ID="pnlOrderProducts" runat="server" Visible="false" Style="margin-top:20px;">
-        <div style="display:flex; gap:20px; justify-content:center; align-items:flex-start; flex-wrap:wrap;">
+        <div style="display:flex; gap:20px; align-items:flex-start; flex-wrap:wrap; padding: 0 20px;">
             <!-- LEFT COLUMN -->
-            <div style="flex: 1 1 480px; max-width: 680px;">
+            <div style="flex: 1 1 480px;">
                 <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <h3 style="color:#2F4F4F; margin:0;">Client Order Items</h3>
+                    <h3 style=" margin:0;">Client Order Items</h3>
                     <div style="text-align:right;">
                         <strong>Running total: </strong>
-                        <asp:Label ID="lblRunningTotal" runat="server" Text="$0.00" Style="color:#2F4F4F; font-size:1.1rem;"></asp:Label>
+                        <asp:Label ID="lblRunningTotal" runat="server" Text="$0.00" Style="color:#000; font-size:1.1rem;"></asp:Label>
                     </div>
                 </div>
 
@@ -45,7 +63,7 @@
                     </Columns>
                 </asp:GridView>
 
-                <h3 style="color:#2F4F4F; margin-top:18px;">Supplier Order Items</h3>
+                <h3 style="margin-top:18px;">Supplier Order Items</h3>
 
                 <asp:GridView ID="gvOrderProducts" runat="server" AutoGenerateColumns="False" CssClass="grid" GridLines="None"
                     OnRowDeleting="gvOrderProducts_RowDeleting" EmptyDataText="No supplier items added"
@@ -66,7 +84,7 @@
                 </div>
 
                 <!-- Payment Information Grid -->
-                <h3 style="color:#2F4F4F; margin-top:18px;">Payment Information</h3>
+                <h3 style="margin-top:18px;">Payment Information</h3>
                 <asp:GridView ID="gvPayment" runat="server" AutoGenerateColumns="False" CssClass="grid" GridLines="None" EmptyDataText="No payment record found">
                     <Columns>
                         <asp:BoundField DataField="PaymentID" HeaderText="Payment ID" />
@@ -79,7 +97,7 @@
 
                 <!-- Payment Update Section -->
                 <div style="margin-top:12px; text-align:center;">
-                    <asp:TextBox ID="txtPaymentAmount" runat="server" CssClass="input-box" placeholder="Enter payment amount" style="width:150px;" />
+                    <asp:TextBox ID="txtPaymentAmount" runat="server" CssClass="input-box" placeholder="Enter payment amount" />
                     <asp:Button ID="btnUpdatePayment" runat="server" Text="Apply Payment" CssClass="btn-search" OnClick="btnUpdatePayment_Click" />
                     <br />
                     <asp:Label ID="lblPaymentMessage" runat="server" Text="" ForeColor="Green" />
@@ -92,20 +110,20 @@
             </div>
 
             <!-- RIGHT COLUMN -->
-            <div style="flex: 0 1 360px; max-width:360px;">
-                <h3 style="color:#2F4F4F; margin-top:0;">Supplier Products</h3>
+            <div style="flex: 1 1 360px;">
+                <h3 style="margin-top:0;">Supplier Products</h3>
 
                 <div style="margin-bottom:8px;">
-                    <label style="font-weight:bold; color:#2F4F4F;">Filter</label><br />
+                    <label style="font-weight:bold;">Filter</label><br />
                     <asp:TextBox ID="txtSupplierSearch" runat="server" CssClass="input-box" placeholder="Search products..." />
-                    <asp:DropDownList ID="ddlSuppliers" runat="server" OnSelectedIndexChanged="ddlSuppliers_SelectedIndexChanged" AutoPostBack="true">
+                    <asp:DropDownList ID="ddlSuppliers" runat="server" OnSelectedIndexChanged="ddlSuppliers_SelectedIndexChanged" AutoPostBack="true" CssClass="input-box">
                         <asp:ListItem Text="All suppliers" Value="" />
                     </asp:DropDownList>
                     <asp:Button ID="btnFilterSupplierProducts" runat="server" Text="Filter" CssClass="btn-search" OnClick="btnFilterSupplierProducts_Click" />
                 </div>
 
                 <div style="margin:6px 0 12px;">
-                    <label style="font-weight:bold; color:#2F4F4F;">Add Product</label><br />
+                    <label style="font-weight:bold;">Add Product</label><br />
                     <asp:Label ID="lblSelectedSupplierProduct" runat="server" Text="(no product selected)" Style="display:block; margin-bottom:6px;"></asp:Label>
 
                     <asp:TextBox ID="txtAddQty" runat="server" CssClass="input-box" TextMode="Number" placeholder="Quantity" Style="width:110px;" />
@@ -121,16 +139,31 @@
 
                 <!-- Supplier Products Grid -->
                 <asp:GridView ID="gvSupplierProducts" runat="server" AutoGenerateColumns="False" CssClass="grid" GridLines="None"
-                OnSelectedIndexChanged="gvSupplierProducts_SelectedIndexChanged"
-                OnPageIndexChanging="gvSupplierProducts_PageIndexChanging"
-                DataKeyNames="ProductID,SupplierID,FinalPrice"
-                AllowPaging="true" PageSize="6">
-                <Columns>
-                    <asp:CommandField ShowSelectButton="True" SelectText="Select" />
-                    <asp:BoundField DataField="ProductName" HeaderText="Product" />
-                    <asp:BoundField DataField="SupplierName" HeaderText="Supplier" />
-                    <asp:BoundField DataField="FinalPrice" HeaderText="Price" DataFormatString="{0:C2}" />
-                </Columns>
+                    OnSelectedIndexChanged="gvSupplierProducts_SelectedIndexChanged"
+                    OnPageIndexChanging="gvSupplierProducts_PageIndexChanging"
+                    DataKeyNames="ProductID,SupplierID,FinalPrice"
+                    AllowPaging="true" PageSize="6">
+
+                    <RowStyle CssClass="data-row" />
+
+                    <Columns>
+                        <asp:TemplateField HeaderText="Action">
+                            <ItemTemplate>
+                                <asp:Button ID="btnSelectProduct" runat="server" 
+                                    Text="Select" 
+                                    CommandName="Select" 
+                                    CssClass="btn-search" />
+                            </ItemTemplate>
+                        </asp:TemplateField>
+        
+                        <asp:BoundField DataField="ProductName" HeaderText="Product" />
+                        <asp:BoundField DataField="SupplierName" HeaderText="Supplier" />
+                        <asp:BoundField DataField="FinalPrice" HeaderText="Price" DataFormatString="{0:C2}" />
+                    </Columns>
+
+                    <%-- ADD THIS LINE --%>
+                    <PagerStyle CssClass="pager" BackColor="#4682B4" ForeColor="White" HorizontalAlign="Center" />
+
                 </asp:GridView>
             </div>
         </div>
@@ -139,12 +172,12 @@
     <!-- Finalize modal -->
     <div id="finalizeModal" style="display:none; position:fixed; left:0; top:0; right:0; bottom:0; background:rgba(0,0,0,0.5); z-index:2000;">
         <div style="background:#fff; width:420px; max-width:90%; margin:60px auto; padding:18px; border-radius:8px; text-align:center;">
-            <h3 style="color:#2F4F4F;">Confirm Finalize Order</h3>
-            <p style="color:#2F4F4F;">Finalizing this order will lock editing. Proceed?</p>
+            <h3 style="">Confirm Finalize Order</h3>
+            <p style="">Finalizing this order will lock editing. Proceed?</p>
             <div style="margin-top:12px;">
                 <asp:Button ID="btnConfirmFinalize" runat="server" Text="Yes - Finalize" CssClass="btn-search" OnClick="btnConfirmFinalize_Click" />
                 &nbsp;
-                <button type="button" onclick="hideFinalizeModal();" class="btn-search" style="background:#ccc; color:#2F4F4F; border:none; padding:8px 16px; border-radius:6px;">Cancel</button>
+                <button type="button" onclick="hideFinalizeModal();" class="btn-search" style="background:#ccc; border:none; padding:8px 16px; border-radius:6px;">Cancel</button>
             </div>
         </div>
     </div>
@@ -165,7 +198,7 @@
 
         .grid th, .grid td {
             border: 1px solid #4682B4;
-            padding: 8px;
+            padding: 10px;
             text-align: center;
         }
 
@@ -173,7 +206,8 @@
             background-color: #4682B4;
             color: #FFFFFF;
         }
-        .grid tr:hover { 
+
+        .grid tr.data-row:hover { 
             background-color: #D0E4F5; 
         }
 
@@ -190,7 +224,30 @@
         }
 
         .input-box { 
-            padding:8px; border-radius:6px; border:1px solid #ccc; margin:4px 0; width:220px; 
+            padding:8px; border-radius:6px; border:1px solid #4682B4; margin:4px 0; width:220px; 
+        }
+
+        .pager {
+            background-color: #4682B4;
+            color: #FFFFFF;
+            text-align: center;
+        }
+
+        .pager a, .pager span {
+            display: inline-block;
+            padding: 5px 10px;
+            margin: 2px;
+            border-radius: 4px;
+            color: #FFFFFF;
+            text-decoration: none;
+        }
+
+        .pager a:hover {
+            background-color: #5a9bd3;
+        }
+
+        .pager span {
+            background-color: #315f7d;
         }
     </style>
 

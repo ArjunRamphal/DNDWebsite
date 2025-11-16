@@ -52,17 +52,28 @@ namespace DNDWebsite
 
         }
 
-        private void LoadClientOrders(bool pendingOnly = false)
+        private void LoadClientOrders(bool pendingOnly = false, string searchTerm = "")
         {
-            string query = "SELECT o.OrderID, c.ClientName, o.OrderDate, o.OrderAmount, o.OrderStatus " +
-                           "FROM [Order] o INNER JOIN Client c ON o.ClientID = c.ClientID ";
-            if (pendingOnly) query += "WHERE o.OrderStatus = 0 ";
-            query += "ORDER BY o.OrderID DESC";
+            string query = @"SELECT o.OrderID, c.ClientName, o.OrderDate, o.OrderAmount, o.OrderStatus 
+                     FROM [Order] o 
+                     INNER JOIN Client c ON o.ClientID = c.ClientID
+                     WHERE 1=1";
+
+            if (pendingOnly)
+                query += " AND o.OrderStatus = 0";
+
+            if (!string.IsNullOrEmpty(searchTerm))
+                query += " AND c.ClientName LIKE @SearchTerm";
+
+            query += " ORDER BY o.OrderID DESC";
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             using (SqlCommand cmd = new SqlCommand(query, conn))
             using (SqlDataAdapter da = new SqlDataAdapter(cmd))
             {
+                if (!string.IsNullOrEmpty(searchTerm))
+                    cmd.Parameters.AddWithValue("@SearchTerm", "%" + searchTerm + "%");
+
                 DataTable dt = new DataTable();
                 da.Fill(dt);
 
@@ -88,6 +99,8 @@ namespace DNDWebsite
             // hide filters
             chkPending.Visible = false;
             btnResetFilter.Visible = false;
+            txtClientSearch.Visible = false;
+            btnSearchClient.Visible = false;
 
             // load all grids
             LoadClientOrderProducts(orderId);
@@ -107,6 +120,12 @@ namespace DNDWebsite
                 gvOrderProducts.Columns[gvOrderProducts.Columns.Count - 1].Visible = !orderFinalized;
 
             CalculateAndDisplayRunningTotal(orderId);
+        }
+
+        protected void btnSearchClient_Click(object sender, EventArgs e)
+        {
+            string searchTerm = txtClientSearch.Text.Trim();
+            LoadClientOrders(chkPending.Checked, searchTerm);
         }
 
         private bool IsOrderFinalized(int orderId)
@@ -186,12 +205,12 @@ namespace DNDWebsite
             string search = txtSupplierSearch.Text.Trim();
 
             string query = @"
-        SELECT sp.ProductID, sp.SupplierID, p.ProductName, s.SupplierName,
-               (sp.SupplierProductPrice + (p.ProductSurcharge / 100.0 * sp.SupplierProductPrice)) AS FinalPrice
-        FROM SupplierProduct sp
-        INNER JOIN Product p ON sp.ProductID = p.ProductID
-        INNER JOIN Supplier s ON sp.SupplierID = s.SupplierID
-        WHERE s.SupplierOptOut = 0";
+            SELECT sp.ProductID, sp.SupplierID, p.ProductName, s.SupplierName,
+                   (sp.SupplierProductPrice + (p.ProductSurcharge / 100.0 * sp.SupplierProductPrice)) AS FinalPrice
+            FROM SupplierProduct sp
+            INNER JOIN Product p ON sp.ProductID = p.ProductID
+            INNER JOIN Supplier s ON sp.SupplierID = s.SupplierID
+            WHERE s.SupplierOptOut = 0";
 
             if (!string.IsNullOrEmpty(supplierFilter))
                 query += " AND sp.SupplierID = @SupplierID ";
@@ -245,6 +264,8 @@ namespace DNDWebsite
             LoadClientOrders(chkPending.Checked);
             chkPending.Visible = true;
             btnResetFilter.Visible = true;
+            txtClientSearch.Visible = true;
+            btnSearchClient.Visible = true;
             lblHeader.InnerText = "All Client Orders";
         }
 
@@ -252,7 +273,8 @@ namespace DNDWebsite
         protected void btnResetFilter_Click(object sender, EventArgs e)
         {
             chkPending.Checked = false;
-            LoadClientOrders(false);
+            txtClientSearch.Text = "";
+            LoadClientOrders(false, "");
         }
 
         protected void gvSupplierProducts_SelectedIndexChanged(object sender, EventArgs e)
@@ -480,22 +502,22 @@ namespace DNDWebsite
 
             if (!string.IsNullOrEmpty(clientEmail))
             {
-                // ✅ Get product details directly from OrderSupplierProduct
+                // Get product details directly from OrderSupplierProduct
                 DataTable clientProducts = new DataTable();
                 using (SqlCommand cmd = new SqlCommand(@"
-        SELECT p.ProductName, osp.OrderSupplierProductQuantity AS Quantity,
-               (osp.OrderSupplierProductPrice / osp.OrderSupplierProductQuantity) AS UnitPrice,
-               osp.OrderSupplierProductPrice AS LineTotal
-        FROM OrderSupplierProduct osp
-        INNER JOIN Product p ON osp.ProductID = p.ProductID
-        WHERE osp.OrderID = @OrderID", new SqlConnection(connectionString)))
+                SELECT p.ProductName, osp.OrderSupplierProductQuantity AS Quantity,
+                       (osp.OrderSupplierProductPrice / osp.OrderSupplierProductQuantity) AS UnitPrice,
+                       osp.OrderSupplierProductPrice AS LineTotal
+                FROM OrderSupplierProduct osp
+                INNER JOIN Product p ON osp.ProductID = p.ProductID
+                WHERE osp.OrderID = @OrderID", new SqlConnection(connectionString)))
                 {
                     cmd.Parameters.AddWithValue("@OrderID", orderId);
                     using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                         da.Fill(clientProducts);
                 }
 
-                // ✅ Build a clean HTML email
+                // Build a clean HTML email
                 StringBuilder sb = new StringBuilder();
                 sb.AppendLine("<html><body style='font-family:Arial,sans-serif;'>");
                 sb.AppendLine($"<h2>Order Confirmation - Order #{orderId}</h2>");
@@ -521,7 +543,7 @@ namespace DNDWebsite
                 sb.AppendLine("<p>Kind regards,<br><b>DND Trading Team</b></p>");
                 sb.AppendLine("</body></html>");
 
-                // ✅ Send as HTML email
+                // Send as HTML email
                 SendEmail(clientEmail, $"Your Order #{orderId} - DND Trading", sb.ToString(), true);
             }
 
@@ -620,7 +642,7 @@ namespace DNDWebsite
             }
             catch (Exception ex)
             {
-                // Optional: log error
+
             }
         }
 

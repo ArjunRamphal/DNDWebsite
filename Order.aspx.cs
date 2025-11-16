@@ -94,9 +94,8 @@ namespace DNDWebsite
         {
             if (e.CommandName == "GoToCheckout")
             {
-                int index = Convert.ToInt32(e.CommandArgument);
-                GridViewRow row = gvOrders.Rows[index];
-                string orderId = row.Cells[1].Text;
+                // e.CommandArgument is now the OrderID itself. No conversion needed!
+                string orderId = e.CommandArgument.ToString();
 
                 // Redirect to checkout page with OrderID
                 Response.Redirect("Checkout.aspx?orderId=" + orderId);

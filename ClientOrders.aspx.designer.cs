@@ -24,6 +24,24 @@ namespace DNDWebsite
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblHeader;
 
         /// <summary>
+        /// txtClientSearch control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtClientSearch;
+
+        /// <summary>
+        /// btnSearchClient control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnSearchClient;
+
+        /// <summary>
         /// chkPending control.
         /// </summary>
         /// <remarks>

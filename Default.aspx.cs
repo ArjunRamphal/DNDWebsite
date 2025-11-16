@@ -61,6 +61,12 @@ namespace DNDWebsite
                 btnLogin.Visible = true;
                 btnLogout.Visible = false;
             }
+
+
+            if (!IsPostBack)
+            {
+                LoadStats();
+            }
         }
 
         private void UpdateHeader()
@@ -134,6 +140,50 @@ namespace DNDWebsite
                 }
             }
         }
+
+
+        private void LoadStats()
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    // 1️⃣ Completed Orders
+                    int ordersCount = 0;
+                    using (SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM [Order]", conn))
+                    {
+                        var result = cmd.ExecuteScalar();
+                        ordersCount = (result != DBNull.Value) ? Convert.ToInt32(result) : 0;
+                    }
+                    lblOrdersCount.Text = ordersCount.ToString("N0"); // formats with commas
+
+                    // 2️⃣ Products Sold
+                    int productsSold = 0;
+                    using (SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM [OrderSupplierProduct]", conn))
+                    {
+                        var result = cmd.ExecuteScalar();
+                        productsSold = (result != DBNull.Value) ? Convert.ToInt32(result) : 0;
+                    }
+                    lblSalesCount.Text = productsSold.ToString("N0");
+
+                    // 3️⃣ Happy Clients
+                    int clientsCount = 0;
+                    using (SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM [Client]", conn))
+                    {
+                        var result = cmd.ExecuteScalar();
+                        clientsCount = (result != DBNull.Value) ? Convert.ToInt32(result) : 0;
+                    }
+                    lblClientsCount.Text = clientsCount.ToString("N0");
+                }
+            }
+            catch (Exception ex)
+            {
+                lblMessage.Text = "Error loading stats: " + ex.Message;
+            }
+        }
+
 
         protected void btnHelp_Click(object sender, EventArgs e)
         {

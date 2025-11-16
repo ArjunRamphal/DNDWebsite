@@ -42,7 +42,7 @@ namespace DNDWebsite
                 return;
             }
 
-            if (!string.IsNullOrEmpty(phone) && phone.Length > 15)
+            if (!string.IsNullOrEmpty(phone) && phone.Length > 10)
             {
                 lblStatus.Text = "Phone number too long.";
                 return;
@@ -62,8 +62,8 @@ namespace DNDWebsite
                     "VALUES (@Name, @Phone, @Email, @OptOut)", conn))
                 {
                     cmd.Parameters.AddWithValue("@Name", name);
-                    cmd.Parameters.AddWithValue("@Phone", string.IsNullOrEmpty(phone) ? (object)DBNull.Value : phone);
-                    cmd.Parameters.AddWithValue("@Email", string.IsNullOrEmpty(email) ? (object)DBNull.Value : email);
+                    cmd.Parameters.AddWithValue("@Phone", phone);
+                    cmd.Parameters.AddWithValue("@Email", email);
                     cmd.Parameters.AddWithValue("@OptOut", false);
 
                     conn.Open();

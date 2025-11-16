@@ -150,13 +150,31 @@ namespace DNDWebsite
         protected global::System.Web.UI.WebControls.Button btnHelp;
 
         /// <summary>
-        /// lblMessage control.
+        /// lblOrdersCount control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblMessage;
+        protected global::System.Web.UI.WebControls.Label lblOrdersCount;
+
+        /// <summary>
+        /// lblSalesCount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblSalesCount;
+
+        /// <summary>
+        /// lblClientsCount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblClientsCount;
 
         /// <summary>
         /// Panel1 control.
@@ -166,6 +184,15 @@ namespace DNDWebsite
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel Panel1;
+
+        /// <summary>
+        /// lblMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblMessage;
 
         /// <summary>
         /// phChatbotScript control.

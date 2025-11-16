@@ -13,94 +13,106 @@
 
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
-    <!-- UPDATED THEME STYLES -->
+
     <style>
-        /* BODY */
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #FFFFFF; /* white background */
-            color: #2F4F4F; /* dark slate gray text */
-        }
+    /* GLOBAL STYLES */
+    body, input, textarea, select, button {
+        font-family: 'Segoe UI', Arial, sans-serif;
+        color: #000;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
-        /* HEADER */
-        header.site-header {
-            background-color: #4682B4; /* steel gray */
-            color: #FFFFFF; /* white text */
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 30px;
-        }
+    /* HEADER */
+    header.site-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 999;
+    
+        background: rgba(0,0,0,0.56);
+        color: #fff;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 30px;
+        backdrop-filter: blur(6px);
+    }
 
-        header.site-header h1 {
-            margin: 0;
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
+    header.site-header h1 {
+        margin: 0;
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #fff;
+    }
 
-        /* NAV LINKS */
-        nav a {
-            color: #FFFFFF; /* white links */
-            text-decoration: none;
-            font-weight: bold;
-            margin-left: 20px;
-            padding: 5px 10px;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
+    /* NAV LINKS */
+    nav a {
+        color: #fff;
+        text-decoration: none;
+        font-weight: bold;
+        margin-left: 20px;
+        padding: 5px 10px;
+        border-radius: 4px;
+        transition: background-color 0.3s;
+    }
 
-        nav a:hover {
-            background-color: #5A9BD4; /* lighter steel gray */
-            color: #FFFFFF;
-        }
+    nav a:hover {
+        color: #ccc;
+        background: none;
+    }
 
-        /* ASP.NET PANEL LINKS */
-        nav .aspNetPanel a {
-            color: #FFFFFF;
-            text-decoration: none;
-            padding: 5px 10px;
-            border-radius: 4px;
-            display: inline-block;
-        }
+    /* BUTTONS */
+    .btn {
+        background-color: #111;
+        color: #fff;
+        border: none;
+        padding: 8px 16px;
+        margin-left: 10px;
+        cursor: pointer;
+        border-radius: 5px;
+        font-weight: 700;
+        transition: all 0.2s ease;
+    }
 
-        nav .aspNetPanel a:hover {
-            background-color: #5A9BD4;
-        }
+    .btn:hover {
+        background-color: #333;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 18px rgba(0,0,0,0.18);
+    }
 
-        /* MAIN CONTENT */
-        main {
-            padding: 40px 20px;
-            min-height: 70vh;
-            background-color: #F5F5F5; /* light gray */
-            color: #2F4F4F;
-        }
+    /* MAIN CONTENT */
+    main {
+        padding-top: 60px;
+    }
 
-        /* FOOTER */
-        footer {
-            background-color: #D3D3D3; /* soft gray */
-            text-align: center;
-            padding: 15px;
-            color: #2F4F4F; /* dark slate gray */
-            margin-top: 40px;
-        }
+    /* FOOTER */
+    footer {
+        background: #000;
+        color: #fff;
+        text-align: center;
+        padding: 15px;
+        margin-top: 40px;
+    }
 
-        /* BUTTONS */
-        .btn {
-            background-color: #4682B4; /* steel gray */
-            color: #FFFFFF;
-            border: none;
-            padding: 8px 16px;
-            margin-left: 10px;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
+    footer a {
+        color: #fff;
+        text-decoration: none;
+        margin: 0 10px;
+    }
 
-        .btn:hover {
-            background-color: #5A9BD4; /* lighter steel gray on hover */
-        }
+    footer a:hover {
+        color: #ccc;
+    }
+
+    h1, h2, h3, h4, h5, h6, p, label, span, td, th, li, a {
+        font-family: 'Segoe UI', Arial, sans-serif;
+        color: #000;
+    }
     </style>
+
 </head>
 <body>
     <form runat="server">

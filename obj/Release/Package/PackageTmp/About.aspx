@@ -87,7 +87,6 @@
 
     <style>
         .about-page {
-            color: #2F4F4F;
             background: #ffffff;
             padding: 40px 20px;
         }
@@ -123,7 +122,6 @@
             padding: 20px;
             border: 1px solid #4682B4;
             border-radius: 10px;
-            color: #2F4F4F;
         }
 
         .values .value-grid {
@@ -137,7 +135,6 @@
             border: 1px solid #4682B4;
             padding: 20px;
             border-radius: 10px;
-            color: #2F4F4F;
         }
 
         /* Animation styles */

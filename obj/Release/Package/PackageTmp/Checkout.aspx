@@ -1,9 +1,9 @@
 ﻿<%@ Page Title="Checkout" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Checkout.aspx.cs" Inherits="DNDWebsite.Checkout" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    <h2 style="text-align:center; color:#2F4F4F;">Checkout</h2>
+    <h2 style="text-align:center;">Checkout</h2>
 
-    <p style="text-align:center; color:#2F4F4F;">Below are the products you’ve added to your order:</p>
+    <p style="text-align:center;">Below are the products you’ve added to your order:</p>
 
     <asp:Label ID="lblMessage" runat="server" CssClass="instruction-label" 
         ForeColor="Green" 
@@ -17,7 +17,7 @@
         </Columns>
     </asp:GridView>
 
-    <h3 style="text-align:center; color:#2F4F4F; margin-top:30px;">Payment Details</h3>
+    <h3 style="text-align:center; margin-top:30px;">Payment Details</h3>
 
     <asp:GridView ID="gvPayment" runat="server" AutoGenerateColumns="False" CssClass="grid" GridLines="None">
         <Columns>

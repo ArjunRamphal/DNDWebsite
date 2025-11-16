@@ -56,6 +56,8 @@ namespace DNDWebsite
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
+
+                // --- CLIENT LOGIN ---
                 string clientQuery = "SELECT ClientID, ClientName, ClientEmail, ClientPassword FROM Client WHERE ClientEmail = @Input";
                 SqlCommand clientCmd = new SqlCommand(clientQuery, conn);
                 clientCmd.Parameters.AddWithValue("@Input", input);
@@ -63,22 +65,15 @@ namespace DNDWebsite
 
                 if (reader.Read())
                 {
-                    object passObj = reader["ClientPassword"];
-                    string existingPassword = passObj == DBNull.Value ? null : passObj.ToString();
+                    string existingEmail = reader["ClientEmail"].ToString();
+                    string existingPassword = reader["ClientPassword"]?.ToString();
 
-                    if (string.IsNullOrEmpty(existingPassword))
-                    {
-                        string email = reader["ClientEmail"].ToString();
-                        reader.Close();
-                        Response.Redirect($"Login.aspx?setpassword=1&email={email}");
-                        return;
-                    }
-
-                    if (existingPassword == password)
+                    // CASE-SENSITIVE comparison for email and password
+                    if (existingEmail == input && existingPassword == password)
                     {
                         Session["UserType"] = "Client";
                         Session["UserName"] = reader["ClientName"].ToString();
-                        Session["UserEmail"] = reader["ClientEmail"].ToString();
+                        Session["UserEmail"] = existingEmail;
                         Session["ClientID"] = reader["ClientID"].ToString();
                         reader.Close();
 
@@ -87,38 +82,57 @@ namespace DNDWebsite
                             "setTimeout(function(){ window.location='Default.aspx'; }, 2000);", true);
                         return;
                     }
-                    else
+                    else if (existingEmail == input)
                     {
                         lblMessage.Text = "Invalid password.";
                         reader.Close();
                         return;
                     }
+                    else
+                    {
+                        reader.Close();
+                    }
                 }
                 reader.Close();
 
-                string userQuery = "SELECT UserName, UserFirstName, UserLastName, UserType FROM [User] WHERE UserName = @Input AND UserPassword = @Password";
+                // --- USER LOGIN ---
+                string userQuery = "SELECT UserName, UserFirstName, UserLastName, UserType, UserPassword FROM [User] WHERE UserName = @Input";
                 SqlCommand userCmd = new SqlCommand(userQuery, conn);
                 userCmd.Parameters.AddWithValue("@Input", input);
-                userCmd.Parameters.AddWithValue("@Password", password);
                 reader = userCmd.ExecuteReader();
 
                 if (reader.Read())
                 {
-                    string fullName = $"{reader["UserFirstName"]} {reader["UserLastName"]}";
-                    bool isManager = Convert.ToBoolean(reader["UserType"]);
-                    Session["UserType"] = isManager ? "Manager" : "Sales Representative";
-                    Session["UserName"] = fullName;
-                    Session["UsernameKey"] = input;
-                    Session["UserName"] = reader["UserName"].ToString();
-                    reader.Close();
+                    string existingUserName = reader["UserName"].ToString();
+                    string existingPassword = reader["UserPassword"].ToString();
 
-                    lblMessage.Text = "User login successful! Redirecting...";
-                    ClientScript.RegisterStartupScript(this.GetType(), "redirect",
-                        "setTimeout(function(){ window.location='Default.aspx'; }, 2000);", true);
-                    return;
+                    // CASE-SENSITIVE comparison
+                    if (existingUserName == input && existingPassword == password)
+                    {
+                        string fullName = $"{reader["UserFirstName"]} {reader["UserLastName"]}";
+                        bool isManager = Convert.ToBoolean(reader["UserType"]);
+                        Session["UserType"] = isManager ? "Manager" : "Sales Representative";
+                        Session["UserName"] = fullName;
+                        Session["UsernameKey"] = input;
+                        reader.Close();
+
+                        lblMessage.Text = "User login successful! Redirecting...";
+                        ClientScript.RegisterStartupScript(this.GetType(), "redirect",
+                            "setTimeout(function(){ window.location='Default.aspx'; }, 2000);", true);
+                        return;
+                    }
+                    else if (existingUserName == input)
+                    {
+                        lblMessage.Text = "Invalid password.";
+                        reader.Close();
+                        return;
+                    }
+                    else
+                    {
+                        reader.Close();
+                    }
                 }
 
-                reader.Close();
                 lblMessage.Text = "Invalid email/username or password.";
                 loginSection.Style["display"] = "block";
                 signupSection.Style["display"] = "none";
@@ -184,7 +198,7 @@ namespace DNDWebsite
                         signupSection.Visible = true;
                         return;
                     }
-                        
+
                 }
 
                 // === CASE A: Email does not exist → INSERT ===
@@ -231,7 +245,7 @@ namespace DNDWebsite
                     loginSection.Visible = false;
                     resetSection.Style["display"] = "block";
                     resetSection.Visible = true;
-                    
+
                     pnlVerification.Visible = true;
 
                     lblVerificationQuestion.Text = "Verification Question: " + result.ToString();

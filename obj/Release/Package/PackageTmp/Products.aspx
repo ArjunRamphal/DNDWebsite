@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="Products" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Products.aspx.cs" Inherits="DNDWebsite.Products" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    <h2 style="text-align:center; color:#2F4F4F;">Create a Product Order</h2>
+    <h2 style="text-align:center;">Create a Product Order</h2>
 
     <div class="page-container">
         <!-- LEFT COLUMN -->
@@ -69,7 +69,7 @@
 
         <!-- RIGHT COLUMN -->
         <div class="right-column">
-            <h3 style="text-align:center; color:#2F4F4F;">Your Selected Products</h3>
+            <h3 style="text-align:center;">Your Selected Products</h3>
 
             <!-- Wrap selected products grid in UpdatePanel -->
             <asp:UpdatePanel ID="upSelectedProducts" runat="server" UpdateMode="Conditional">
@@ -125,5 +125,6 @@
         </script>
 
     </div>
-<style> /* Layout */ .page-container { display: flex; justify-content: center; align-items: flex-start; gap: 40px; flex-wrap: wrap; margin-top: 30px; } .left-column, .right-column { flex: 1; min-width: 400px; max-width: 700px; } /* Search Box */ .search-box, .live-filter-box { background-color: #F5F5F5; border: 1px solid #4682B4; border-radius: 10px; padding: 20px; text-align: center; margin-bottom: 20px; } .inline-inputs { display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: center; } .instruction-label { font-size: 16px; font-weight: bold; color: #2F4F4F; } .input-box { width: 40%; padding: 10px; border: 1px solid #4682B4; border-radius: 6px; font-size: 14px; } /* Buttons */ .btn-search { padding: 8px 20px; background-color: #4682B4; color: #fff; border: none; border-radius: 6px; cursor: pointer; } .btn-search:hover { background-color: #5a9bd3; } /* Grids */ .grid { margin: 20px auto; width: 100%; max-width: 700px; border-collapse: collapse; background-color: #F5F5F5; color: #2F4F4F; } .grid th, .grid td { border: 1px solid #4682B4; padding: 10px; text-align: center; } .grid th { background-color: #4682B4; color: #FFFFFF; } .grid tr.data-row:hover { background-color: #D0E4F5; } /* Pager styling */ .pager { background-color: #4682B4; color: #FFFFFF; text-align: center; } .pager a, .pager span { display: inline-block; padding: 5px 10px; margin: 2px; border-radius: 4px; color: #FFFFFF; text-decoration: none; } .pager a:hover { background-color: #5a9bd3; } .pager span { background-color: #315f7d; } .qty-input { width: 60px; padding: 5px; text-align: center; border: 1px solid #4682B4; border-radius: 5px; } </style>
+<style> /* Layout */ .page-container { 
+                  display: flex; justify-content: center; align-items: flex-start; gap: 40px; flex-wrap: wrap; margin-top: 30px; } .left-column, .right-column { flex: 1; min-width: 400px; max-width: 700px; } /* Search Box */ .search-box, .live-filter-box { background-color: #F5F5F5; border: 1px solid #4682B4; border-radius: 10px; padding: 20px; text-align: center; margin-bottom: 20px; } .inline-inputs { display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: center; } .instruction-label { font-size: 16px; font-weight: bold;} .input-box { width: 40%; padding: 10px; border: 1px solid #4682B4; border-radius: 6px; font-size: 14px; } /* Buttons */ .btn-search { padding: 8px 20px; background-color: #4682B4; color: #fff; border: none; border-radius: 6px; cursor: pointer; } .btn-search:hover { background-color: #5a9bd3; } /* Grids */ .grid { margin: 20px auto; width: 100%; max-width: 700px; border-collapse: collapse; background-color: #F5F5F5; } .grid th, .grid td { border: 1px solid #4682B4; padding: 10px; text-align: center; } .grid th { background-color: #4682B4; color: #FFFFFF; } .grid tr.data-row:hover { background-color: #D0E4F5; } /* Pager styling */ .pager { background-color: #4682B4; color: #FFFFFF; text-align: center; } .pager a, .pager span { display: inline-block; padding: 5px 10px; margin: 2px; border-radius: 4px; color: #FFFFFF; text-decoration: none; } .pager a:hover { background-color: #5a9bd3; } .pager span { background-color: #315f7d; } .qty-input { width: 60px; padding: 5px; text-align: center; border: 1px solid #4682B4; border-radius: 5px; } </style>
 </asp:Content>
