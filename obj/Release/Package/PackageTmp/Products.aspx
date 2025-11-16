@@ -100,7 +100,6 @@
                 </ContentTemplate>
             </asp:UpdatePanel>
 
-
             <div style="text-align:center; margin-top:20px;">
                 <asp:Button ID="btnCreateOrder" runat="server" Text="Create Order Request" CssClass="btn-search" OnClick="btnCreateOrder_Click" />
             </div>

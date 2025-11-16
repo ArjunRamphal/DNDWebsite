@@ -21,7 +21,9 @@
                                  SupplierOptOut=@SupplierOptOut
                                WHERE SupplierID=@original_SupplierID"
                 ConflictDetection="CompareAllValues"
-                OldValuesParameterFormatString="original_{0}">
+                OldValuesParameterFormatString="original_{0}"
+                OnUpdated="sdsSuppliers_Updated"
+                OnUpdating="sdsSuppliers_Updating">
 
                 <UpdateParameters>
                     <asp:Parameter Name="SupplierName" Type="String" />
@@ -37,11 +39,30 @@
                 CssClass="grid" GridLines="None"
                 DataSourceID="sdsSuppliers"
                 AllowPaging="true" PageSize="10"
-                AutoGenerateEditButton="true"
+                AutoGenerateEditButton="false"
                 DataKeyNames="SupplierID"
                 OnPageIndexChanging="gvSuppliers_PageIndexChanging">
 
                 <Columns>
+                    <asp:TemplateField HeaderText="Actions" ItemStyle-Width="150px">
+                        <ItemTemplate>
+                            <asp:Button ID="btnEdit" runat="server" 
+                                CommandName="Edit" 
+                                Text="Edit" 
+                                CssClass="btn-search" />
+                        </ItemTemplate>
+                        <EditItemTemplate>
+                            <asp:Button ID="btnUpdate" runat="server"
+                                CommandName="Update" 
+                                Text="Update" 
+                                CssClass="btn-search" />
+                            <asp:Button ID="btnCancel" runat="server" 
+                                CommandName="Cancel" 
+                                Text="Cancel"
+                                CssClass="btn-search" 
+                                Style="background-color:#808080;" />
+                        </EditItemTemplate>
+                    </asp:TemplateField>
                     <asp:BoundField DataField="SupplierID" HeaderText="Supplier ID" ReadOnly="True" />
 
                     <asp:BoundField DataField="SupplierName" HeaderText="Supplier Name" />
@@ -78,9 +99,9 @@
                     </asp:TemplateField>
                 </Columns>
 
-                <PagerSettings Mode="NumericFirstLast" PageButtonCount="10" />
-            </asp:GridView>
-
+                <RowStyle CssClass="data-row" />
+                <PagerStyle CssClass="pager" BackColor="#4682B4" ForeColor="White" HorizontalAlign="Center" />
+            </asp:GridView>
         </div>
 
         <!-- Add Supplier form -->
@@ -157,5 +178,27 @@
             color:#d9534f;
         }
 
+        .pager {
+            background-color: #4682B4;
+            color: #FFFFFF;
+            text-align: center;
+        }
+
+        .pager a, .pager span {
+            display: inline-block;
+            padding: 5px 10px;
+            margin: 2px;
+            border-radius: 4px;
+            color: #FFFFFF;
+            text-decoration: none;
+        }
+
+        .pager a:hover {
+            background-color: #5a9bd3;
+        }
+
+        .pager span {
+            background-color: #315f7d;
+        }
     </style>
 </asp:Content>

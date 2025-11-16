@@ -33,9 +33,9 @@
             </asp:TemplateField>
             <asp:BoundField DataField="OrderID" HeaderText="Order ID" />
             <asp:BoundField DataField="ClientName" HeaderText="Client" />
-            <asp:BoundField DataField="OrderDate" HeaderText="Date" DataFormatString="{0:yyyy-MM-dd}" />
+            <asp:BoundField DataField="OrderDate" HeaderText="Date of Order" DataFormatString="{0:yyyy-MM-dd}" />
             <asp:BoundField DataField="OrderAmount" HeaderText="Total" DataFormatString="{0:C2}" />
-            <asp:BoundField DataField="OrderStatus" HeaderText="Status" />
+            <asp:BoundField DataField="OrderStatus" HeaderText="Order Complete" />
         </Columns>
 
         <PagerStyle CssClass="pager" BackColor="#4682B4" ForeColor="White" HorizontalAlign="Center" />
@@ -91,7 +91,7 @@
                         <asp:BoundField DataField="PaymentTotal" HeaderText="Total" DataFormatString="{0:C2}" />
                         <asp:BoundField DataField="PaymentDue" HeaderText="Due" DataFormatString="{0:C2}" />
                         <asp:BoundField DataField="PaymentSurplus" HeaderText="Surplus" DataFormatString="{0:C2}" />
-                        <asp:BoundField DataField="PaymentStatusText" HeaderText="Status" />
+                        <asp:BoundField DataField="PaymentStatusText" HeaderText="Payment Status" />
                     </Columns>
                 </asp:GridView>
 

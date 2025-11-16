@@ -161,7 +161,7 @@ namespace DNDWebsite
 
                     // 2️⃣ Products Sold
                     int productsSold = 0;
-                    using (SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM [OrderSupplierProduct]", conn))
+                    using (SqlCommand cmd = new SqlCommand("SELECT SUM(OrderSupplierProductQuantity) FROM [OrderSupplierProduct]", conn))
                     {
                         var result = cmd.ExecuteScalar();
                         productsSold = (result != DBNull.Value) ? Convert.ToInt32(result) : 0;

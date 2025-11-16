@@ -37,20 +37,46 @@ namespace DNDWebsite
         }
 
         // Updated LoadAvailableProducts to support optional filter
+        // Updated LoadAvailableProducts to support multi-word filtering
         private void LoadAvailableProducts(string filter = "")
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 string query = "SELECT ProductID, ProductName, ProductSurcharge FROM Product";
 
+                // Create command and data adapter
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+
                 if (!string.IsNullOrEmpty(filter))
-                    query += " WHERE ProductName LIKE @Filter";
+                {
+                    // Split the filter text into individual words, removing empty spaces
+                    string[] filterWords = filter.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+                    if (filterWords.Length > 0)
+                    {
+                        query += " WHERE ";
+                        // Build the dynamic WHERE clause (e.g., ...WHERE ProductName LIKE @Filter0 AND ProductName LIKE @Filter1)
+                        for (int i = 0; i < filterWords.Length; i++)
+                        {
+                            if (i > 0)
+                            {
+                                query += " AND ";
+                            }
+                            string paramName = "@Filter" + i;
+                            query += $"ProductName LIKE {paramName}";
+
+                            // Add the parameter with wildcard '%'
+                            cmd.Parameters.AddWithValue(paramName, "%" + filterWords[i] + "%");
+                        }
+                    }
+                }
 
                 query += " ORDER BY ProductName";
 
-                SqlDataAdapter da = new SqlDataAdapter(query, conn);
-                if (!string.IsNullOrEmpty(filter))
-                    da.SelectCommand.Parameters.AddWithValue("@Filter", "%" + filter + "%");
+                // Set the final query to the command
+                cmd.CommandText = query;
 
                 DataTable dt = new DataTable();
                 da.Fill(dt);
@@ -82,8 +108,8 @@ namespace DNDWebsite
                     quantity = parsedQty;
                 }
 
-                // Load existing products from ViewState
-                DataTable dt = ViewState["Products"] as DataTable;
+                // Load existing products from ViewState
+                DataTable dt = ViewState["Products"] as DataTable;
                 if (dt == null)
                 {
                     dt = new DataTable();
@@ -98,13 +124,27 @@ namespace DNDWebsite
 
                 ViewState["Products"] = dt;
 
-                // Rebind right grid
-                gvProducts.DataSource = dt;
+                // Rebind right grid
+                gvProducts.DataSource = dt;
                 gvProducts.DataBind();
 
-                // Force the right UpdatePanel to refresh
-                if (upSelectedProducts != null)
+                // Force the right UpdatePanel to refresh
+                if (upSelectedProducts != null)
                     upSelectedProducts.Update();
+
+                // --- START: ADDED CODE ---
+
+                // 1. Clear the filter text on the server
+                txtFilter.Text = "";
+
+                // 2. Reload the available products grid (which resets all quantity boxes to "1")
+                LoadAvailableProducts();
+
+                // 3. Register a script to clear the filter box on the client's side
+                string script = $"document.getElementById('{txtFilter.ClientID}').value = '';";
+                ScriptManager.RegisterStartupScript(upProducts, upProducts.GetType(), "ClearFilterScript", script, true);
+
+                // --- END: ADDED CODE ---
             }
         }
 
@@ -240,9 +280,14 @@ namespace DNDWebsite
             }
 
             lblMessage.ForeColor = System.Drawing.Color.Green;
-            lblMessage.Text = "Order request and payment record created successfully.";
+            lblMessage.Text = "Order request created successfully. You will be redirected to the home page in 5 seconds.";
+
+            btnCreateOrder.Enabled = false;
 
             InitializeClientProductsGrid();
+
+            string script = "setTimeout(function(){ window.location.href = 'Default.aspx'; }, 5000);";
+            ClientScript.RegisterStartupScript(this.GetType(), "RedirectScript", script, true);
         }
     }
 }

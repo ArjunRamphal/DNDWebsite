@@ -206,7 +206,7 @@ namespace DNDWebsite
 
             string query = @"
             SELECT sp.ProductID, sp.SupplierID, p.ProductName, s.SupplierName,
-                   (sp.SupplierProductPrice + (p.ProductSurcharge / 100.0 * sp.SupplierProductPrice)) AS FinalPrice
+                   (sp.SupplierProductPrice + ((p.ProductSurcharge / 100.0) * sp.SupplierProductPrice)) AS FinalPrice
             FROM SupplierProduct sp
             INNER JOIN Product p ON sp.ProductID = p.ProductID
             INNER JOIN Supplier s ON sp.SupplierID = s.SupplierID

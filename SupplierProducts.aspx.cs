@@ -2,8 +2,10 @@
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Security.Cryptography;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace DNDWebsite
 {
@@ -131,42 +133,64 @@ namespace DNDWebsite
 
         protected void gvSupplierProducts_RowUpdating(object sender, GridViewUpdateEventArgs e)
         {
-            GridViewRow row = gvSupplierProducts.Rows[e.RowIndex];
-
-            int productId = Convert.ToInt32(gvSupplierProducts.DataKeys[e.RowIndex]["ProductID"]);
-            int supplierId = Convert.ToInt32(gvSupplierProducts.DataKeys[e.RowIndex]["SupplierID"]);
-
-            string newName = ((TextBox)row.FindControl("txtEditProductName")).Text.Trim();
-            decimal newPrice = Convert.ToDecimal(((TextBox)row.FindControl("txtEditPrice")).Text.Trim());
-            decimal newSurcharge = Convert.ToDecimal(((TextBox)row.FindControl("txtEditSurcharge")).Text.Trim());
-
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            try
             {
-                conn.Open();
+                GridViewRow row = gvSupplierProducts.Rows[e.RowIndex];
 
-                string updateQuery = @"
-            UPDATE Product 
-            SET ProductName = @Name,
-                ProductSurcharge = @Surcharge
-            WHERE ProductID = @ProductID;
+                int productId = Convert.ToInt32(gvSupplierProducts.DataKeys[e.RowIndex]["ProductID"]);
+                int supplierId = Convert.ToInt32(gvSupplierProducts.DataKeys[e.RowIndex]["SupplierID"]);
 
-            UPDATE SupplierProduct
-            SET SupplierProductPrice = @Price
-            WHERE ProductID = @ProductID AND SupplierID = @SupplierID;
-        ";
+                string newName = ((TextBox)row.FindControl("txtEditProductName")).Text.Trim();
+                decimal newPrice = Convert.ToDecimal(((TextBox)row.FindControl("txtEditPrice")).Text.Trim());
+                decimal newSurcharge = Convert.ToDecimal(((TextBox)row.FindControl("txtEditSurcharge")).Text.Trim());
 
-                SqlCommand cmd = new SqlCommand(updateQuery, conn);
-                cmd.Parameters.AddWithValue("@Name", newName);
-                cmd.Parameters.AddWithValue("@Surcharge", newSurcharge);
-                cmd.Parameters.AddWithValue("@Price", newPrice);
-                cmd.Parameters.AddWithValue("@ProductID", productId);
-                cmd.Parameters.AddWithValue("@SupplierID", supplierId);
+                // Add validation for required fields
+                if (string.IsNullOrEmpty(newName) || newPrice <= 0 || newSurcharge <= 0)
+                {
+                    lblMessage.ForeColor = System.Drawing.Color.Red;
+                    lblMessage.Text = "Product name cannot be empty and prices cannot be negative.";
+                    e.Cancel = true; // Cancel the update
+                    return;
+                }
 
-                cmd.ExecuteNonQuery();
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    string updateQuery = @"
+                    UPDATE Product 
+                    SET ProductName = @Name,
+                    ProductSurcharge = @Surcharge
+                    WHERE ProductID = @ProductID;
+
+                    UPDATE SupplierProduct
+                    SET SupplierProductPrice = @Price
+                    WHERE ProductID = @ProductID AND SupplierID = @SupplierID;";
+
+                    SqlCommand cmd = new SqlCommand(updateQuery, conn);
+                    cmd.Parameters.AddWithValue("@Name", newName);
+                    cmd.Parameters.AddWithValue("@Surcharge", newSurcharge);
+                    cmd.Parameters.AddWithValue("@Price", newPrice);
+                    cmd.Parameters.AddWithValue("@ProductID", productId);
+                    cmd.Parameters.AddWithValue("@SupplierID", supplierId);
+
+                    cmd.ExecuteNonQuery();
+                }
+
+                gvSupplierProducts.EditIndex = -1;
+                LoadSupplierProducts(txtSearch.Text.Trim(), Convert.ToInt32(ddlFilterSupplier.SelectedValue));
+
+                // Set success message
+                lblMessage.ForeColor = System.Drawing.Color.Green;
+                lblMessage.Text = "Product updated successfully.";
             }
-
-            gvSupplierProducts.EditIndex = -1;
-            LoadSupplierProducts(txtSearch.Text.Trim(), Convert.ToInt32(ddlFilterSupplier.SelectedValue));
+            catch (Exception ex)
+            {
+                // Set error message
+                lblMessage.ForeColor = System.Drawing.Color.Red;
+                lblMessage.Text = "Error updating product: " + ex.Message;
+                e.Cancel = true; // Cancel the update on error
+            }
         }
 
         protected void gvSupplierProducts_RowDataBound(object sender, GridViewRowEventArgs e)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.Text.RegularExpressions;
 
 namespace DNDWebsite
 {
@@ -20,8 +21,50 @@ namespace DNDWebsite
                     string email = Request.QueryString["email"];
                     txtSignupEmail.Text = email;
                     txtSignupEmail.ReadOnly = true;
-                    txtSignupName.Visible = false;
-                    txtSignupPhone.Visible = false;
+
+                    // --- START: REPLACE CODE ---
+                    // Replace these two lines:
+                    // txtSignupName.Visible = false;
+                    // txtSignupPhone.Visible = false;
+
+                    // With this database lookup:
+                    using (SqlConnection conn = new SqlConnection(connectionString))
+                    {
+                        conn.Open();
+                        string query = "SELECT ClientName, ClientPhoneNumber FROM Client WHERE ClientEmail = @Email";
+                        SqlCommand cmd = new SqlCommand(query, conn);
+                        cmd.Parameters.AddWithValue("@Email", email);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                string clientName = reader["ClientName"] as string;
+                                string clientPhone = reader["ClientPhoneNumber"] as string;
+
+                                if (!string.IsNullOrEmpty(clientName))
+                                {
+                                    txtSignupName.Text = clientName;
+                                    txtSignupName.ReadOnly = true;
+                                }
+                                else
+                                {
+                                    txtSignupName.Visible = true;
+                                    txtSignupName.ReadOnly = false;
+                                }
+
+                                if (!string.IsNullOrEmpty(clientPhone))
+                                {
+                                    txtSignupPhone.Text = clientPhone;
+                                    txtSignupPhone.ReadOnly = true;
+                                }
+                                else
+                                {
+                                    txtSignupPhone.Visible = true;
+                                    txtSignupPhone.ReadOnly = false;
+                                }
+                            }
+                        }
+                    }
 
                     signupTitle.InnerText = "Set Your Password";
                     lblSignupMessage.Text = "We found your account. Please set a password and choose a verification question.";
@@ -67,6 +110,14 @@ namespace DNDWebsite
                 {
                     string existingEmail = reader["ClientEmail"].ToString();
                     string existingPassword = reader["ClientPassword"]?.ToString();
+
+                    if (string.IsNullOrEmpty(existingPassword))
+                    {
+                        reader.Close();
+                        // Redirect to the Set Password flow, pre-filling their email
+                        Response.Redirect($"Login.aspx?setpassword=1&email={Server.UrlEncode(existingEmail)}");
+                        return;
+                    }
 
                     // CASE-SENSITIVE comparison for email and password
                     if (existingEmail == input && existingPassword == password)
@@ -140,7 +191,8 @@ namespace DNDWebsite
         }
 
         // SIGNUP / SET PASSWORD
-        protected void btnSignup_Click(object sender, EventArgs e)
+        // SIGNUP / SET PASSWORD
+        protected void btnSignup_Click(object sender, EventArgs e)
         {
             string name = txtSignupName.Text.Trim();
             string email = txtSignupEmail.Text.Trim();
@@ -149,65 +201,124 @@ namespace DNDWebsite
             string question = ddlQuestion.SelectedValue;
             string answer = txtSignupAnswer.Text.Trim();
 
-            if (hfSetPasswordMode.Value == "true" && string.IsNullOrEmpty(password))
+            bool isSetPasswordMode = hfSetPasswordMode.Value == "true";
+
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(question) || string.IsNullOrEmpty(answer))
             {
-                lblSignupMessage.Text = "Please enter a password.";
+                lblSignupMessage.Text = "Please fill in email, password, and verification fields.";
+                signupSection.Style["display"] = "block";
+                loginSection.Style["display"] = "none";
+                signupSection.Visible = true;
                 return;
             }
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            if (!isSetPasswordMode || (isSetPasswordMode && !txtSignupName.ReadOnly))
+            {
+                if (string.IsNullOrEmpty(name))
+                {
+                    lblSignupMessage.Text = "Please fill in all fields (Name).";
+                    signupSection.Style["display"] = "block";
+                    loginSection.Style["display"] = "none";
+                    signupSection.Visible = true;
+                    return;
+                }
+            }
+
+            if (!isSetPasswordMode || (isSetPasswordMode && !txtSignupPhone.ReadOnly))
+            {
+                if (string.IsNullOrEmpty(phone))
+                {
+                    lblSignupMessage.Text = "Please fill in all fields (Phone).";
+                    signupSection.Style["display"] = "block";
+                    loginSection.Style["display"] = "none";
+                    signupSection.Visible = true;
+                    return;
+                }
+                if (!Regex.IsMatch(phone, @"^0\d{9}$"))
+                {
+                    lblSignupMessage.Text = "Phone number must be 10 digits long, numbers only, and start with 0.";
+                    signupSection.Style["display"] = "block";
+                    loginSection.Style["display"] = "none";
+                    signupSection.Visible = true;
+                    return;
+                }
+            }
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
 
-                // --- CHECK IF EMAIL EXISTS ---
-                string checkQuery = "SELECT ClientPassword FROM Client WHERE ClientEmail = @Email";
+                // --- CHECK IF EMAIL EXISTS ---
+                string checkQuery = "SELECT ClientPassword FROM Client WHERE ClientEmail = @Email";
                 SqlCommand checkCmd = new SqlCommand(checkQuery, conn);
                 checkCmd.Parameters.AddWithValue("@Email", email);
 
                 object result = checkCmd.ExecuteScalar();
 
-                // === CASE B or C: EMAIL EXISTS ===
-                if (result != null)
+                // === CASE B or C: EMAIL EXISTS ===
+                if (result != null)
                 {
                     string existingPassword = (result == DBNull.Value) ? null : result.ToString();
 
-                    // === CASE B: Password not set yet (NULL or empty) → UPDATE ===
-                    if (string.IsNullOrEmpty(existingPassword))
+                    // === CASE B: Password not set yet (NULL or empty) → UPDATE ===
+                    if (string.IsNullOrEmpty(existingPassword))
                     {
-                        string updateQuery = @"UPDATE Client 
-                                       SET ClientPassword=@Password, 
-                                           ClientQuestion=@Question, 
-                                           ClientAnswer=@Answer 
-                                       WHERE ClientEmail=@Email";
+                        // Build the query dynamically based on which fields are editable
+                        string updateQuery = @"UPDATE Client 
+                                               SET ClientPassword=@Password, 
+                                                   ClientQuestion=@Question, 
+                                                   ClientAnswer=@Answer";
+
+                        if (!txtSignupName.ReadOnly)
+                        {
+                            updateQuery += ", ClientName=@Name";
+                        }
+                        if (!txtSignupPhone.ReadOnly)
+                        {
+                            updateQuery += ", ClientPhoneNumber=@Phone";
+                        }
+                        updateQuery += " WHERE ClientEmail=@Email";
+
                         SqlCommand updateCmd = new SqlCommand(updateQuery, conn);
-                        updateCmd.Parameters.AddWithValue("@Password", password);
+
+                        // Add parameters
+                        updateCmd.Parameters.AddWithValue("@Password", password);
                         updateCmd.Parameters.AddWithValue("@Question", question);
                         updateCmd.Parameters.AddWithValue("@Answer", answer);
                         updateCmd.Parameters.AddWithValue("@Email", email);
-                        updateCmd.ExecuteNonQuery();
+
+                        if (!txtSignupName.ReadOnly)
+                        {
+                            updateCmd.Parameters.AddWithValue("@Name", name);
+                        }
+                        if (!txtSignupPhone.ReadOnly)
+                        {
+                            updateCmd.Parameters.AddWithValue("@Phone", phone);
+                        }
+
+                        updateCmd.ExecuteNonQuery();
 
                         Response.Redirect("Login.aspx?signup=success");
                         return;
                     }
                     else
                     {
-                        // === CASE C: Email exists AND password already set ===
-                        lblSignupMessage.Text = "An account with this email already exists.";
+                        // === CASE C: Email exists AND password already set ===
+                        lblSignupMessage.Text = "An account with this email already exists.";
                         signupSection.Style["display"] = "block";
                         loginSection.Style["display"] = "none";
                         signupSection.Visible = true;
                         return;
                     }
-
                 }
 
-                // === CASE A: Email does not exist → INSERT ===
-                string insertQuery = @"INSERT INTO Client 
-                               (ClientName, ClientPhoneNumber, ClientEmail, ClientPassword, ClientOptOut, ClientQuestion, ClientAnswer)
-                               VALUES (@Name, @Phone, @Email, @Password, 0, @Question, @Answer)";
+                // === CASE A: Email does not exist → INSERT ===
+                string insertQuery = @"INSERT INTO Client 
+                               (ClientName, ClientPhoneNumber, ClientEmail, ClientPassword, ClientOptOut, ClientQuestion, ClientAnswer)
+                               VALUES (@Name, @Phone, @Email, @Password, 0, @Question, @Answer)";
                 SqlCommand insertCmd = new SqlCommand(insertQuery, conn);
                 insertCmd.Parameters.AddWithValue("@Name", name);
-                insertCmd.Parameters.AddWithValue("@Phone", phone);
+                insertCmd.Parameters.AddWithValue("@Phone", phone);
                 insertCmd.Parameters.AddWithValue("@Email", email);
                 insertCmd.Parameters.AddWithValue("@Password", password);
                 insertCmd.Parameters.AddWithValue("@Question", question);
@@ -304,7 +415,7 @@ namespace DNDWebsite
                     lblResetMessage.Text = "Incorrect answer.";
                 }
             }
-        }
+        }   
 
         protected void btnBackToHome_Click(object sender, EventArgs e)
         {

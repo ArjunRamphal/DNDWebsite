@@ -13,20 +13,40 @@
 
     <!-- LEFT: GridView -->
     <div style="flex:2; min-width:500px;">
-        <asp:GridView ID="gvSupplierProducts" runat="server"
-            AutoGenerateColumns="False"
-            CssClass="grid"
-            GridLines="None"
-            AllowPaging="true"
-            PageSize="10"
-            DataKeyNames="ProductID,SupplierID"
-            AutoGenerateEditButton="true"
-            OnRowEditing="gvSupplierProducts_RowEditing"
-            OnRowCancelingEdit="gvSupplierProducts_RowCancelingEdit"
-            OnRowUpdating="gvSupplierProducts_RowUpdating"
-            OnPageIndexChanging="gvSupplierProducts_PageIndexChanging">
+    <asp:GridView ID="gvSupplierProducts" runat="server"
+            AutoGenerateColumns="False"
+            CssClass="grid"
+            GridLines="None"
+            AllowPaging="true"
+            PageSize="10"
+            DataKeyNames="ProductID,SupplierID"
+            AutoGenerateEditButton="false"
+            OnRowEditing="gvSupplierProducts_RowEditing"
+            OnRowCancelingEdit="gvSupplierProducts_RowCancelingEdit"
+            OnRowUpdating="gvSupplierProducts_RowUpdating"
+            OnPageIndexChanging="gvSupplierProducts_PageIndexChanging">
+            <RowStyle CssClass="data-row" />
 
             <Columns>
+                <asp:TemplateField HeaderText="Actions" ItemStyle-Width="150px">
+                    <ItemTemplate>
+                        <asp:Button ID="btnEdit" runat="server"
+                            CommandName="Edit"
+                            Text="Edit"
+                            CssClass="btn-search" />
+                    </ItemTemplate>
+                    <EditItemTemplate>
+                        <asp:Button ID="btnUpdate" runat="server"
+                            CommandName="Update"
+                            Text="Update"
+                            CssClass="btn-search" />
+                        <asp:Button ID="btnCancel" runat="server"
+                            CommandName="Cancel"
+                            Text="Cancel"
+                            CssClass="btn-search"
+                            Style="background-color:#808080;" />
+                        </EditItemTemplate>
+                </asp:TemplateField>
                 <asp:TemplateField HeaderText="Product">
                     <ItemTemplate>
                         <%# Eval("ProductName") %>
@@ -60,7 +80,7 @@
                 </asp:TemplateField>
             </Columns>
 
-            <PagerSettings Mode="NumericFirstLast" PageButtonCount="20" />
+            <PagerStyle CssClass="pager" BackColor="#4682B4" ForeColor="White" HorizontalAlign="Center" />
         </asp:GridView>
     </div>
 
@@ -144,18 +164,41 @@
             border-collapse: collapse;
             background-color: #F5F5F5;
         }
+
         .grid th, .grid td {
             border: 1px solid #4682B4;
             padding: 10px;
             text-align: center;
         }
+
         .grid th {
             background-color: #4682B4;
             color: #fff;
             font-weight: bold;
         }
-        .grid tr:hover {
-            background-color: #d0e4ff;
+
+        .grid tr.data-row:hover {
+            background-color: #D0E4F5;
+        }
+
+        .pager {
+            background-color: #4682B4;
+            color: #FFFFFF;
+            text-align: center;
+        }
+        .pager a, .pager span {
+            display: inline-block;
+            padding: 5px 10px;
+            margin: 2px;
+            border-radius: 4px;
+            color: #FFFFFF;
+            text-decoration: none;
+        }
+        .pager a:hover {
+            background-color: #5a9bd3;
+        }
+        .pager span {
+            background-color: #315f7d;
         }
     </style>
 </asp:Content>
