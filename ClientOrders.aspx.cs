@@ -277,15 +277,32 @@ namespace DNDWebsite
             LoadClientOrders(false, "");
         }
 
-        protected void gvSupplierProducts_SelectedIndexChanged(object sender, EventArgs e)
+        protected void gvSupplierProducts_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            hfSelectedProductId.Value = gvSupplierProducts.SelectedDataKey.Values["ProductID"].ToString();
-            hfSelectedSupplierId.Value = gvSupplierProducts.SelectedDataKey.Values["SupplierID"].ToString();
-            hfSelectedProductPrice.Value = gvSupplierProducts.SelectedDataKey.Values["FinalPrice"].ToString();
+            if (e.CommandName == "SelectProduct")
+            {
+                // 1. Determine which row was clicked
+                int index = Convert.ToInt32(e.CommandArgument);
+                GridViewRow row = gvSupplierProducts.Rows[index];
 
-            lblSelectedSupplierProduct.Text = Server.HtmlDecode(gvSupplierProducts.SelectedRow.Cells[1].Text)
-                                          + " — " + Server.HtmlDecode(gvSupplierProducts.SelectedRow.Cells[2].Text);
-            lblAddMessage.Text = "";
+                // 2. Get the DataKeys (IDs) from that row
+                string productId = gvSupplierProducts.DataKeys[index].Values["ProductID"].ToString();
+                string supplierId = gvSupplierProducts.DataKeys[index].Values["SupplierID"].ToString();
+                string price = gvSupplierProducts.DataKeys[index].Values["FinalPrice"].ToString();
+
+                // 3. Save to HiddenFields immediately
+                hfSelectedProductId.Value = productId;
+                hfSelectedSupplierId.Value = supplierId;
+                hfSelectedProductPrice.Value = price;
+
+                // 4. Update the label to show feedback to the user
+                // Cells[1] is Product, Cells[2] is Supplier (based on the columns we defined)
+                string productText = row.Cells[1].Text;
+                string supplierText = row.Cells[2].Text;
+
+                lblSelectedSupplierProduct.Text = Server.HtmlDecode(productText) + " — " + Server.HtmlDecode(supplierText);
+                lblAddMessage.Text = ""; // Clear any old error messages
+            }
         }
 
         protected void btnAddToOrder_Click(object sender, EventArgs e)
@@ -618,6 +635,11 @@ namespace DNDWebsite
                 gvOrderProducts.Columns[gvOrderProducts.Columns.Count - 1].Visible = false;
 
             CalculateAndDisplayRunningTotal(orderId);
+
+            lblPaymentMessage.Text = "Order has been finalized successfully.";
+            lblPaymentMessage.ForeColor = System.Drawing.Color.Green;
+            
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "HideModal", "hideFinalizeModal();", true);
         }
 
         private void SendEmail(string toEmail, string subject, string body, bool isHtml = false)
@@ -745,8 +767,8 @@ namespace DNDWebsite
 
                 using (SqlCommand updateCmd = new SqlCommand(
                     @"UPDATE Payment
-              SET PaymentDue=@PaymentDue, PaymentSurplus=@PaymentSurplus, PaymentStatus=@PaymentStatus
-              WHERE OrderID=@OrderID", conn))
+                      SET PaymentDue=@PaymentDue, PaymentSurplus=@PaymentSurplus, PaymentStatus=@PaymentStatus
+                      WHERE OrderID=@OrderID", conn))
                 {
                     updateCmd.Parameters.AddWithValue("@PaymentDue", newDue);
                     updateCmd.Parameters.AddWithValue("@PaymentSurplus", newSurplus);
@@ -762,6 +784,14 @@ namespace DNDWebsite
                 // Refresh Payment Grid
                 LoadPaymentInfo(orderId);
             }
+        }
+        
+        protected void btnResetSupplierFilter_Click(object sender, EventArgs e)
+        {
+            txtSupplierSearch.Text = "";
+            ddlSuppliers.SelectedIndex = 0; // Reset to "All suppliers"
+            gvSupplierProducts.PageIndex = 0; // Reset paging
+            LoadSupplierProducts(); // Reload grid
         }
     }
 }

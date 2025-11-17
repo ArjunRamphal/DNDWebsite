@@ -2,45 +2,49 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2 id="lblHeader" runat="server" style="text-align:center;">All Client Orders</h2>
+    <asp:UpdatePanel ID="upClientOrders" runat="server">
+        <ContentTemplate>
+            
+            <h2 id="lblHeader" runat="server" style="text-align:center;">All Client Orders</h2>
 
-    <div id="filtersRow" style="text-align:center; margin-bottom:10px;">
-        <div id="clientSearchRow" style="text-align:center; margin-bottom:10px;">
-            <asp:TextBox ID="txtClientSearch" runat="server" CssClass="input-box" placeholder="Search clients by name..." />
-            <asp:Button ID="btnSearchClient" runat="server" Text="Search" CssClass="btn-search" OnClick="btnSearchClient_Click" />
-        </div>
+            <div id="filtersRow" style="text-align:center; margin-bottom:10px;">
+                <div id="clientSearchRow" style="text-align:center; margin-bottom:10px;">
+                    <asp:TextBox ID="txtClientSearch" runat="server" CssClass="input-box" placeholder="Search clients by name..." />
+                    <asp:Button ID="btnSearchClient" runat="server" Text="Search" CssClass="btn-search" OnClick="btnSearchClient_Click" />
+                </div>
 
-        <asp:CheckBox ID="chkPending" runat="server" Text="Show Pending Orders Only" AutoPostBack="true" OnCheckedChanged="chkPending_CheckedChanged" />
-        <asp:Button ID="btnResetFilter" runat="server" Text="Reset Filter" OnClick="btnResetFilter_Click" CssClass="btn-search" />
-    </div>
+                <asp:CheckBox ID="chkPending" runat="server" Text="Show Pending Orders Only" AutoPostBack="true" OnCheckedChanged="chkPending_CheckedChanged" />
+                <asp:Button ID="btnResetFilter" runat="server" Text="Reset Filter" OnClick="btnResetFilter_Click" CssClass="btn-search" />
+            </div>
 
-    <!-- Master GridView -->
-    <asp:GridView ID="gvClientOrders" runat="server" AutoGenerateColumns="False" CssClass="grid" GridLines="None"
-        OnSelectedIndexChanged="gvClientOrders_SelectedIndexChanged"
-        OnPageIndexChanging="gvClientOrders_PageIndexChanging"
-        DataKeyNames="OrderID" AllowPaging="true" PageSize="10">
+            <asp:GridView ID="gvClientOrders" runat="server" AutoGenerateColumns="False" CssClass="grid" GridLines="None" Style="width:90%"
+                OnSelectedIndexChanged="gvClientOrders_SelectedIndexChanged"
+                OnPageIndexChanging="gvClientOrders_PageIndexChanging"
+                DataKeyNames="OrderID" AllowPaging="true" PageSize="10">
 
-        <RowStyle CssClass="data-row" />
+                <RowStyle CssClass="data-row" />
 
-        <Columns>
-            <asp:TemplateField HeaderText="Action">
-                <ItemTemplate>
-                    <asp:Button ID="btnSelect" runat="server" 
-                        Text="Select" 
-                        CommandName="Select" 
-                        CssClass="btn-search" />
-                </ItemTemplate>
-            </asp:TemplateField>
-            <asp:BoundField DataField="OrderID" HeaderText="Order ID" />
-            <asp:BoundField DataField="ClientName" HeaderText="Client" />
-            <asp:BoundField DataField="OrderDate" HeaderText="Date of Order" DataFormatString="{0:yyyy-MM-dd}" />
-            <asp:BoundField DataField="OrderAmount" HeaderText="Total" DataFormatString="{0:C2}" />
-            <asp:BoundField DataField="OrderStatus" HeaderText="Order Complete" />
-        </Columns>
+                <Columns>
+                    <asp:TemplateField HeaderText="Action">
+                        <ItemTemplate>
+                            <asp:Button ID="btnSelect" runat="server" 
+                                Text="Select" 
+                                CommandName="Select" 
+                                CssClass="btn-search" />
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:BoundField DataField="OrderID" HeaderText="Order ID" />
+                    <asp:BoundField DataField="ClientName" HeaderText="Client" />
+                    <asp:BoundField DataField="OrderDate" HeaderText="Date of Order" DataFormatString="{0:yyyy-MM-dd}" />
+                    <asp:BoundField DataField="OrderAmount" HeaderText="Total" DataFormatString="{0:C2}" />
+                    <asp:BoundField DataField="OrderStatus" HeaderText="Order Complete" />
+                </Columns>
 
-        <PagerStyle CssClass="pager" BackColor="#4682B4" ForeColor="White" HorizontalAlign="Center" />
+                <PagerStyle CssClass="pager" BackColor="#4682B4" ForeColor="White" HorizontalAlign="Center" />
 
-    </asp:GridView>
+            </asp:GridView>
+            
+
 
     <!-- Detail Panel -->
     <asp:Panel ID="pnlOrderProducts" runat="server" Visible="false" Style="margin-top:20px;">
@@ -113,14 +117,9 @@
             <div style="flex: 1 1 360px;">
                 <h3 style="margin-top:0;">Supplier Products</h3>
 
-                <div style="margin-bottom:8px;">
-                    <label style="font-weight:bold;">Filter</label><br />
-                    <asp:TextBox ID="txtSupplierSearch" runat="server" CssClass="input-box" placeholder="Search products..." />
-                    <asp:DropDownList ID="ddlSuppliers" runat="server" OnSelectedIndexChanged="ddlSuppliers_SelectedIndexChanged" AutoPostBack="true" CssClass="input-box">
-                        <asp:ListItem Text="All suppliers" Value="" />
-                    </asp:DropDownList>
-                    <asp:Button ID="btnFilterSupplierProducts" runat="server" Text="Filter" CssClass="btn-search" OnClick="btnFilterSupplierProducts_Click" />
-                </div>
+                <div style="margin-bottom:8px;"><label style="font-weight:bold;">Filter</label><br /><asp:TextBox ID="txtSupplierSearch" runat="server" CssClass="input-box" placeholder="Search products..." /><asp:DropDownList ID="ddlSuppliers" runat="server" OnSelectedIndexChanged="ddlSuppliers_SelectedIndexChanged" AutoPostBack="true" CssClass="input-box"><asp:ListItem Text="All suppliers" Value="" /></asp:DropDownList><div style="margin-top:8px; display:flex; gap:10px;"><asp:Button ID="btnFilterSupplierProducts" runat="server" Text="Filter" CssClass="btn-search" OnClick="btnFilterSupplierProducts_Click" /><asp:Button ID="btnResetSupplierFilter" runat="server" Text="Reset" CssClass="btn-search" OnClick="btnResetSupplierFilter_Click" />
+                    </div>
+                </div>
 
                 <div style="margin:6px 0 12px;">
                     <label style="font-weight:bold;">Add Product</label><br />
@@ -139,19 +138,21 @@
 
                 <!-- Supplier Products Grid -->
                 <asp:GridView ID="gvSupplierProducts" runat="server" AutoGenerateColumns="False" CssClass="grid" GridLines="None"
-                    OnSelectedIndexChanged="gvSupplierProducts_SelectedIndexChanged"
                     OnPageIndexChanging="gvSupplierProducts_PageIndexChanging"
+                    OnRowCommand="gvSupplierProducts_RowCommand" 
                     DataKeyNames="ProductID,SupplierID,FinalPrice"
                     AllowPaging="true" PageSize="6">
 
                     <RowStyle CssClass="data-row" />
 
                     <Columns>
+                        <%-- NEW: Use a TemplateField with a specific CommandName --%>
                         <asp:TemplateField HeaderText="Action">
                             <ItemTemplate>
                                 <asp:Button ID="btnSelectProduct" runat="server" 
                                     Text="Select" 
-                                    CommandName="Select" 
+                                    CommandName="SelectProduct" 
+                                    CommandArgument='<%# Container.DataItemIndex %>' 
                                     CssClass="btn-search" />
                             </ItemTemplate>
                         </asp:TemplateField>
@@ -161,7 +162,6 @@
                         <asp:BoundField DataField="FinalPrice" HeaderText="Price" DataFormatString="{0:C2}" />
                     </Columns>
 
-                    <%-- ADD THIS LINE --%>
                     <PagerStyle CssClass="pager" BackColor="#4682B4" ForeColor="White" HorizontalAlign="Center" />
 
                 </asp:GridView>
@@ -187,6 +187,9 @@
     <asp:HiddenField ID="hfSelectedSupplierId" runat="server" />
     <asp:HiddenField ID="hfSelectedProductPrice" runat="server" />
 
+        </ContentTemplate>
+    </asp:UpdatePanel>
+    
     <style>
         .grid {
             margin: 12px auto 18px auto;

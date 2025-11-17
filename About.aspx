@@ -8,7 +8,7 @@
             <p>
                 DND Trading & General Supplies is a Durban-based procurement support service built to simplify how 
                 businesses manage stationery and office-supply sourcing. Instead of browsing through multiple 
-                supplier lists, our system centralises the entire process-making comparisons, tracking requests, 
+                supplier lists, our system centralises the entire process - making comparisons, tracking requests, 
                 and generating organised reports easier than ever.
             </p>
         </section>
@@ -20,13 +20,13 @@
                 <h3>Our Story</h3>
                 <p>
                     We began as a small trading operation with one goal: reduce the manual workload that businesses 
-                    experience when sourcing essential office items. As our clients grew, so did our platform-evolving 
+                    experience when sourcing essential office items. As our clients grew, so did our platform - evolving 
                     from basic procurement assistance into a structured system where admin, comparisons, and 
                     processing could all be managed in one place.
                 </p>
                 <p>
                     Today, we act as the trusted “middle link” between businesses and suppliers.  
-                    We handle the comparison, item selection, request processing, and financial recording-allowing 
+                    We handle the comparison, item selection, request processing, and financial recording - allowing 
                     our clients to focus on running their operations while we manage the admin behind the scenes.
                 </p>
             </div>
@@ -44,7 +44,7 @@
             <div>
                 <h3>Our Vision</h3>
                 <p>
-                    To become one of South Africa’s most reliable procurement support platforms-valued for efficiency, 
+                    To become one of South Africa’s most reliable procurement support platforms - valued for efficiency, 
                     transparency, and our commitment to helping businesses operate smarter, not harder.
                 </p>
             </div>
@@ -69,12 +69,12 @@
         <section class="values slide-right">
             <h3>What Sets Us Apart</h3>
            <div class="value-grid">
-                <div class="value-card">Reliability – Consistent, accurate processing every time.</div>
-                <div class="value-card">Efficiency – Reduced admin and faster procurement workflows.</div>
-                <div class="value-card">Transparency – Clear records and simple reporting.</div>
-                <div class="value-card">Customer-first – We adapt our process around your requirements.</div>
-                <div class="value-card">Modern Tools – A platform built to keep everything organised.</div>
-                <div class="value-card">Professional Support – Assistance backed by knowledge and experience.</div>
+                <div class="value-card">Reliability - Consistent, accurate processing every time.</div>
+                <div class="value-card">Efficiency - Reduced admin and faster procurement workflows.</div>
+                <div class="value-card">Transparency - Clear records and simple reporting.</div>
+                <div class="value-card">Customer-first - We adapt our process around your requirements.</div>
+                <div class="value-card">Modern Tools - A platform built to keep everything organised.</div>
+                <div class="value-card">Professional Support - Assistance backed by knowledge and experience.</div>
             </div>
         </section>
 
@@ -82,7 +82,7 @@
         <section class="cta fade-in">
             <h3>Ready to streamline your procurement?</h3>
             <p>
-                Partner with DND Trading & General Supplies and let our system handle the admin-so your business 
+                Partner with DND Trading & General Supplies and let our system handle the admin - so your business 
                 can focus on what truly matters.
             </p>
         </section>
@@ -112,6 +112,10 @@
             gap: 30px;
             flex-wrap: wrap;
             text-align: left;
+        }
+
+        .mission-vision {
+            align-items: stretch;
         }
 
         .our-story img, .how-we-work img {

@@ -9,7 +9,7 @@
         </asp:Panel>
     </div>
 
-<div style="display:flex; justify-content:left; align-items:flex-start; gap:20px; flex-wrap:nowrap; margin-top:20px;">
+<div style="display:flex; justify-content:center; align-items:flex-start; gap:40px; flex-wrap:wrap; margin-top:30px; padding: 0 30px;">
 
     <!-- LEFT: GridView -->
     <div style="flex:2; min-width:500px;">

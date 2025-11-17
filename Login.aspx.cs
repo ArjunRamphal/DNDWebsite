@@ -147,7 +147,7 @@ namespace DNDWebsite
                 reader.Close();
 
                 // --- USER LOGIN ---
-                string userQuery = "SELECT UserName, UserFirstName, UserLastName, UserType, UserPassword FROM [User] WHERE UserName = @Input";
+                string userQuery = "SELECT UserName, UserFirstName, UserLastName, UserType, UserPassword, UserOptOut FROM [User] WHERE UserName = @Input";
                 SqlCommand userCmd = new SqlCommand(userQuery, conn);
                 userCmd.Parameters.AddWithValue("@Input", input);
                 reader = userCmd.ExecuteReader();
@@ -156,14 +156,23 @@ namespace DNDWebsite
                 {
                     string existingUserName = reader["UserName"].ToString();
                     string existingPassword = reader["UserPassword"].ToString();
+                    bool isOptedOut = reader["UserOptOut"] != DBNull.Value && Convert.ToBoolean(reader["UserOptOut"]);
 
                     // CASE-SENSITIVE comparison
                     if (existingUserName == input && existingPassword == password)
                     {
+                        if (isOptedOut)
+                        {
+                            lblMessage.Text = "Access Denied: This account is currently inactive. Please contact support if you believe this is a mistake.";
+                            lblMessage.ForeColor = System.Drawing.Color.Red;
+                            reader.Close();
+                            return;
+                        }
+
                         string fullName = $"{reader["UserFirstName"]} {reader["UserLastName"]}";
                         bool isManager = Convert.ToBoolean(reader["UserType"]);
                         Session["UserType"] = isManager ? "Manager" : "Sales Representative";
-                        Session["UserName"] = fullName;
+                        Session["UserName"] = reader["UserName"].ToString();
                         Session["UsernameKey"] = input;
                         reader.Close();
 
@@ -190,7 +199,6 @@ namespace DNDWebsite
             }
         }
 
-        // SIGNUP / SET PASSWORD
         // SIGNUP / SET PASSWORD
         protected void btnSignup_Click(object sender, EventArgs e)
         {

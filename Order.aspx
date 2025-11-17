@@ -49,8 +49,7 @@
 <style>
     .grid {
         margin: 20px auto;
-        width: 100%; /* Use 100% for flexibility */
-        max-width: 700px;
+        width: 90%; /* Use 100% for flexibility */
         border-collapse: collapse;
         background-color: #F5F5F5;
     }

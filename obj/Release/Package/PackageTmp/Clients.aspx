@@ -67,7 +67,7 @@
 
         .grid {
             margin: 0 auto;
-            width: 100%;
+            width: 90%;
             border-collapse: collapse;
             background-color: #F5F5F5;
         }

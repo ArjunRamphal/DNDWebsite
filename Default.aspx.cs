@@ -160,16 +160,16 @@ namespace DNDWebsite
                 {
                     conn.Open();
 
-                    // 1️⃣ Completed Orders
+                    // Completed Orders
                     int ordersCount = 0;
-                    using (SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM [Order]", conn))
+                    using (SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM [Order] WHERE OrderStatus=1", conn))
                     {
                         var result = cmd.ExecuteScalar();
                         ordersCount = (result != DBNull.Value) ? Convert.ToInt32(result) : 0;
                     }
                     lblOrdersCount.Text = ordersCount.ToString("N0"); // formats with commas
 
-                    // 2️⃣ Products Sold
+                    // Products Sold
                     int productsSold = 0;
                     using (SqlCommand cmd = new SqlCommand("SELECT SUM(OrderSupplierProductQuantity) FROM [OrderSupplierProduct]", conn))
                     {
@@ -178,7 +178,7 @@ namespace DNDWebsite
                     }
                     lblSalesCount.Text = productsSold.ToString("N0");
 
-                    // 3️⃣ Happy Clients
+                    // Happy Clients
                     int clientsCount = 0;
                     using (SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM [Client]", conn))
                     {

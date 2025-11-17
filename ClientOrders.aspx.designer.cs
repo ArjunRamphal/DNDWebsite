@@ -15,6 +15,15 @@ namespace DNDWebsite
     {
 
         /// <summary>
+        /// upClientOrders control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel upClientOrders;
+
+        /// <summary>
         /// lblHeader control.
         /// </summary>
         /// <remarks>
@@ -184,6 +193,15 @@ namespace DNDWebsite
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnFilterSupplierProducts;
+
+        /// <summary>
+        /// btnResetSupplierFilter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnResetSupplierFilter;
 
         /// <summary>
         /// lblSelectedSupplierProduct control.

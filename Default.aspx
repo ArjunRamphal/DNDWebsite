@@ -216,7 +216,7 @@
                 <div class="help-box" aria-orientation="vertical">
                     <span class="close-btn" onclick="closeHelpPanel()">&times;</span>
                     <p>
-                        Use this website to explore our offerings, view pricing, and manage your orders - once you're signed in.<br /><br />
+                        Use this website to explore our offerings and manage your orders - once you're signed in.<br /><br />
 
                         <b>Getting Started:</b><br />
                         • Click the <b>Login</b> button at the top of the page if you already have an account.<br />
@@ -224,8 +224,7 @@
 
                         <b>After Logging In:</b><br />
                         • You’ll be able to browse products and place orders.<br />
-                        • Track your past orders and manage account details.<br />
-                        • Access exclusive offers and business deals.<br /><br />
+                        • Track your past orders and manage account details.<br /><br />
 
                         <b>Need Help?</b><br />
                         • If you experience any issues signing in, use the <b>Contact Us</b> option at the top to reach support.<br />

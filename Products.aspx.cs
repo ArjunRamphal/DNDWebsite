@@ -38,45 +38,45 @@ namespace DNDWebsite
 
         // Updated LoadAvailableProducts to support optional filter
         // Updated LoadAvailableProducts to support multi-word filtering
+        // Updated LoadAvailableProducts to filter out products from opted-out suppliers
         private void LoadAvailableProducts(string filter = "")
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string query = "SELECT ProductID, ProductName, ProductSurcharge FROM Product";
+                // Join Product -> SupplierProduct -> Supplier
+                // Filter where SupplierOptOut is 0 (False)
+                // Use DISTINCT to avoid duplicate products if multiple active suppliers sell the same item
+                string query = @"
+                    SELECT DISTINCT p.ProductID, p.ProductName, p.ProductSurcharge 
+                    FROM Product p
+                    INNER JOIN SupplierProduct sp ON p.ProductID = sp.ProductID
+                    INNER JOIN Supplier s ON sp.SupplierID = s.SupplierID
+                    WHERE s.SupplierOptOut = 0";
 
-                // Create command and data adapter
-                SqlCommand cmd = new SqlCommand();
+                SqlCommand cmd = new SqlCommand();
                 cmd.Connection = conn;
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
 
                 if (!string.IsNullOrEmpty(filter))
                 {
-                    // Split the filter text into individual words, removing empty spaces
-                    string[] filterWords = filter.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    string[] filterWords = filter.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
                     if (filterWords.Length > 0)
                     {
-                        query += " WHERE ";
-                        // Build the dynamic WHERE clause (e.g., ...WHERE ProductName LIKE @Filter0 AND ProductName LIKE @Filter1)
-                        for (int i = 0; i < filterWords.Length; i++)
+                        // Append conditions to the existing WHERE clause
+                        for (int i = 0; i < filterWords.Length; i++)
                         {
-                            if (i > 0)
-                            {
-                                query += " AND ";
-                            }
                             string paramName = "@Filter" + i;
-                            query += $"ProductName LIKE {paramName}";
-
-                            // Add the parameter with wildcard '%'
-                            cmd.Parameters.AddWithValue(paramName, "%" + filterWords[i] + "%");
+                            // Use 'p.ProductName' to be explicit
+                            query += $" AND p.ProductName LIKE {paramName}";
+                            cmd.Parameters.AddWithValue(paramName, "%" + filterWords[i] + "%");
                         }
                     }
                 }
 
-                query += " ORDER BY ProductName";
+                query += " ORDER BY p.ProductName";
 
-                // Set the final query to the command
-                cmd.CommandText = query;
+                cmd.CommandText = query;
 
                 DataTable dt = new DataTable();
                 da.Fill(dt);
@@ -99,7 +99,7 @@ namespace DNDWebsite
                 int index = Convert.ToInt32(e.CommandArgument);
                 GridViewRow row = gvAvailableProducts.Rows[index % gvAvailableProducts.PageSize];
 
-                string productName = row.Cells[1].Text;
+                string productName = Server.HtmlDecode(row.Cells[1].Text);
                 TextBox txtQty = row.FindControl("txtQuantityRow") as TextBox;
                 int quantity = 1;
 
@@ -108,7 +108,6 @@ namespace DNDWebsite
                     quantity = parsedQty;
                 }
 
-                // Load existing products from ViewState
                 DataTable dt = ViewState["Products"] as DataTable;
                 if (dt == null)
                 {
@@ -124,27 +123,18 @@ namespace DNDWebsite
 
                 ViewState["Products"] = dt;
 
-                // Rebind right grid
                 gvProducts.DataSource = dt;
                 gvProducts.DataBind();
 
-                // Force the right UpdatePanel to refresh
                 if (upSelectedProducts != null)
                     upSelectedProducts.Update();
 
-                // --- START: ADDED CODE ---
-
-                // 1. Clear the filter text on the server
                 txtFilter.Text = "";
 
-                // 2. Reload the available products grid (which resets all quantity boxes to "1")
                 LoadAvailableProducts();
 
-                // 3. Register a script to clear the filter box on the client's side
                 string script = $"document.getElementById('{txtFilter.ClientID}').value = '';";
                 ScriptManager.RegisterStartupScript(upProducts, upProducts.GetType(), "ClearFilterScript", script, true);
-
-                // --- END: ADDED CODE ---
             }
         }
 
@@ -174,6 +164,7 @@ namespace DNDWebsite
             string qtyText = txtQuantity.Text.Trim();
             int quantity;
 
+            // 1. Basic Empty Check
             if (string.IsNullOrEmpty(product))
             {
                 lblMessage.ForeColor = System.Drawing.Color.Red;
@@ -181,6 +172,15 @@ namespace DNDWebsite
                 return;
             }
 
+            // 2. Numeric Description Check (Hard Stop)
+            if (decimal.TryParse(product, out _))
+            {
+                lblMessage.ForeColor = System.Drawing.Color.Red;
+                lblMessage.Text = "Product description cannot be just a number. Please enter a valid name.";
+                return;
+            }
+
+            // 3. Quantity Check
             if (!int.TryParse(qtyText, out quantity) || quantity <= 0)
             {
                 lblMessage.ForeColor = System.Drawing.Color.Red;
@@ -188,6 +188,50 @@ namespace DNDWebsite
                 return;
             }
 
+            // 4. Database Warning Check (Soft Warning) with Multi-Word Matching
+            bool productExists = false;
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+
+                // Split the user's input into individual words
+                string[] searchTerms = product.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+                if (searchTerms.Length > 0)
+                {
+                    // Build a dynamic query: SELECT TOP 1 1 FROM Product WHERE ProductName LIKE @Word0 AND ProductName LIKE @Word1 ...
+                    string checkQuery = "SELECT TOP 1 1 FROM Product WHERE 1=1";
+
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.Connection = conn;
+
+                    for (int i = 0; i < searchTerms.Length; i++)
+                    {
+                        string paramName = $"@Word{i}";
+                        checkQuery += $" AND ProductName LIKE {paramName}";
+                        cmd.Parameters.AddWithValue(paramName, "%" + searchTerms[i] + "%");
+                    }
+
+                    cmd.CommandText = checkQuery;
+                    object result = cmd.ExecuteScalar();
+
+                    if (result != null)
+                    {
+                        productExists = true;
+                    }
+                }
+            }
+
+            // If not found, show the custom modal
+            if (!productExists)
+            {
+                string message = $"Warning: We could not find a match for \"{product}\" in our database. We will try our best to source it, but availability is not guaranteed.";
+                string script = $"showValidationModal('{message}');";
+                ClientScript.RegisterStartupScript(this.GetType(), "ProductNotFoundModal", script, true);
+            }
+
+            // 5. Add to Grid
             DataTable dt = ViewState["Products"] as DataTable;
             DataRow dr = dt.NewRow();
             dr["ProductName"] = product;
@@ -197,6 +241,7 @@ namespace DNDWebsite
             gvProducts.DataSource = dt;
             gvProducts.DataBind();
 
+            // Clear inputs
             txtSearch.Text = "";
             txtQuantity.Text = "";
             lblMessage.Text = "";
@@ -220,15 +265,70 @@ namespace DNDWebsite
             gvProducts.DataBind();
         }
 
-        protected void btnCreateOrder_Click(object sender, EventArgs e)
+        // 1. Initial Button Click: Checks status
+        protected void btnCreateOrder_Click(object sender, EventArgs e)
         {
             DataTable dt = ViewState["Products"] as DataTable;
-            if (dt.Rows.Count == 0)
+            if (dt == null || dt.Rows.Count == 0)
             {
                 lblMessage.ForeColor = System.Drawing.Color.Red;
                 lblMessage.Text = "Please add at least one product before creating the order request.";
                 return;
             }
+
+            string clientEmail = Session["UserEmail"].ToString();
+            bool isOptedOut = false;
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = "SELECT ClientOptOut FROM Client WHERE ClientEmail=@Email";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@Email", clientEmail);
+                object result = cmd.ExecuteScalar();
+                if (result != null && result != DBNull.Value)
+                {
+                    isOptedOut = Convert.ToBoolean(result);
+                }
+            }
+
+            if (isOptedOut)
+            {
+                // Show the Opt-In Modal
+                ClientScript.RegisterStartupScript(this.GetType(), "ShowOptInModal", "showOptInModal();", true);
+            }
+            else
+            {
+                // Not opted out, proceed immediately
+                CreateOrder();
+            }
+        }
+
+        // 2. Handle "Yes, Opt In" click from modal
+        protected void btnOptInYes_Click(object sender, EventArgs e)
+        {
+            string clientEmail = Session["UserEmail"].ToString();
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                // Update client to opt-in (set ClientOptOut = 0)
+                string updateQuery = "UPDATE Client SET ClientOptOut = 0 WHERE ClientEmail=@Email";
+                SqlCommand cmd = new SqlCommand(updateQuery, conn);
+                cmd.Parameters.AddWithValue("@Email", clientEmail);
+                cmd.ExecuteNonQuery();
+            }
+
+            // Now create the order
+            CreateOrder();
+        }
+
+        // 3. Refactored Order Creation Logic (Your original code moved here)
+        private void CreateOrder()
+        {
+            DataTable dt = ViewState["Products"] as DataTable;
+            // (Double check, though validation happened earlier)
+            if (dt == null || dt.Rows.Count == 0) return;
 
             string clientEmail = Session["UserEmail"].ToString();
             int clientID;
@@ -248,8 +348,8 @@ namespace DNDWebsite
                 }
                 clientID = Convert.ToInt32(result);
 
-                string insertOrder = @"INSERT INTO [Order] (ClientID, UserName, OrderDate, OrderAmount, OrderStatus) 
-                                       VALUES (@ClientID, '', @OrderDate, 0, 0); SELECT SCOPE_IDENTITY();";
+                string insertOrder = @"INSERT INTO [Order] (ClientID, UserName, OrderDate, OrderAmount, OrderStatus) 
+                                       VALUES (@ClientID, '', @OrderDate, 0, 0); SELECT SCOPE_IDENTITY();";
                 SqlCommand orderCmd = new SqlCommand(insertOrder, conn);
                 orderCmd.Parameters.AddWithValue("@ClientID", clientID);
                 orderCmd.Parameters.AddWithValue("@OrderDate", DateTime.Today);
@@ -260,9 +360,9 @@ namespace DNDWebsite
                     string productName = row["ProductName"].ToString();
                     int quantity = Convert.ToInt32(row["Quantity"]);
 
-                    string insertProduct = @"INSERT INTO ClientOrderProduct 
-                                             (OrderID, ClientID, ClientOrderProductName, ClientOrderProductQuantity, ClientOrderProductStatus)
-                                             VALUES (@OrderID, @ClientID, @ProductName, @Quantity, 0)";
+                    string insertProduct = @"INSERT INTO ClientOrderProduct 
+                                             (OrderID, ClientID, ClientOrderProductName, ClientOrderProductQuantity, ClientOrderProductStatus)
+                                             VALUES (@OrderID, @ClientID, @ProductName, @Quantity, 0)";
                     SqlCommand prodCmd = new SqlCommand(insertProduct, conn);
                     prodCmd.Parameters.AddWithValue("@OrderID", orderID);
                     prodCmd.Parameters.AddWithValue("@ClientID", clientID);
@@ -271,9 +371,9 @@ namespace DNDWebsite
                     prodCmd.ExecuteNonQuery();
                 }
 
-                string insertPayment = @"INSERT INTO Payment 
-                                         (OrderID, PaymentTotal, PaymentDue, PaymentSurplus, PaymentStatus)
-                                         VALUES (@OrderID, 0, 0, 0, 0)";
+                string insertPayment = @"INSERT INTO Payment 
+                                         (OrderID, PaymentTotal, PaymentDue, PaymentSurplus, PaymentStatus)
+                                         VALUES (@OrderID, 0, 0, 0, 0)";
                 SqlCommand paymentCmd = new SqlCommand(insertPayment, conn);
                 paymentCmd.Parameters.AddWithValue("@OrderID", orderID);
                 paymentCmd.ExecuteNonQuery();
@@ -283,11 +383,24 @@ namespace DNDWebsite
             lblMessage.Text = "Order request created successfully. You will be redirected to the home page in 5 seconds.";
 
             btnCreateOrder.Enabled = false;
-
             InitializeClientProductsGrid();
 
             string script = "setTimeout(function(){ window.location.href = 'Default.aspx'; }, 5000);";
             ClientScript.RegisterStartupScript(this.GetType(), "RedirectScript", script, true);
+        }
+
+        // 4. Helper for the "No, Cancel" button (optional, client-side handles close, but if you need server logic)
+        protected void btnProceedOrder_Click(object sender, EventArgs e)
+        {
+            CreateOrder();
+        }
+        
+        protected void btnResetFilter_Click(object sender, EventArgs e)
+        {
+            txtFilter.Text = "";
+            // Reset the grid page index to 0
+            gvAvailableProducts.PageIndex = 0;
+            LoadAvailableProducts(); // Load with empty filter
         }
     }
 }

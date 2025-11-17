@@ -86,6 +86,7 @@
     /* MAIN CONTENT */
     main {
         padding-top: 60px;
+        flex: 1;
     }
 
     /* FOOTER */
@@ -114,6 +115,12 @@
     h1, h2, h3, h4, h5, h6, p, label, span, td, th, li, a {
         font-family: 'Segoe UI', Arial, sans-serif;
         color: #000;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
     }
     </style>
 
