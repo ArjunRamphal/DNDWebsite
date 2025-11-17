@@ -215,7 +215,7 @@ namespace DNDWebsite
             if (!string.IsNullOrEmpty(supplierFilter))
                 query += " AND sp.SupplierID = @SupplierID ";
             if (!string.IsNullOrEmpty(search))
-                query += " AND (p.ProductName LIKE @Search OR s.SupplierName LIKE @Search) ";
+                query += " AND (p.ProductName LIKE @Search) ";
 
             query += " ORDER BY FinalPrice ASC";
 
