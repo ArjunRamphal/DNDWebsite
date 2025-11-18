@@ -58,6 +58,12 @@ namespace DNDWebsite
 
             try
             {
+                DateTime utcTime = DateTime.UtcNow;
+
+                TimeZoneInfo saZone = TimeZoneInfo.FindSystemTimeZoneById("South Africa Standard Time");
+
+                DateTime saTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, saZone);
+
                 MailMessage mail = new MailMessage();
 
                 mail.To.Add("dndtrading22@gmail.com");
@@ -72,7 +78,7 @@ namespace DNDWebsite
                             $"Name: {txtName.Text}\n" +
                             $"Email: {txtEmail.Text}\n\n" +
                             $"Message:\n{txtMessage.Text}\n\n" +
-                            $"Sent on: {DateTime.Now}";
+                            $"Sent on: {saTime:dd MMM yyyy HH:mm} (SAST)";
 
                 SmtpClient smtp = new SmtpClient
                 {

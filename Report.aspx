@@ -30,12 +30,12 @@
 
         <div style="flex: 1; min-width: 300px;">
 
-            <h4 style="text-align:center; margin-bottom:5px;">Sales Representatives</h4>
+            <h4 style="text-align:center; margin-bottom:5px;">Monthly Sales Representatives Sales</h4>
             <div style="border: 2px solid #ccc; padding:10px; border-radius:8px; background:white; height:260px;">
                 <canvas id="salesRepChart"></canvas>
             </div>
 
-            <h5 style="text-align:center; margin-top:20px;">Sales Breakdown</h5>
+            <h5 style="text-align:center; margin-top:20px;">Monthly Sales Breakdown</h5>
             <div style="border: 2px solid #ccc; padding:10px; border-radius:8px; background:white; height:220px;">
                 <canvas id="SalesRepMonthlyChart"></canvas>
             </div>
@@ -44,12 +44,12 @@
  
         <div style="flex: 1; min-width: 300px;">
 
-            <h4 style="text-align:center; margin-bottom:5px;">Top Products</h4>
+            <h4 style="text-align:center; margin-bottom:5px;">Monthly Top 5 Products</h4>
             <div style="border: 2px solid #ccc; padding:10px; border-radius:8px; background:white; height:260px;">
                 <canvas id="top5Pie"></canvas>
             </div>
 
-            <h5 style="text-align:center; margin-top:20px;">Category Breakdown</h5>
+            <h5 style="text-align:center; margin-top:20px;">Monthly Category Breakdown</h5>
             <div style="border: 2px solid #ccc; padding:10px; border-radius:8px; background:white; height:220px;">
                 <canvas id="top5BarChart"></canvas>
             </div>
