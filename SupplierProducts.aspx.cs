@@ -2,10 +2,8 @@
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Security.Cryptography;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace DNDWebsite
 {
@@ -34,7 +32,6 @@ namespace DNDWebsite
                 LoadSupplierProducts();
             }
         }
-
 
         private void LoadSupplierDropdowns()
         {
@@ -103,19 +100,21 @@ namespace DNDWebsite
             }
         }
 
+        protected void btnSearch_Click(object sender, EventArgs e)
+        {
+            LoadSupplierProducts(txtSearch.Text.Trim(), Convert.ToInt32(ddlFilterSupplier.SelectedValue));
+        }
+
+        protected void btnReset_Click(object sender, EventArgs e)
+        {
+            txtSearch.Text = "";
+            ddlFilterSupplier.SelectedIndex = 0;
+            LoadSupplierProducts();
+        }
+
         protected void gvSupplierProducts_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             gvSupplierProducts.PageIndex = e.NewPageIndex;
-            LoadSupplierProducts(txtSearch.Text.Trim(), Convert.ToInt32(ddlFilterSupplier.SelectedValue));
-        }
-
-        protected void txtSearch_TextChanged(object sender, EventArgs e)
-        {
-            LoadSupplierProducts(txtSearch.Text.Trim(), Convert.ToInt32(ddlFilterSupplier.SelectedValue));
-        }
-
-        protected void ddlFilterSupplier_SelectedIndexChanged(object sender, EventArgs e)
-        {
             LoadSupplierProducts(txtSearch.Text.Trim(), Convert.ToInt32(ddlFilterSupplier.SelectedValue));
         }
 
@@ -144,12 +143,11 @@ namespace DNDWebsite
                 decimal newPrice = Convert.ToDecimal(((TextBox)row.FindControl("txtEditPrice")).Text.Trim());
                 decimal newSurcharge = Convert.ToDecimal(((TextBox)row.FindControl("txtEditSurcharge")).Text.Trim());
 
-                // Add validation for required fields
                 if (string.IsNullOrEmpty(newName) || newPrice <= 0 || newSurcharge <= 0)
                 {
                     lblMessage.ForeColor = System.Drawing.Color.Red;
                     lblMessage.Text = "Product name cannot be empty and prices cannot be negative.";
-                    e.Cancel = true; // Cancel the update
+                    e.Cancel = true;
                     return;
                 }
 
@@ -158,14 +156,14 @@ namespace DNDWebsite
                     conn.Open();
 
                     string updateQuery = @"
-                    UPDATE Product 
-                    SET ProductName = @Name,
-                    ProductSurcharge = @Surcharge
-                    WHERE ProductID = @ProductID;
+                    UPDATE Product 
+                    SET ProductName = @Name,
+                    ProductSurcharge = @Surcharge
+                    WHERE ProductID = @ProductID;
 
-                    UPDATE SupplierProduct
-                    SET SupplierProductPrice = @Price
-                    WHERE ProductID = @ProductID AND SupplierID = @SupplierID;";
+                    UPDATE SupplierProduct
+                    SET SupplierProductPrice = @Price
+                    WHERE ProductID = @ProductID AND SupplierID = @SupplierID;";
 
                     SqlCommand cmd = new SqlCommand(updateQuery, conn);
                     cmd.Parameters.AddWithValue("@Name", newName);
@@ -180,42 +178,14 @@ namespace DNDWebsite
                 gvSupplierProducts.EditIndex = -1;
                 LoadSupplierProducts(txtSearch.Text.Trim(), Convert.ToInt32(ddlFilterSupplier.SelectedValue));
 
-                // Set success message
                 lblMessage.ForeColor = System.Drawing.Color.Green;
                 lblMessage.Text = "Product updated successfully.";
             }
             catch (Exception ex)
             {
-                // Set error message
-                lblMessage.ForeColor = System.Drawing.Color.Red;
+                lblMessage.ForeColor = System.Drawing.Color.Red;
                 lblMessage.Text = "Error updating product: " + ex.Message;
-                e.Cancel = true; // Cancel the update on error
-            }
-        }
-
-        protected void gvSupplierProducts_RowDataBound(object sender, GridViewRowEventArgs e)
-        {
-            if (e.Row.RowState.HasFlag(DataControlRowState.Edit))
-            {
-                DropDownList ddl = (DropDownList)e.Row.FindControl("ddlEditSupplier");
-
-                using (SqlConnection conn = new SqlConnection(connectionString))
-                {
-                    conn.Open();
-                    SqlCommand cmd = new SqlCommand("SELECT SupplierID, SupplierName FROM Supplier WHERE SupplierOptOut = 0", conn);
-                    SqlDataAdapter da = new SqlDataAdapter(cmd);
-                    DataTable dt = new DataTable();
-                    da.Fill(dt);
-
-                    ddl.DataSource = dt;
-                    ddl.DataTextField = "SupplierName";
-                    ddl.DataValueField = "SupplierID";
-                    ddl.DataBind();
-
-                    // set correct value
-                    int supplierId = Convert.ToInt32(DataBinder.Eval(e.Row.DataItem, "SupplierID"));
-                    ddl.SelectedValue = supplierId.ToString();
-                }
+                e.Cancel = true;
             }
         }
 
@@ -268,7 +238,6 @@ namespace DNDWebsite
         {
             string orderId = ViewState["CurrentOrderID"]?.ToString();
 
-            // Clear the Session flags
             Session.Remove("FromClientOrders");
             Session.Remove("CurrentOrderID");
 

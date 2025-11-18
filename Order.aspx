@@ -45,11 +45,10 @@
         CssClass="instruction-label" ForeColor="Green" 
         Style="display:block; text-align:center; margin-top:10px;"></asp:Label>
 
-<%-- Replace the existing <style> block in Order.aspx with this one --%>
 <style>
     .grid {
         margin: 20px auto;
-        width: 90%; /* Use 100% for flexibility */
+        width: 90%;
         border-collapse: collapse;
         background-color: #F5F5F5;
     }
@@ -62,7 +61,7 @@
         background-color: #4682B4;
         color: #FFFFFF;
     }
-    /* Use .data-row class for the hover effect */
+
     .grid tr.data-row:hover {
         background-color: #D0E4F5;
     }
@@ -79,7 +78,6 @@
         background-color: #5a9bd3;
     }
 
-    /* Pager styling from Products.aspx */
     .pager {
         background-color: #4682B4;
         color: #FFFFFF;
@@ -96,12 +94,11 @@
     .pager a:hover {
         background-color: #5a9bd3;
     }
-    /* This styles the current, non-clickable page number */
+
     .pager span {
         background-color: #315f7d;
     }
 
-    /* Style for the instruction label */
     .instruction-label {
         font-size: 16px;
         font-weight: bold;

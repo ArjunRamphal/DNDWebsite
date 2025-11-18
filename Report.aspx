@@ -3,56 +3,58 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <h2 style="text-align: center;">Reports</h2>
     &nbsp;
-<div style="
-    display:flex;
-    justify-content:center;
-    align-items:flex-start;
-    width:1200px;
-    margin:auto;
-    gap:25px;">
-    
-    <div style="width: 360px;">
+
+    <div style="
+        display:flex;
+        justify-content:space-between;
+        align-items:flex-start;
+        width: 100%; 
+        box-sizing: border-box;
+        padding: 0 20px;
+        gap: 20px;
+        flex-wrap: wrap;">
         
-        <h4 style="text-align:center; margin-bottom:5px;">Monthly Gross Revenue</h4>
-        <div style="border: 2px solid #ccc; padding:10px; border-radius:8px; background:white; height:260px;">
-            <canvas id="revChart"></canvas>
+        <div style="flex: 1; min-width: 300px;">
+            
+            <h4 style="text-align:center; margin-bottom:5px;">Monthly Gross Revenue</h4>
+            <div style="border: 2px solid #ccc; padding:10px; border-radius:8px; background:white; height:260px;">
+                <canvas id="revChart"></canvas>
+            </div>
+
+            <h5 style="text-align:center; margin-top:20px;">Revenue Breakdown</h5>
+            <div style="border: 2px solid #ccc; padding:10px; border-radius:8px; background:white; height:220px;">
+                <canvas id="RevChartLine"></canvas>
+            </div>
+
         </div>
 
-        
-        <h5 style="text-align:center; margin-top:20px;">Revenue Breakdown</h5>
-        <div style="border: 2px solid #ccc; padding:10px; border-radius:8px; background:white; height:220px;">
-            <canvas id="RevChartLine"></canvas>
+        <div style="flex: 1; min-width: 300px;">
+
+            <h4 style="text-align:center; margin-bottom:5px;">Sales Representatives</h4>
+            <div style="border: 2px solid #ccc; padding:10px; border-radius:8px; background:white; height:260px;">
+                <canvas id="salesRepChart"></canvas>
+            </div>
+
+            <h5 style="text-align:center; margin-top:20px;">Sales Breakdown</h5>
+            <div style="border: 2px solid #ccc; padding:10px; border-radius:8px; background:white; height:220px;">
+                <canvas id="SalesRepMonthlyChart"></canvas>
+            </div>
+
         </div>
-
-    </div>
-
-    <div style="width: 360px;">
-
-        <h4 style="text-align:center; margin-bottom:5px;">Sales Representatives</h4>
-        <div style="border: 2px solid #ccc; padding:10px; border-radius:8px; background:white; height:260px;">
-            <canvas id="salesRepChart"></canvas>
-        </div>
-
-        <h5 style="text-align:center; margin-top:20px;">Sales Breakdown</h5>
-        <div style="border: 2px solid #ccc; padding:10px; border-radius:8px; background:white; height:220px;">
-            <canvas id="SalesRepMonthlyChart"></canvas>
-        </div>
-
-    </div>
  
-    <div style="width: 360px;">
+        <div style="flex: 1; min-width: 300px;">
 
-        <h4 style="text-align:center; margin-bottom:5px;">Top Products</h4>
-        <div style="border: 2px solid #ccc; padding:10px; border-radius:8px; background:white; height:260px;">
-            <canvas id="top5Pie"></canvas>
-        </div>
+            <h4 style="text-align:center; margin-bottom:5px;">Top Products</h4>
+            <div style="border: 2px solid #ccc; padding:10px; border-radius:8px; background:white; height:260px;">
+                <canvas id="top5Pie"></canvas>
+            </div>
 
-        <h5 style="text-align:center; margin-top:20px;">Category Breakdown</h5>
-        <div style="border: 2px solid #ccc; padding:10px; border-radius:8px; background:white; height:220px;">
-            <canvas id="top5BarChart"></canvas>
+            <h5 style="text-align:center; margin-top:20px;">Category Breakdown</h5>
+            <div style="border: 2px solid #ccc; padding:10px; border-radius:8px; background:white; height:220px;">
+                <canvas id="top5BarChart"></canvas>
+            </div>
         </div>
     </div>
-</div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
@@ -152,7 +154,7 @@
                 }
             }
         });
-    </script>                       
+    </script>                        
     <script>var revLineData = <%= GrossRevLineJson %>;//script for gross revenue line chart
         new Chart(document.getElementById("RevChartLine"), {
             type: 'line',

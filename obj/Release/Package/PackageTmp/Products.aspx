@@ -16,7 +16,6 @@
             <div class="search-box">
                 <asp:Label ID="lblInstruction" runat="server" Text="Enter product description" CssClass="instruction-label"></asp:Label><br />
 
-                <!-- Search and Quantity Inline -->
                 <div class="inline-inputs">
                     <asp:TextBox ID="txtSearch" runat="server" CssClass="input-box" placeholder="e.g., Black pens" />
                     <asp:TextBox ID="txtQuantity" runat="server" CssClass="input-box" TextMode="Number" placeholder="Quantity" />
@@ -84,7 +83,6 @@
         <div class="right-column">
             <h3 style="text-align:center;">Your Selected Products</h3>
 
-            <!-- Wrap selected products grid in UpdatePanel -->
             <asp:UpdatePanel ID="upSelectedProducts" runat="server" UpdateMode="Conditional">
                 <ContentTemplate>
                     <asp:GridView ID="gvProducts" runat="server" 
@@ -122,7 +120,6 @@
             </div>
         </div>
 
-        <!-- JS debounce for server-side filtering -->
         <script>
             let filterTimeout;
             const filterBox = document.getElementById('<%= txtFilter.ClientID %>');
@@ -156,7 +153,6 @@
         } 
         
         /* Search Box */ 
-        
         .search-box, .live-filter-box { 
             background-color: #F5F5F5; 
             border: 1px solid #4682B4; 
@@ -187,7 +183,6 @@
         } 
                          
         /* Buttons */ 
-        
         .btn-search { 
             padding: 8px 20px; 
             background-color: #4682B4; 
@@ -202,26 +197,60 @@
         } 
                                        
         /* Grids */ 
-        
-        .grid { margin: 20px auto; width: 100%; max-width: 700px; border-collapse: collapse; background-color: #F5F5F5; } 
+        .grid { 
+            margin: 20px auto; 
+            width: 100%; 
+            max-width: 700px; 
+            border-collapse: collapse; 
+            background-color: #F5F5F5; 
+        } 
                     
-        .grid th, .grid td { border: 1px solid #4682B4; padding: 10px; text-align: center; } 
+        .grid th, .grid td { 
+            border: 1px solid #4682B4; 
+            padding: 10px; 
+            text-align: center; 
+        } 
                                                                                                                                       
-        .grid th { background-color: #4682B4; color: #FFFFFF; } 
+        .grid th { 
+            background-color: #4682B4; 
+            color: #FFFFFF; 
+        } 
         
-        .grid tr.data-row:hover { background-color: #D0E4F5; } 
+        .grid tr.data-row:hover { 
+            background-color: #D0E4F5; 
+        } 
         
         /* Pager styling */ 
+        .pager { 
+            background-color: #4682B4; 
+            color: #FFFFFF; 
+            text-align: center;
+        } 
         
-        .pager { background-color: #4682B4; color: #FFFFFF; text-align: center; } 
+        .pager a, .pager span { 
+            display: inline-block; 
+            padding: 5px 10px; 
+            margin: 2px; 
+            border-radius: 4px; 
+            color: #FFFFFF; 
+            text-decoration: none; 
+        } 
         
-        .pager a, .pager span { display: inline-block; padding: 5px 10px; margin: 2px; border-radius: 4px; color: #FFFFFF; text-decoration: none; } 
+        .pager a:hover { 
+            background-color: #5a9bd3; 
+        } 
         
-        .pager a:hover { background-color: #5a9bd3; } 
+        .pager span { 
+            background-color: #315f7d; 
+        } 
         
-        .pager span { background-color: #315f7d; } 
-        
-        .qty-input { width: 60px; padding: 5px; text-align: center; border: 1px solid #4682B4; border-radius: 5px; } 
+        .qty-input { 
+            width: 60px; 
+            padding: 5px; 
+            text-align: center; 
+            border: 1px solid #4682B4; 
+            border-radius: 5px; 
+        } 
 
     </style>
 
@@ -238,7 +267,6 @@
     <script type="text/javascript">
         function showValidationModal(message) {
             document.getElementById('validationMessage').innerText = message;
-            // Use flex to center the modal content
             document.getElementById('validationModal').style.display = 'flex';
         }
 

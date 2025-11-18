@@ -2,7 +2,6 @@
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <main class="about-page">
-        <!-- Intro Section -->
         <section class="intro fade-in">
             <h2>About DND Trading & General Supplies</h2>
             <p>
@@ -13,7 +12,6 @@
             </p>
         </section>
 
-        <!-- Our Story -->
         <section class="our-story slide-left">
             <img src="images/worker.jpg" alt="Stationery supplies" />
             <div>
@@ -32,7 +30,6 @@
             </div>
         </section>
 
-        <!-- Mission and Vision -->
         <section class="mission-vision slide-right">
             <div>
                 <h3>Our Mission</h3>
@@ -50,22 +47,20 @@
             </div>
         </section>
 
-<!-- How We Work -->
-<section class="how-we-work slide-left full-width-section">
-    <h3>How We Work</h3>
-    <p>We follow a clean, structured process that ensures accuracy and transparency:</p>
-    <div class="work-steps">
-        <div class="step-card">Collect and confirm client requirements</div>
-        <div class="step-card">Compare items from multiple supplier catalogues</div>
-        <div class="step-card">Identify the best option based on pricing and availability</div>
-        <div class="step-card">Process the request on behalf of the client</div>
-        <div class="step-card">Record payments and maintain organised transaction history</div>
-        <div class="step-card">Provide clear reports through our system</div>
-    </div>
-    <img src="images/procurement.jpg" alt="Procurement process" />
-</section>
+        <section class="how-we-work slide-left full-width-section">
+            <h3>How We Work</h3>
+            <p>We follow a clean, structured process that ensures accuracy and transparency:</p>
+            <div class="work-steps">
+                <div class="step-card">Collect and confirm client requirements</div>
+                <div class="step-card">Compare items from multiple supplier catalogues</div>
+                <div class="step-card">Identify the best option based on pricing and availability</div>
+                <div class="step-card">Process the request on behalf of the client</div>
+                <div class="step-card">Record payments and maintain organised transaction history</div>
+                <div class="step-card">Provide clear reports through our system</div>
+            </div>
+            <img src="images/procurement.jpg" alt="Procurement process" />
+        </section>
 
-        <!-- Values -->
         <section class="values slide-right">
             <h3>What Sets Us Apart</h3>
            <div class="value-grid">
@@ -78,7 +73,6 @@
             </div>
         </section>
 
-        <!-- Call to Action -->
         <section class="cta fade-in">
             <h3>Ready to streamline your procurement?</h3>
             <p>
@@ -124,12 +118,22 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
 
+        /* --- MISSION & VISION BOXES --- */
         .mission-vision div {
             flex: 1;
             background: #f5f5f5;
             padding: 20px;
             border: 1px solid #000;
             border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: default;
+        }
+
+        /* Hover Effect for Mission/Vision */
+        .mission-vision div:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            background: #fff;
         }
 
         .values .value-grid {
@@ -138,11 +142,21 @@
             gap: 20px;
         }
 
+        /* --- VALUE CARDS --- */
         .values .value-card {
             background: #f5f5f5;
             border: 1px solid #000;
             padding: 20px;
             border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: default;
+        }
+
+        /* Hover Effect for Values */
+        .values .value-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 25px rgba(0,0,0,0.15);
+            background: #fff;
         }
 
         .full-width-section {
@@ -157,6 +171,7 @@
             margin: 20px 0;
         }
 
+        /* --- STEP CARDS (How We Work) --- */
         .step-card {
             background: #f5f5f5;
             border: 1px solid #000;
@@ -166,6 +181,15 @@
             font-weight: 500;
             box-shadow: 0 5px 12px rgba(0,0,0,0.1);
             text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: default;
+        }
+
+        /* Hover Effect for Steps */
+        .step-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            background: #fff;
         }
 
         /* HEADER */
@@ -184,7 +208,9 @@
             backdrop-filter: blur(6px);
         }
 
-        header h1 { font-size:1.1rem; margin:0; }
+        header h1 { 
+            font-size:1.1rem; margin:0;
+        }
 
         nav a, .nav-contact {
             color:#fff;
@@ -196,7 +222,9 @@
             display:inline-block;
         }
 
-        nav a:hover, .nav-contact:hover { color:#ccc; }
+        nav a:hover, .nav-contact:hover { 
+            color:#ccc; 
+        }
 
         /* BUTTONS */
         .btn-contact, .btn-login, .btn-logout, .btn-help {
@@ -243,8 +271,13 @@
             transition: all 0.8s ease-out;
         }
 
-        .slide-left { transform: translateX(-60px); }
-        .slide-right { transform: translateX(60px); }
+        .slide-left { 
+            transform: translateX(-60px); 
+        }
+        .slide-right { 
+            transform: translateX(60px); 
+        }
+        
         .visible {
             opacity: 1 !important;
             transform: translateX(0) translateY(0) !important;

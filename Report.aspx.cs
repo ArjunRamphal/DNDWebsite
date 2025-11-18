@@ -52,11 +52,11 @@ namespace DNDWebsite
             List<decimal> values = new List<decimal>();
 
             string query = @"
-        SELECT DATENAME(month, OrderDate) + ' ' + CAST(YEAR(OrderDate) AS VARCHAR) AS [MonthYear],
-               SUM(OrderAmount) AS Revenue
-        FROM [Order]
-        GROUP BY YEAR(OrderDate), MONTH(OrderDate), DATENAME(month, OrderDate)
-        ORDER BY YEAR(OrderDate), MONTH(OrderDate);";
+                SELECT DATENAME(month, OrderDate) + ' ' + CAST(YEAR(OrderDate) AS VARCHAR) AS [MonthYear],
+                       SUM(OrderAmount) AS Revenue
+                FROM [Order]
+                GROUP BY YEAR(OrderDate), MONTH(OrderDate), DATENAME(month, OrderDate)
+                ORDER BY YEAR(OrderDate), MONTH(OrderDate);";
 
             try
             {
@@ -103,14 +103,15 @@ namespace DNDWebsite
             List<int> quantities = new List<int>();
 
             string query = @"
-       SELECT TOP 5 P.ProductName, SUM(OSP.OrderSupplierProductQuantity) AS TotalQty
-FROM OrderSupplierProduct OSP
-JOIN Product P ON OSP.ProductID = P.ProductID
-JOIN [Order] O ON OSP.OrderID = O.OrderID
-WHERE MONTH(O.OrderDate) = MONTH(GETDATE())
-  AND YEAR(O.OrderDate) = YEAR(GETDATE())
-GROUP BY P.ProductName
-ORDER BY TotalQty DESC;";
+                SELECT TOP 5 P.ProductName, SUM(OSP.OrderSupplierProductQuantity) AS TotalQty
+                FROM OrderSupplierProduct OSP
+                JOIN Product P ON OSP.ProductID = P.ProductID
+                JOIN [Order] O ON OSP.OrderID = O.OrderID
+                WHERE MONTH(O.OrderDate) = MONTH(GETDATE())
+                    AND YEAR(O.OrderDate) = YEAR(GETDATE())
+                GROUP BY P.ProductName
+                ORDER BY TotalQty DESC;
+            ";
 
             using (SqlConnection con = new SqlConnection(connectionString))
             using (SqlCommand cmd = new SqlCommand(query, con))
@@ -141,16 +142,16 @@ ORDER BY TotalQty DESC;";
             List<decimal> values = new List<decimal>();
 
             string query = @"
-        SELECT U.UserFirstName + ' ' + U.UserLastName AS RepName,
-       SUM(O.OrderAmount) AS TotalSales
-FROM [Order] O
-JOIN [User] U ON O.UserName = U.UserName
-WHERE MONTH(O.OrderDate) = MONTH(GETDATE())
-  AND YEAR(O.OrderDate) = YEAR(GETDATE())
-  AND U.UserType = 0 -- 0 = Sales Representative, based on your User table
-GROUP BY U.UserFirstName, U.UserLastName
-ORDER BY TotalSales DESC;
-    ";
+                SELECT U.UserFirstName + ' ' + U.UserLastName AS RepName,
+                    SUM(O.OrderAmount) AS TotalSales
+                FROM [Order] O
+                JOIN [User] U ON O.UserName = U.UserName
+                WHERE MONTH(O.OrderDate) = MONTH(GETDATE())
+                    AND YEAR(O.OrderDate) = YEAR(GETDATE())
+                    AND U.UserType = 0 -- 0 = Sales Representative, based on your User table
+                GROUP BY U.UserFirstName, U.UserLastName
+                ORDER BY TotalSales DESC;
+            ";
 
             using (SqlConnection con = new SqlConnection(connectionString))
             using (SqlCommand cmd = new SqlCommand(query, con))
@@ -176,12 +177,12 @@ ORDER BY TotalSales DESC;
             List<decimal> values = new List<decimal>();
 
             string query = @"
-        SELECT DATENAME(month, OrderDate) + ' ' + CAST(YEAR(OrderDate) AS VARCHAR) AS [MonthYear],
-               SUM(OrderAmount) AS Revenue
-        FROM [Order]
-        GROUP BY YEAR(OrderDate), MONTH(OrderDate), DATENAME(month, OrderDate)
-        ORDER BY YEAR(OrderDate), MONTH(OrderDate);
-    ";
+                SELECT DATENAME(month, OrderDate) + ' ' + CAST(YEAR(OrderDate) AS VARCHAR) AS [MonthYear],
+                       SUM(OrderAmount) AS Revenue
+                FROM [Order]
+                GROUP BY YEAR(OrderDate), MONTH(OrderDate), DATENAME(month, OrderDate)
+                ORDER BY YEAR(OrderDate), MONTH(OrderDate);
+            ";
 
             using (SqlConnection con = new SqlConnection(connectionString))
             using (SqlCommand cmd = new SqlCommand(query, con))
@@ -202,20 +203,20 @@ ORDER BY TotalSales DESC;
         private void LoadSalesRepMonthlyChart()
         {
             string query = @"
-        SELECT 
-            U.UserFirstName + ' ' + U.UserLastName AS RepName,
-            DATENAME(month, O.OrderDate) + ' ' + CAST(YEAR(O.OrderDate) AS VARCHAR) AS MonthYear,
-            SUM(O.OrderAmount) AS TotalSales
-        FROM [Order] O
-        JOIN [User] U ON O.UserName = U.UserName
-        WHERE U.UserType = 0   -- Sales Rep
-        GROUP BY 
-            U.UserFirstName, U.UserLastName,
-            YEAR(O.OrderDate), MONTH(O.OrderDate), 
-            DATENAME(month, O.OrderDate)
-        ORDER BY
-            YEAR(O.OrderDate), MONTH(O.OrderDate);
-    ";
+                SELECT 
+                    U.UserFirstName + ' ' + U.UserLastName AS RepName,
+                    DATENAME(month, O.OrderDate) + ' ' + CAST(YEAR(O.OrderDate) AS VARCHAR) AS MonthYear,
+                    SUM(O.OrderAmount) AS TotalSales
+                FROM [Order] O
+                JOIN [User] U ON O.UserName = U.UserName
+                WHERE U.UserType = 0   -- Sales Rep
+                GROUP BY 
+                    U.UserFirstName, U.UserLastName,
+                    YEAR(O.OrderDate), MONTH(O.OrderDate), 
+                    DATENAME(month, O.OrderDate)
+                ORDER BY
+                    YEAR(O.OrderDate), MONTH(O.OrderDate);
+            ";
 
             Dictionary<string, Dictionary<string, decimal>> repData =
                 new Dictionary<string, Dictionary<string, decimal>>();
@@ -287,17 +288,17 @@ ORDER BY TotalSales DESC;
             List<int> values = new List<int>();
 
             string query = @"
-        SELECT TOP 5 
-            P.ProductName, 
-            SUM(OSP.OrderSupplierProductQuantity) AS TotalQty
-        FROM OrderSupplierProduct OSP
-        JOIN Product P ON OSP.ProductID = P.ProductID
-        JOIN [Order] O ON OSP.OrderID = O.OrderID
-        WHERE MONTH(O.OrderDate) = MONTH(GETDATE())
-          AND YEAR(O.OrderDate) = YEAR(GETDATE())
-        GROUP BY P.ProductName
-        ORDER BY TotalQty DESC;
-    ";
+                SELECT TOP 5 
+                    P.ProductName, 
+                    SUM(OSP.OrderSupplierProductQuantity) AS TotalQty
+                FROM OrderSupplierProduct OSP
+                JOIN Product P ON OSP.ProductID = P.ProductID
+                JOIN [Order] O ON OSP.OrderID = O.OrderID
+                WHERE MONTH(O.OrderDate) = MONTH(GETDATE())
+                  AND YEAR(O.OrderDate) = YEAR(GETDATE())
+                GROUP BY P.ProductName
+                ORDER BY TotalQty DESC;
+            ";
 
             using (SqlConnection con = new SqlConnection(connectionString))
             using (SqlCommand cmd = new SqlCommand(query, con))

@@ -94,10 +94,8 @@ namespace DNDWebsite
         {
             if (e.CommandName == "GoToCheckout")
             {
-                // e.CommandArgument is now the OrderID itself. No conversion needed!
                 string orderId = e.CommandArgument.ToString();
 
-                // Redirect to checkout page with OrderID
                 Response.Redirect("Checkout.aspx?orderId=" + orderId);
             }
         }

@@ -121,7 +121,6 @@ namespace DNDWebsite
                     decimal total = Convert.ToDecimal(dt.Rows[0]["PaymentTotal"]);
                     bool paymentStatus = Convert.ToBoolean(dt.Rows[0]["PaymentStatus"]);
 
-                    // NEW CONDITION – PaymentTotal = 0
                     if (total == 0)
                     {
                         lblPaymentStatusMessage.ForeColor = System.Drawing.Color.DarkOrange;
@@ -131,7 +130,6 @@ namespace DNDWebsite
                         return;
                     }
 
-                    // Existing logic for unpaid but non-zero payment
                     if (!paymentStatus)
                     {
                         lblPaymentStatusMessage.ForeColor = System.Drawing.Color.Red;

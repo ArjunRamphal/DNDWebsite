@@ -1,6 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true"
-    CodeBehind="Login.aspx.cs"
-    Inherits="DNDWebsite.Login" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="DNDWebsite.Login" ClientIDMode="Static" %>
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -19,15 +17,63 @@
             box-sizing: border-box;
         }
 
-        .btn { background:#4682B4; color:#fff; font-weight:bold; padding:10px 18px; border:none; border-radius:6px; cursor:pointer; margin-top:8px; }
-        .btn:hover { background:#5a9bd4; }
-        .link-btn { background:none; border:none; color:#0000EE; cursor:pointer; text-decoration:underline; font-size:0.95rem; margin:5px 0; }
-        .link-btn:hover { color:#0000EE; }
-        h2 { margin:28px 0 10px; }
-        .wrap { max-width:420px; margin:0 auto; background:#f9f9f9; padding:24px; border:1px solid #ddd; border-radius:10px; }
-        hr { border:0; border-top:1px solid #ddd; margin:24px 0; }
-        .msg { display:block; margin-top:12px; min-height:24px; }
-        #signupSection, #resetSection { display:none; margin-top:20px; }
+        .btn { 
+            background:#4682B4; 
+            color:#fff; 
+            font-weight:bold; 
+            padding:10px 18px; 
+            border:none; 
+            border-radius:6px; 
+            cursor:pointer; 
+            margin-top:8px; 
+        }
+        .btn:hover { 
+            background:#5a9bd4; 
+        }
+
+        .link-btn { 
+            background:none; 
+            border:none; 
+            color:#0000EE; 
+            cursor:pointer; 
+            text-decoration:underline; 
+            font-size:0.95rem; 
+            margin:5px 0; 
+        }
+        
+        .link-btn:hover { 
+            color:#0000EE;
+        }
+        
+        h2 { 
+            margin:28px 0 10px;
+        }
+        
+        .wrap { 
+            max-width:420px; 
+            margin:0 auto; 
+            background:#f9f9f9; 
+            padding:24px; 
+            border:1px solid #ddd;
+            border-radius:10px; 
+        }
+        
+        hr { 
+            border:0;
+            border-top:1px solid #ddd;
+            margin:24px 0;
+        }
+        
+        .msg { 
+            display:block; 
+            margin-top:12px; 
+            min-height:24px; 
+        }
+        
+        #signupSection, #resetSection { 
+            display:none; 
+            margin-top:20px; 
+        }
 
         .password-wrapper {
             display: inline-block;
@@ -62,11 +108,11 @@
             <!-- LOGIN SECTION -->
             <div id="loginSection" runat="server">
                 <h2>Login</h2>
-                <asp:TextBox ID="txtLoginEmail" runat="server" placeholder="Email/Username"></asp:TextBox><br />
+                <asp:TextBox ID="txtLoginEmail" runat="server" placeholder="Email"></asp:TextBox><br />
 
                 <div class="password-wrapper">
                     <asp:TextBox ID="txtLoginPassword" runat="server" TextMode="Password" placeholder="Password"></asp:TextBox>
-                    <span class="toggle-password">&#128065;</span> <!-- Unicode eye icon -->
+                    <span class="toggle-password">&#128065;</span>
                 </div>
 
                 <asp:Button ID="btnLogin" runat="server" Text="Login" CssClass="btn" OnClick="btnLogin_Click" /><br />
@@ -148,6 +194,11 @@
         }
 
         function showLogin() {
+            if (window.location.search.indexOf('setpassword=1') > -1) {
+                window.location.href = 'Login.aspx';
+                return;
+            }
+
             document.getElementById('signupSection').style.display = 'none';
             document.getElementById('resetSection').style.display = 'none';
             document.getElementById('loginSection').style.display = 'block';
@@ -162,12 +213,27 @@
         }
 
         function showLoginResetBack() {
-            document.getElementById('resetSection').style.display = 'none';
-            document.getElementById('loginSection').style.display = 'block';
-            // Reset email + panel
-            document.getElementById('<%= txtResetEmail.ClientID %>').style.display = 'block';
-            document.getElementById('<%= btnGetQuestion.ClientID %>').style.display = 'inline-block';
-            document.getElementById('<%= pnlVerification.ClientID %>').style.display = 'none';
+            var loginSection = document.getElementById('loginSection');
+            var resetSection = document.getElementById('resetSection');
+
+            if (loginSection) {
+                if (resetSection) resetSection.style.display = 'none';
+                loginSection.style.display = 'block';
+
+                var emailInput = document.getElementById('<%= txtResetEmail.ClientID %>');
+                if (emailInput) emailInput.style.display = 'block';
+
+                var nextBtn = document.getElementById('<%= btnGetQuestion.ClientID %>');
+                if (nextBtn) nextBtn.style.display = 'inline-block';
+
+                var verifyPanel = document.getElementById('<%= pnlVerification.ClientID %>');
+                if (verifyPanel) verifyPanel.style.display = 'none';
+
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+            else {
+                window.location.href = 'Login.aspx';
+            }
         }
 
         document.querySelectorAll('.password-wrapper').forEach(wrapper => {

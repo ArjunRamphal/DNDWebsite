@@ -3,6 +3,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Web.UI;
+using System.Text.RegularExpressions;
 
 namespace DNDWebsite
 {
@@ -10,7 +11,6 @@ namespace DNDWebsite
     {
         private readonly string connectionString = ConfigurationManager.ConnectionStrings["DNDConnectionString"].ConnectionString;
 
-        // Fixed list of security questions (exact text)
         private readonly string[] SecurityQuestions = new string[]
         {
             "What was your childhood nickname?",
@@ -80,7 +80,6 @@ namespace DNDWebsite
                         string dbAnswer = rdr["ClientAnswer"] as string ?? "";
                         bool optOut = rdr["ClientOptOut"] != DBNull.Value && Convert.ToBoolean(rdr["ClientOptOut"]);
 
-                        // preselect question if it matches one of our list (exact text)
                         if (!string.IsNullOrEmpty(dbQuestion))
                         {
                             var item = ddlQuestion.Items.FindByText(dbQuestion);
@@ -90,15 +89,9 @@ namespace DNDWebsite
                             }
                         }
 
-                        // store original question so we can detect change on save
                         hfOriginalQuestion.Value = dbQuestion;
-
-                        // prefill answer (only shown if user wants to change)
                         txtAnswer.Text = dbAnswer;
-
                         chkOptOut.Checked = optOut;
-
-                        // password must remain empty on load (per requirements)
                         txtPassword.Text = "";
                     }
                     else
@@ -129,7 +122,7 @@ namespace DNDWebsite
                 return;
             }
 
-            // Validate basic required fields
+            // --- VALIDATION START ---
             string name = txtName.Text.Trim();
             string email = txtEmail.Text.Trim();
             string phone = txtPhone.Text.Trim();
@@ -141,6 +134,13 @@ namespace DNDWebsite
                 return;
             }
 
+            if (!Regex.IsMatch(name, @"^[a-zA-Z\s]+$"))
+            {
+                lblMessage.ForeColor = System.Drawing.Color.Red;
+                lblMessage.Text = "Name must contain only letters and spaces.";
+                return;
+            }
+
             if (string.IsNullOrEmpty(email))
             {
                 lblMessage.ForeColor = System.Drawing.Color.Red;
@@ -148,7 +148,28 @@ namespace DNDWebsite
                 return;
             }
 
-            // detect question change -> then answer is required
+            if (!Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+            {
+                lblMessage.ForeColor = System.Drawing.Color.Red;
+                lblMessage.Text = "Please enter a valid email address.";
+                return;
+            }
+
+            if (string.IsNullOrEmpty(phone))
+            {
+                lblMessage.ForeColor = System.Drawing.Color.Red;
+                lblMessage.Text = "Phone number is required.";
+                return;
+            }
+
+            if (!Regex.IsMatch(phone, @"^0\d{9}$"))
+            {
+                lblMessage.ForeColor = System.Drawing.Color.Red;
+                lblMessage.Text = "Phone number must be exactly 10 digits and start with 0.";
+                return;
+            }
+            // --- VALIDATION END ---
+
             string originalQuestion = hfOriginalQuestion.Value ?? "";
             string selectedQuestion = ddlQuestion.SelectedItem != null ? ddlQuestion.SelectedItem.Text : "";
             string answer = txtAnswer.Text.Trim();
@@ -172,11 +193,8 @@ namespace DNDWebsite
                 }
             }
 
-            // Everything validated -> build update query
-            // We'll update only fields that must change. Password only if entered.
-            string newPassword = txtPassword.Text; // plain as requested (Q2 plain)
+            string newPassword = txtPassword.Text;
             bool updatePassword = !string.IsNullOrEmpty(newPassword);
-
             bool optOut = chkOptOut.Checked;
 
             using (SqlConnection conn = new SqlConnection(connectionString))
@@ -184,7 +202,6 @@ namespace DNDWebsite
             {
                 conn.Open();
 
-                // Build the update command depending on whether password should update
                 if (updatePassword)
                 {
                     cmd.CommandText = @"
@@ -212,7 +229,6 @@ namespace DNDWebsite
                         WHERE ClientID = @ClientID";
                 }
 
-                // common params
                 cmd.Parameters.AddWithValue("@Name", name);
                 cmd.Parameters.AddWithValue("@Email", email);
                 cmd.Parameters.AddWithValue("@Phone", phone);
@@ -226,12 +242,18 @@ namespace DNDWebsite
                 {
                     lblMessage.ForeColor = System.Drawing.Color.Green;
                     lblMessage.Text = "Your information has been updated.";
-
-                    // update hidden original question stored so future saves compare correctly
                     hfOriginalQuestion.Value = selectedQuestion ?? "";
-
-                    // Clear password field after save
                     txtPassword.Text = "";
+
+                    if (hfExitMode.Value == "true")
+                    {
+                        ClientScript.RegisterStartupScript(this.GetType(), "ExitSave",
+                            "isDirty = false; showStatusModal('Notification', 'Changes saved.');", true);
+                    }
+                    else
+                    {
+                        ClientScript.RegisterStartupScript(this.GetType(), "ResetDirty", "isDirty = false;", true);
+                    }
                 }
                 else
                 {

@@ -22,12 +22,6 @@ namespace DNDWebsite
                     txtSignupEmail.Text = email;
                     txtSignupEmail.ReadOnly = true;
 
-                    // --- START: REPLACE CODE ---
-                    // Replace these two lines:
-                    // txtSignupName.Visible = false;
-                    // txtSignupPhone.Visible = false;
-
-                    // With this database lookup:
                     using (SqlConnection conn = new SqlConnection(connectionString))
                     {
                         conn.Open();
@@ -220,11 +214,29 @@ namespace DNDWebsite
                 return;
             }
 
-            if (!isSetPasswordMode || (isSetPasswordMode && !txtSignupName.ReadOnly))
+            if (!Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+            {
+                lblSignupMessage.Text = "Please enter a valid email address.";
+                signupSection.Style["display"] = "block";
+                loginSection.Style["display"] = "none";
+                signupSection.Visible = true;
+                return;
+            }
+
+            if (!isSetPasswordMode || (isSetPasswordMode && !txtSignupName.ReadOnly))
             {
                 if (string.IsNullOrEmpty(name))
                 {
                     lblSignupMessage.Text = "Please fill in all fields (Name).";
+                    signupSection.Style["display"] = "block";
+                    loginSection.Style["display"] = "none";
+                    signupSection.Visible = true;
+                    return;
+                }
+
+                if (!Regex.IsMatch(name, @"^[a-zA-Z\s]+$"))
+                {
+                    lblSignupMessage.Text = "Name must contain only letters and spaces.";
                     signupSection.Style["display"] = "block";
                     loginSection.Style["display"] = "none";
                     signupSection.Visible = true;
@@ -336,7 +348,6 @@ namespace DNDWebsite
                 Response.Redirect("Login.aspx?signup=success");
             }
         }
-
 
         // PASSWORD RESET - GET VERIFICATION QUESTION
         protected void btnGetQuestion_Click(object sender, EventArgs e)

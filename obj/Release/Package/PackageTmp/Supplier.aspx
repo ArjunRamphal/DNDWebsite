@@ -8,21 +8,26 @@
     </asp:Panel>
 
     <div style="display:flex; gap:40px; justify-content:center; align-items:flex-start; flex-wrap:wrap; margin-top:30px; padding: 0 30px;">
-        <!-- Grid area -->
+        
         <div style="flex:1; min-width:480px;">
             <asp:SqlDataSource ID="sdsSuppliers" runat="server"
                 ConnectionString="<%$ ConnectionStrings:DNDConnectionString %>"
-                SelectCommand="SELECT SupplierID, SupplierName, SupplierPhoneNumber, SupplierEmail, SupplierOptOut FROM Supplier ORDER BY SupplierID"
+                SelectCommand="SELECT SupplierID, SupplierName, SupplierPhoneNumber, SupplierEmail, SupplierOptOut FROM Supplier WHERE ([SupplierName] LIKE '%' + @SearchName + '%') OR (@SearchName IS NULL) ORDER BY SupplierID"
                 UpdateCommand="UPDATE Supplier SET
-                                 SupplierName=@SupplierName,
-                                 SupplierPhoneNumber=@SupplierPhoneNumber,
-                                 SupplierEmail=@SupplierEmail,
-                                 SupplierOptOut=@SupplierOptOut
-                               WHERE SupplierID=@original_SupplierID"
+                                    SupplierName=@SupplierName,
+                                    SupplierPhoneNumber=@SupplierPhoneNumber,
+                                    SupplierEmail=@SupplierEmail,
+                                    SupplierOptOut=@SupplierOptOut
+                                WHERE SupplierID=@original_SupplierID"
                 ConflictDetection="CompareAllValues"
                 OldValuesParameterFormatString="original_{0}"
                 OnUpdated="sdsSuppliers_Updated"
-                OnUpdating="sdsSuppliers_Updating">
+                OnUpdating="sdsSuppliers_Updating"
+                CancelSelectOnNullParameter="false">
+
+                <SelectParameters>
+                    <asp:ControlParameter ControlID="txtSearchSupplier" Name="SearchName" PropertyName="Text" ConvertEmptyStringToNull="true" Type="String" />
+                </SelectParameters>
 
                 <UpdateParameters>
                     <asp:Parameter Name="SupplierName" Type="String" />
@@ -40,7 +45,8 @@
                 AllowPaging="true" PageSize="10"
                 AutoGenerateEditButton="false"
                 DataKeyNames="SupplierID"
-                OnPageIndexChanging="gvSuppliers_PageIndexChanging">
+                OnPageIndexChanging="gvSuppliers_PageIndexChanging"
+                EmptyDataText="No suppliers found.">
 
                 <Columns>
                     <asp:TemplateField HeaderText="Actions" ItemStyle-Width="150px">
@@ -99,33 +105,47 @@
                 </Columns>
 
                 <RowStyle CssClass="data-row" />
-                <PagerStyle CssClass="pager" BackColor="#4682B4" ForeColor="White" HorizontalAlign="Center" />
-            </asp:GridView>
+                <PagerStyle CssClass="pager" BackColor="#4682B4" ForeColor="White" HorizontalAlign="Center" />
+            </asp:GridView>
         </div>
 
-        <!-- Add Supplier form -->
-        <div style="flex:0 0 340px; min-width:280px; background:#F5F5F5; padding:16px; border-radius:8px; border:1px solid #4682B4;">
-            <asp:Label ID="lblStatus" runat="server" Text="" CssClass="status-msg" />
-            <h3 style="margin-top:0;">Add Supplier</h3>
-
-            <div style="margin-bottom:8px;">
-                <asp:Label runat="server" AssociatedControlID="txtNewName" Text="Supplier Name" CssClass="lbl" /><br />
-                <asp:TextBox ID="txtNewName" runat="server" CssClass="input-box" />
+        <div style="flex:0 0 340px; min-width:280px;">
+            
+            <div style="background:#F5F5F5; padding:16px; border-radius:8px; border:1px solid #4682B4; margin-bottom: 20px;">
+                <h3 style="margin-top:0;">Filter Suppliers</h3>
+                <asp:Label runat="server" AssociatedControlID="txtSearchSupplier" Text="Supplier Name" CssClass="lbl" /><br />
+                <asp:TextBox ID="txtSearchSupplier" runat="server" CssClass="input-box" placeholder="Enter name..." />
+                
+                <div style="margin-top:10px; display:flex; gap:10px;">
+                    <asp:Button ID="btnSearch" runat="server" Text="Search" CssClass="btn-search" OnClick="btnSearch_Click" />
+                    <asp:Button ID="btnReset" runat="server" Text="Reset" CssClass="btn-search" OnClick="btnReset_Click" Style="background-color:#808080;" />
+                </div>
             </div>
 
-            <div style="margin-bottom:8px;">
-                <asp:Label runat="server" AssociatedControlID="txtNewPhone" Text="Phone" CssClass="lbl" /><br />
-                <asp:TextBox ID="txtNewPhone" runat="server" CssClass="input-box" />
+            <div style="background:#F5F5F5; padding:16px; border-radius:8px; border:1px solid #4682B4;">
+                <asp:Label ID="lblStatus" runat="server" Text="" CssClass="status-msg" />
+                <h3 style="margin-top:0;">Add Supplier</h3>
+
+                <div style="margin-bottom:8px;">
+                    <asp:Label runat="server" AssociatedControlID="txtNewName" Text="Supplier Name" CssClass="lbl" /><br />
+                    <asp:TextBox ID="txtNewName" runat="server" CssClass="input-box" />
+                </div>
+
+                <div style="margin-bottom:8px;">
+                    <asp:Label runat="server" AssociatedControlID="txtNewPhone" Text="Phone" CssClass="lbl" /><br />
+                    <asp:TextBox ID="txtNewPhone" runat="server" CssClass="input-box" />
+                </div>
+
+                <div style="margin-bottom:8px;">
+                    <asp:Label runat="server" AssociatedControlID="txtNewEmail" Text="Email" CssClass="lbl" /><br />
+                    <asp:TextBox ID="txtNewEmail" runat="server" CssClass="input-box" />
+                </div>
+
+                <div>
+                    <asp:Button ID="btnAddSupplier" runat="server" Text="Add Supplier" CssClass="btn-search" OnClick="btnAddSupplier_Click" />
+                </div>
             </div>
 
-            <div style="margin-bottom:8px;">
-                <asp:Label runat="server" AssociatedControlID="txtNewEmail" Text="Email" CssClass="lbl" /><br />
-                <asp:TextBox ID="txtNewEmail" runat="server" CssClass="input-box" />
-            </div>
-
-            <div>
-                <asp:Button ID="btnAddSupplier" runat="server" Text="Add Supplier" CssClass="btn-search" OnClick="btnAddSupplier_Click" />
-            </div>
         </div>
     </div>
 

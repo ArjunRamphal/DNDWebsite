@@ -36,16 +36,10 @@ namespace DNDWebsite
             gvProducts.DataBind();
         }
 
-        // Updated LoadAvailableProducts to support optional filter
-        // Updated LoadAvailableProducts to support multi-word filtering
-        // Updated LoadAvailableProducts to filter out products from opted-out suppliers
         private void LoadAvailableProducts(string filter = "")
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                // Join Product -> SupplierProduct -> Supplier
-                // Filter where SupplierOptOut is 0 (False)
-                // Use DISTINCT to avoid duplicate products if multiple active suppliers sell the same item
                 string query = @"
                     SELECT DISTINCT p.ProductID, p.ProductName, p.ProductSurcharge 
                     FROM Product p
@@ -63,11 +57,9 @@ namespace DNDWebsite
 
                     if (filterWords.Length > 0)
                     {
-                        // Append conditions to the existing WHERE clause
                         for (int i = 0; i < filterWords.Length; i++)
                         {
                             string paramName = "@Filter" + i;
-                            // Use 'p.ProductName' to be explicit
                             query += $" AND p.ProductName LIKE {paramName}";
                             cmd.Parameters.AddWithValue(paramName, "%" + filterWords[i] + "%");
                         }
@@ -151,10 +143,9 @@ namespace DNDWebsite
             }
         }
 
-        // Server-side filter handler
         protected void txtFilter_TextChanged(object sender, EventArgs e)
         {
-            gvAvailableProducts.PageIndex = 0; // reset to first page
+            gvAvailableProducts.PageIndex = 0;
             LoadAvailableProducts(txtFilter.Text.Trim());
         }
 
@@ -164,7 +155,6 @@ namespace DNDWebsite
             string qtyText = txtQuantity.Text.Trim();
             int quantity;
 
-            // 1. Basic Empty Check
             if (string.IsNullOrEmpty(product))
             {
                 lblMessage.ForeColor = System.Drawing.Color.Red;
@@ -172,7 +162,6 @@ namespace DNDWebsite
                 return;
             }
 
-            // 2. Numeric Description Check (Hard Stop)
             if (decimal.TryParse(product, out _))
             {
                 lblMessage.ForeColor = System.Drawing.Color.Red;
@@ -180,7 +169,6 @@ namespace DNDWebsite
                 return;
             }
 
-            // 3. Quantity Check
             if (!int.TryParse(qtyText, out quantity) || quantity <= 0)
             {
                 lblMessage.ForeColor = System.Drawing.Color.Red;
@@ -188,19 +176,16 @@ namespace DNDWebsite
                 return;
             }
 
-            // 4. Database Warning Check (Soft Warning) with Multi-Word Matching
             bool productExists = false;
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
 
-                // Split the user's input into individual words
                 string[] searchTerms = product.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
                 if (searchTerms.Length > 0)
                 {
-                    // Build a dynamic query: SELECT TOP 1 1 FROM Product WHERE ProductName LIKE @Word0 AND ProductName LIKE @Word1 ...
                     string checkQuery = "SELECT TOP 1 1 FROM Product WHERE 1=1";
 
                     SqlCommand cmd = new SqlCommand();
@@ -223,7 +208,6 @@ namespace DNDWebsite
                 }
             }
 
-            // If not found, show the custom modal
             if (!productExists)
             {
                 string message = $"Warning: We could not find a match for \"{product}\" in our database. We will try our best to source it, but availability is not guaranteed.";
@@ -231,7 +215,6 @@ namespace DNDWebsite
                 ClientScript.RegisterStartupScript(this.GetType(), "ProductNotFoundModal", script, true);
             }
 
-            // 5. Add to Grid
             DataTable dt = ViewState["Products"] as DataTable;
             DataRow dr = dt.NewRow();
             dr["ProductName"] = product;
@@ -265,7 +248,6 @@ namespace DNDWebsite
             gvProducts.DataBind();
         }
 
-        // 1. Initial Button Click: Checks status
         protected void btnCreateOrder_Click(object sender, EventArgs e)
         {
             DataTable dt = ViewState["Products"] as DataTable;
@@ -294,17 +276,14 @@ namespace DNDWebsite
 
             if (isOptedOut)
             {
-                // Show the Opt-In Modal
                 ClientScript.RegisterStartupScript(this.GetType(), "ShowOptInModal", "showOptInModal();", true);
             }
             else
             {
-                // Not opted out, proceed immediately
                 CreateOrder();
             }
         }
 
-        // 2. Handle "Yes, Opt In" click from modal
         protected void btnOptInYes_Click(object sender, EventArgs e)
         {
             string clientEmail = Session["UserEmail"].ToString();
@@ -312,22 +291,18 @@ namespace DNDWebsite
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-                // Update client to opt-in (set ClientOptOut = 0)
                 string updateQuery = "UPDATE Client SET ClientOptOut = 0 WHERE ClientEmail=@Email";
                 SqlCommand cmd = new SqlCommand(updateQuery, conn);
                 cmd.Parameters.AddWithValue("@Email", clientEmail);
                 cmd.ExecuteNonQuery();
             }
 
-            // Now create the order
             CreateOrder();
         }
 
-        // 3. Refactored Order Creation Logic (Your original code moved here)
         private void CreateOrder()
         {
             DataTable dt = ViewState["Products"] as DataTable;
-            // (Double check, though validation happened earlier)
             if (dt == null || dt.Rows.Count == 0) return;
 
             string clientEmail = Session["UserEmail"].ToString();
@@ -389,7 +364,6 @@ namespace DNDWebsite
             ClientScript.RegisterStartupScript(this.GetType(), "RedirectScript", script, true);
         }
 
-        // 4. Helper for the "No, Cancel" button (optional, client-side handles close, but if you need server logic)
         protected void btnProceedOrder_Click(object sender, EventArgs e)
         {
             CreateOrder();
@@ -398,9 +372,8 @@ namespace DNDWebsite
         protected void btnResetFilter_Click(object sender, EventArgs e)
         {
             txtFilter.Text = "";
-            // Reset the grid page index to 0
             gvAvailableProducts.PageIndex = 0;
-            LoadAvailableProducts(); // Load with empty filter
+            LoadAvailableProducts();
         }
     }
 }

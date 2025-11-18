@@ -60,10 +60,8 @@ namespace DNDWebsite
             {
                 MailMessage mail = new MailMessage();
 
-                // Your company inbox (recipient)
                 mail.To.Add("dndtrading22@gmail.com");
 
-                // Your company sender address (the one authenticated with SMTP)
                 mail.From = new MailAddress("dndtrading22@gmail.com", "DND Website Contact");
 
                 // Allow replies to go to the client's email
@@ -76,7 +74,6 @@ namespace DNDWebsite
                             $"Message:\n{txtMessage.Text}\n\n" +
                             $"Sent on: {DateTime.Now}";
 
-                // Configure your SMTP client
                 SmtpClient smtp = new SmtpClient
                 {
                     Host = "smtp.gmail.com",

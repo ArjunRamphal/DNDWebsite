@@ -63,7 +63,9 @@
             margin-right: 5px;
         }
 
-        .btn-search:hover { background-color: #5a9bd3; }
+        .btn-search:hover { 
+            background-color: #5a9bd3; 
+        }
 
         .grid {
             margin: 0 auto;

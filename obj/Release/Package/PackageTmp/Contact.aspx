@@ -87,6 +87,15 @@
             width: 250px;
             box-shadow: 0 5px 15px rgba(70, 130, 180, 0.3);
             color: #2F4F4F;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: default;
+        }
+
+        /* Hover Effect */
+        .info-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(70, 130, 180, 0.5);
+            background: #fff;
         }
 
         .info-card h3 {
@@ -117,7 +126,6 @@
             border-radius: 6px;
             border: 1px solid #4682B4;
             background: #f5f5f5;
-            color: #2F4F4F;
             font-size: 16px;
             max-width: 800px;
         }

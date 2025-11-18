@@ -32,7 +32,6 @@
         </Columns>
     </asp:GridView>
 
-    <!-- Add this label BELOW the payment grid -->
     <div style="text-align:center; margin-top:15px;">
         <asp:Label ID="lblPaymentStatusMessage" runat="server" 
             CssClass="instruction-label"

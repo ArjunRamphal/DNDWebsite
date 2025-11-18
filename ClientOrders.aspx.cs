@@ -281,22 +281,17 @@ namespace DNDWebsite
         {
             if (e.CommandName == "SelectProduct")
             {
-                // 1. Determine which row was clicked
                 int index = Convert.ToInt32(e.CommandArgument);
                 GridViewRow row = gvSupplierProducts.Rows[index];
 
-                // 2. Get the DataKeys (IDs) from that row
                 string productId = gvSupplierProducts.DataKeys[index].Values["ProductID"].ToString();
                 string supplierId = gvSupplierProducts.DataKeys[index].Values["SupplierID"].ToString();
                 string price = gvSupplierProducts.DataKeys[index].Values["FinalPrice"].ToString();
 
-                // 3. Save to HiddenFields immediately
                 hfSelectedProductId.Value = productId;
                 hfSelectedSupplierId.Value = supplierId;
                 hfSelectedProductPrice.Value = price;
 
-                // 4. Update the label to show feedback to the user
-                // Cells[1] is Product, Cells[2] is Supplier (based on the columns we defined)
                 string productText = row.Cells[1].Text;
                 string supplierText = row.Cells[2].Text;
 
@@ -534,7 +529,7 @@ namespace DNDWebsite
                         da.Fill(clientProducts);
                 }
 
-                // Build a clean HTML email
+                // Build a HTML email
                 StringBuilder sb = new StringBuilder();
                 sb.AppendLine("<html><body style='font-family:Arial,sans-serif;'>");
                 sb.AppendLine($"<h2>Order Confirmation - Order #{orderId}</h2>");
@@ -565,7 +560,7 @@ namespace DNDWebsite
             }
 
 
-            // 2. Emails to suppliers
+            // Emails to suppliers
             DataTable suppliers = new DataTable();
             using (SqlConnection conn = new SqlConnection(connectionString))
             using (SqlCommand cmd = new SqlCommand(

@@ -146,7 +146,6 @@
                     <RowStyle CssClass="data-row" />
 
                     <Columns>
-                        <%-- NEW: Use a TemplateField with a specific CommandName --%>
                         <asp:TemplateField HeaderText="Action">
                             <ItemTemplate>
                                 <asp:Button ID="btnSelectProduct" runat="server" 

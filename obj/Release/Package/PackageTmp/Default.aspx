@@ -7,13 +7,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <title>DND Trading & General Supplies</title>
     <style>
-        /* Minimal reset + styling */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { height: 100%; scroll-behavior: smooth; }
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+        }
+
+        html, body { 
+            height: 100%; 
+            scroll-behavior: smooth; 
+        }
+
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
             background: #f5f7fa;
-            color: #2F4F4F;
         }
 
         header {
@@ -31,20 +38,35 @@
             backdrop-filter: blur(6px);
         }
 
-        header h1 { font-size:1.1rem; margin:0; }
-        nav a, .nav-contact { color:#fff; text-decoration:none; margin-right:12px; font-weight:600; padding:6px 10px; border-radius:6px; display:inline-block; }
-        nav a:hover, .nav-contact:hover { color:#ccc; }
+        header h1 { 
+            font-size:1.1rem; 
+            margin:0; 
+        }
 
-       .btn-contact, .btn-login, .btn-logout, .btn-help {
-            background-color: #111;
-            color: #fff;
-            padding: 8px 12px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight:700;
-            margin-left:8px;
-            transition: all 0.2s ease;
+        nav a, .nav-contact { 
+            color:#fff; 
+            text-decoration:none; 
+            margin-right:12px; 
+            font-weight:600; 
+            padding:6px 10px; 
+            border-radius:6px; 
+            display:inline-block; 
+        }
+
+        nav a:hover, .nav-contact:hover { 
+            color:#ccc; 
+        }
+
+        .btn-contact, .btn-login, .btn-logout, .btn-help {
+             background-color: #111;
+             color: #fff;
+             padding: 8px 12px;
+             border: none;
+             border-radius: 8px;
+             cursor: pointer;
+             font-weight:700;
+             margin-left:8px;
+             transition: all 0.2s ease;
         }
 
         .btn-contact:hover, .btn-login:hover, .btn-logout:hover, .btn-help:hover {
@@ -65,33 +87,122 @@
             justify-content:center;
             text-align:center;
         }
+
         .hero::after {
             content: '';
             position:absolute; inset:0;
             background: linear-gradient(180deg, rgba(0,0,0,0.45), rgba(0,0,0,0.35));
             z-index:1;
         }
-        .hero-content { position:relative; z-index:2; color:#fff; padding:24px; max-width:900px; }
-        .hero-content h2 { font-size:2.6rem; margin-bottom:8px; text-shadow:2px 2px 10px rgba(0,0,0,0.6); }
-        .hero-content p { font-size:1.1rem; opacity:0.95; }
 
-        .stats { display:flex; gap:18px; justify-content:center; padding:56px 18px; background:#fff; flex-wrap:wrap; }
-        .stat-card { min-width:180px; width:220px; padding:20px; border-radius:12px; background:linear-gradient(180deg,#fff,#f3f8ff); text-align:center; box-shadow:0 12px 30px rgba(27,56,98,0.06); }
-        .stat-number { font-size:2.4rem; font-weight:800; color:#2b5c8a; }
-        .stat-label { margin-top:10px; color:#576a78; font-weight:600; }
+        .hero-content { 
+            position:relative; 
+            z-index:2; 
+            color:#fff; 
+            padding:24px; 
+            max-width:900px; 
+        }
 
-        footer { background:#2b5c8a; color:#fff; padding:18px; text-align:center; margin-top:18px; }
-        .socials a { margin:0 10px; color:#fff; text-decoration:none; font-weight:600; }
+        .hero-content h2 { 
+            font-size:2.6rem; 
+            margin-bottom:8px; 
+            text-shadow:2px 2px 10px rgba(0,0,0,0.6); 
+        }
 
-        .help-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); justify-content:center; align-items:center; z-index:2000; }
-        .help-box { background:#fff; padding:24px; border-radius:12px; width:92%; max-width:640px; position:relative; }
-        .close-btn { position:absolute; right:18px; top:12px; cursor:pointer; font-size:22px; color:#2b5c8a; font-weight:700; }
+        .hero-content p { 
+            font-size:1.1rem; 
+            opacity:0.95; 
+        }
+
+        .stats { 
+            display:flex; 
+            gap:18px; 
+            justify-content:center; 
+            padding:56px 18px; 
+            background:#fff; 
+            flex-wrap:wrap; 
+        }
+        
+        .stat-card { 
+            min-width:180px; 
+            width:220px; 
+            padding:20px; 
+            border-radius:12px; 
+            background:linear-gradient(180deg,#fff,#f3f8ff); 
+            text-align:center; 
+            box-shadow:0 12px 30px rgba(27,56,98,0.06); 
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: default;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(27,56,98,0.15);
+        }
+
+        .stat-number { 
+            font-size:2.4rem; 
+            font-weight:800; 
+            color:#2b5c8a; 
+        }
+        
+        .stat-label { 
+            margin-top:10px; 
+            color:#576a78; 
+            font-weight:600; 
+        }
+
+        footer { 
+            background:#2b5c8a; 
+            color:#fff; 
+            padding:18px; 
+            text-align:center; 
+            margin-top:18px; 
+        }
+        
+        .socials a { 
+            margin:0 10px; 
+            color:#fff; 
+            text-decoration:none; 
+            font-weight:600; 
+        }
+
+        .help-overlay { 
+            display:none; 
+            position:fixed; 
+            top:0; 
+            left:0; 
+            width:100%; 
+            height:100%; 
+            background:rgba(0,0,0,0.6); 
+            justify-content:center; 
+            align-items:center; 
+            z-index:2000; 
+        }
+       
+        .help-box { 
+            background:#fff; 
+            padding:24px; 
+            border-radius:12px; 
+            width:92%; 
+            max-width:640px; 
+            position:relative; 
+        }
+       
+        .close-btn { 
+            position:absolute; 
+            right:18px; 
+            top:12px; 
+            cursor:pointer; 
+            font-size:22px; 
+            color:#2b5c8a; 
+            font-weight:700; 
+        }
 
         @media (max-width:720px) {
             nav a { display:none; }
             .hero-content h2 { font-size:1.8rem; }
         }
-
 
         .socials {
             display: flex;
@@ -124,7 +235,6 @@
         <header>
             <div style="display:flex; align-items:center; gap:12px;">
                 <h1 style="margin-right:6px;">DND Trading &amp; General Supplies</h1>
-                <!-- NAV: panels kept exactly as in your code-behind -->
                 <nav>
                     <asp:Panel ID="pnlAccountLink" runat="server" Visible="false" style="display:inline;">
                         <a href="EditClient.aspx">Account</a>
@@ -167,11 +277,9 @@
             </div>
 
             <div>
-                <!-- Login/Logout and welcome - kept and used by your code-behind -->
                 <asp:Button ID="btnLogin" runat="server" CssClass="btn-login" Text="Login / Sign Up" OnClick="btnLogin_Click" />
                 <asp:Label ID="lblWelcome" runat="server" Text="" Visible="false" />
                 <asp:Button ID="btnLogout" runat="server" CssClass="btn-logout" Text="Logout" OnClick="btnLogout_Click" Visible="false" />
-                <!-- Help button: has server handler btnHelp_Click in your .cs and also opens overlay client-side -->
                 <asp:Button ID="btnHelp" runat="server" Text="Help" CssClass="btn-help" OnClientClick="openHelpPanel(); return false;" OnClick="btnHelp_Click" />
             </div>
         </header>
@@ -185,14 +293,10 @@
                     Expert support you can rely on.
                 </p>
                 <div style="margin-top:18px;">
-                    <!-- primary CTA is an anchor so it doesn't require a server event handler -->
-                    <!-- <a href="Products.aspx" class="btn-contact" style="text-decoration:none; display:inline-block;">Browse Products</a> -->
-                    <!--<a href="Contact.aspx" class="btn-contact" style="margin-left:8px; text-decoration:none; display:inline-block;">Contact Sales</a>-->
                 </div>
             </div>
         </div>
 
-        <!-- STATS: server labels preserved (safe if you set them from Page_Load) -->
         <main>
             <section class="stats" aria-label="Company statistics">
                 <div class="stat-card">
@@ -210,7 +314,6 @@
             </section>
         </main>
 
-        <!-- keep original help overlay panel -->
         <asp:Panel ID="Panel1" runat="server" HorizontalAlign="Center">
             <div id="helpOverlay" class="help-overlay">
                 <div class="help-box" aria-orientation="vertical">
@@ -236,7 +339,6 @@
             </div>
         </asp:Panel>
 
-        <!-- message label used in original markup -->
         <asp:Label ID="lblMessage" runat="server" Text="" />
 
         <!-- FOOTER -->
@@ -255,7 +357,6 @@
 </div>
 </footer>
 
-        <!-- Chatbot placeholder kept exactly as before -->
         <asp:PlaceHolder ID="phChatbotScript" runat="server">
             <script>
                 (function () { if (!window.chatbase || window.chatbase("getState") !== "initialized") { window.chatbase = (...arguments) => { if (!window.chatbase.q) { window.chatbase.q = [] } window.chatbase.q.push(arguments) }; window.chatbase = new Proxy(window.chatbase, { get(target, prop) { if (prop === "q") { return target.q } return (...args) => target(prop, ...args) } }) } const onLoad = function () { const script = document.createElement("script"); script.src = "https://www.chatbase.co/embed.min.js"; script.id = "hBuXQYlUTLPyZ-GpRixVm"; script.domain = "www.chatbase.co"; document.body.appendChild(script) }; if (document.readyState === "complete") { onLoad() } else { window.addEventListener("load", onLoad) } })();
@@ -291,7 +392,6 @@
            animateLabelCountByElement(salesLabel, 1600);
            animateLabelCountByElement(clientsLabel, 1200);
        });
-
 
        function openHelpPanel() {
            document.getElementById('helpOverlay').style.display = 'flex';

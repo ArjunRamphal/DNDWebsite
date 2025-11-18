@@ -96,6 +96,15 @@ namespace DNDWebsite
         protected global::System.Web.UI.WebControls.Button btnSave;
 
         /// <summary>
+        /// btnModalSave control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnModalSave;
+
+        /// <summary>
         /// hfOriginalQuestion control.
         /// </summary>
         /// <remarks>
@@ -103,5 +112,14 @@ namespace DNDWebsite
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hfOriginalQuestion;
+
+        /// <summary>
+        /// hfExitMode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfExitMode;
     }
 }
