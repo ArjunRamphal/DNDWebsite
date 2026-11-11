@@ -53,8 +53,6 @@ Database credentials belong in the local, ignored `ConnectionStrings.config` fil
 
 When SMTP is not configured, the contact form keeps the entered message and explains that email is unavailable. Order finalisation still saves the order and reports any email notifications that were not sent.
 
-Previously committed database and email credentials must be rotated because they remain in earlier Git history.
-
 ## Team
 
 Horizon Innovations:
