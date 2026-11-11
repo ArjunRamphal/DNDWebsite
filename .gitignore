@@ -1,2 +1,35 @@
-Properties/PublishProfiles
-.vs
+# Visual Studio settings and caches
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+Properties/PublishProfiles/
+**/Properties/PublishProfiles/
+
+# Build and deployment output
+[Bb]in/
+[Oo]bj/
+[Tt]est[Rr]esults/
+*.pdb
+*.log
+*.publishsettings
+
+# Restored packages; keep packages.config and NuGet.Config
+/packages/
+
+# Local connection strings and environment files
+ConnectionStrings.config
+.env
+.env.*
+!.env.example
+
+# Local databases and backups
+App_Data/
+*.mdf
+*.ldf
+*.bak
+
+# Operating system files
+Thumbs.db
+.DS_Store
