@@ -4,6 +4,14 @@ ASP.NET Web Forms application for **DnD Trading & General Supplies**, a statione
 
 Developed as an **ISTN3SI Group 22** project by **Horizon Innovations**. The related [Windows desktop application](https://github.com/ArjunRamphal/DnD-Trading) is maintained in a separate repository.
 
+## Website preview
+
+![DnD Trading website homepage hero section](docs/images/homepage.png)
+
+Preserved homepage hero-section capture from the original website.
+
+The original SQL Server database is no longer available. This repository preserves the website source and its existing homepage capture; running database-backed workflows requires a compatible replacement database.
+
 ## Features
 
 | Area | Functionality |
@@ -34,6 +42,7 @@ Developed as an **ISTN3SI Group 22** project by **Horizon Innovations**. The rel
 | `src/DNDWebsite/packages.config` | Pinned NuGet package versions. |
 | `NuGet.Config` | Restores dependencies to the repository's local `packages` folder. |
 | `docs/SETUP.md` | Development setup, database configuration and email settings. |
+| `docs/images/homepage.png` | Preserved website homepage capture. |
 
 Build output, restored NuGet packages, personal IDE settings and deployment profiles are excluded from version control. The browser assets referenced by the pages remain with the application.
 
@@ -62,3 +71,4 @@ Horizon Innovations:
 - Lokadi Naicker
 - Keolin Naicker
 - Zaheera Ganie
+
